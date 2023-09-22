@@ -11,12 +11,13 @@ config_version=4
 [application]
 
 config/name="Meowdy"
-run/main_scene="res://Player.tscn"
+run/main_scene="res://Stage.tscn"
 config/icon="res://icon.png"
 
 [global]
 
 "default texture"=false
+Scene=false
 
 [gui]
 
