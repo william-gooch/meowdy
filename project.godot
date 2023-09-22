@@ -14,9 +14,19 @@ config/name="Meowdy"
 run/main_scene="res://Player.tscn"
 config/icon="res://icon.png"
 
+[global]
+
+"default texture"=false
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[importer_defaults]
+
+texture={
+"flags/filter": false
+}
 
 [input]
 
