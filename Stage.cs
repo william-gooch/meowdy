@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Main : Node
+public class Stage : Node
 {
 	private PackedScene BulletScene;
 	public Vector2 ScreenSize;
