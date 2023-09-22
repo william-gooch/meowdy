@@ -4,8 +4,9 @@ using System;
 public class Stage : Node
 {
 	private PackedScene BulletScene;
-	public Vector2 ScreenSize;
-	public Player player;
+	private Vector2 ScreenSize;
+	private Player player;
+	private int bulletSpeed = 500;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -19,33 +20,29 @@ public class Stage : Node
 	
 	public override void _Process(float delta)
 	{
+		Bullet bullet = (Bullet)BulletScene.Instance();
 		if (Input.IsActionJustPressed("shoot_up"))
 		{
-			Bullet bullet = (Bullet)BulletScene.Instance();
 			bullet.Position = player.Position;
-			this.AddChild(bullet);
-			bullet.LaunchBullet();
+			bullet.velocity.y -= 1;
 		}
 		if (Input.IsActionJustPressed("shoot_down"))
 		{
-			Bullet bullet = (Bullet)BulletScene.Instance();
 			bullet.Position = player.Position;
-			this.AddChild(bullet);
-			bullet.LaunchBullet();
+			bullet.velocity.y += 1;
 		}
 		if (Input.IsActionJustPressed("shoot_left"))
 		{
-			Bullet bullet = (Bullet)BulletScene.Instance();
 			bullet.Position = player.Position;
-			this.AddChild(bullet);
-			bullet.LaunchBullet();
+			bullet.velocity.x -= 1;
 		}
 		if (Input.IsActionJustPressed("shoot_right"))
 		{
-			Bullet bullet = (Bullet)BulletScene.Instance();
 			bullet.Position = player.Position;
+			bullet.velocity.x += 1;
+		}
+		if (bullet.velocity != Vector2.Zero) {
 			this.AddChild(bullet);
-			bullet.LaunchBullet();
 		}
 	}
 }
