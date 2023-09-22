@@ -11,12 +11,18 @@ public class Player : Area2D
 	public float StopDamping { get; set; } = 15f; // The damping factor when no input is pressed.
 	[Export]
 	public int MaxSpeed { get; set; } = 400; // The maximum speed of the player (pixels/sec).
+	[Export]
+	public int DashSpeed { get; set; } = 1600; // The speed given to the player when they dash (pixels/sec).
+	[Export]
+	public float DashCooldown { get; set; } = 2f; // The time it takes to regain your dash (sec).
 
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
 	private AnimatedSprite Sprite;
 
 	private Vector2 PressDirection = Vector2.Zero;
+
+	private float CurrentDashCooldown = 0f;
 
 	[Signal]
 	public delegate void Hit();
@@ -33,9 +39,10 @@ public class Player : Area2D
 	{
 		var movement = GetMovement();
 
-		if (Input.IsActionJustPressed("dash"))
+		if (Input.IsActionJustPressed("dash") && CurrentDashCooldown <= 0f)
 		{
-			Velocity = movement * MaxSpeed * 3;
+			Velocity = movement * DashSpeed;
+			CurrentDashCooldown = DashCooldown;
 		}
 
 		if (movement.Length() > 0)
@@ -49,20 +56,21 @@ public class Player : Area2D
 		else
 		{
 			Velocity *= 1 - (StopDamping * delta);
+			if (Velocity.Length() < 10)
+			{
+				Velocity = Vector2.Zero;
+			}
 		}
-
-		// if (Velocity.Length() < 50)
-		// {
-		// Velocity = Vector2.Zero;
-		// }
 
 		if (Velocity.Length() > 0)
 		{
-			Sprite.Play();
+			Sprite.Play("walk");
+			Sprite.SpeedScale = Mathf.Exp(Velocity.Length() / MaxSpeed) / Mathf.E;
+			Sprite.FlipH = Velocity.x > 0;
 		}
 		else
 		{
-			Sprite.Stop();
+			Sprite.Play("idle");
 		}
 
 		Position += Velocity * (float)delta;
@@ -70,6 +78,8 @@ public class Player : Area2D
 			x: Mathf.Clamp(Position.x, 0, ScreenSize.x),
 			y: Mathf.Clamp(Position.y, 0, ScreenSize.y)
 		);
+
+		CurrentDashCooldown = Mathf.Max(0, CurrentDashCooldown - delta); // Decrease cooldown, make sure it doesn't go below 0.
 	}
 	private void _on_Player_body_entered(object body)
 	{
