@@ -5,6 +5,7 @@ public class Stage : Node
 {
 	private PackedScene BulletScene;
 	private PackedScene RatScene;
+	private PackedScene ObstacleScene;
 	private Vector2 ScreenSize;
 	private Player player;
 	private HUD HUD;
@@ -26,12 +27,15 @@ public class Stage : Node
 	private Position2D RightSpawnPosition;
 	private Position2D TopSpawnPosition;
 	private Position2D BottomSpawnPosition;
+	
+	private int NUM_OBSTACLES = 3;
 
 	public override void _Ready()
 	{
 		HUD = GetNode<HUD>("/root/Stage/HUD");
 		BulletScene = GD.Load<PackedScene>("res://Bullet.tscn");
 		RatScene = GD.Load<PackedScene>("res://Rat.tscn");
+		ObstacleScene = GD.Load<PackedScene>("res://Obstacle.tscn");
 		var startPosition = GetNode<Position2D>("StartPosition");
 		LeftSpawnPosition = GetNode<Position2D>("LeftSpawnPosition");
 		RightSpawnPosition = GetNode<Position2D>("RightSpawnPosition");
@@ -42,6 +46,15 @@ public class Stage : Node
 		player = GetNode<Player>("Player");
 		player.Start(startPosition.Position);
 		MobTimer = 3f;
+		
+		// Spawn Obstacles
+		for (int i = 0; i < NUM_OBSTACLES; i++) {
+			Obstacle obstacle = (Obstacle)ObstacleScene.Instance();
+			obstacle.Position = new Vector2(
+				rnd.Next(0,(int)ScreenSize.x),
+				rnd.Next(0,(int)ScreenSize.y));
+			this.AddChild(obstacle);
+		}
 	}
 	
 	public override void _Process(float delta)
