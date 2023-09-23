@@ -19,8 +19,4 @@ public class HUD : Node
 	public override void _Process(float delta) {
 		ScoreLabel.Text = Score.ToString();
 	}
-	
-	public void AddScore(int Addition) {
-		Score += Addition;
-	}
 }
