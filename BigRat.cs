@@ -4,6 +4,8 @@ using System;
 public class BigRat : Rat
 {
 	[Export]
+	public float FlashTime { get; set; } = 0.5f;
+	[Export]
 	public float DashCooldown { get; set; } = 3f;
 	[Export]
 	public float DashWarning { get; set; } = 1f;
@@ -18,6 +20,7 @@ public class BigRat : Rat
 	private float _warningTimer = 0;
 	private Arrow _warningArrow;
 	private Vector2 _plannedDirection;
+	private float _flashCooldown = 0;
 
 	public BigRat() : base() {
 		_dashTimer = DashCooldown;
@@ -27,6 +30,8 @@ public class BigRat : Rat
     {
         base._Ready();
 		_warningArrow = GetNode<Arrow>("WarningArrow");
+
+		Connect(nameof(HitEventHandler), this, nameof(OnHit));
     }
 
     public override Vector2 Move(float delta) {
@@ -58,6 +63,18 @@ public class BigRat : Rat
 		_dashTimer = Mathf.Max(0, _dashTimer - delta);
 		_warningTimer = Mathf.Max(0, _warningTimer - delta);
 
+		if (_flashCooldown <= 0) {
+			Sprite.Modulate = new Color("#ffffff");
+		}
+		_flashCooldown = Mathf.Max(0, _flashCooldown - delta);
+
 		return _velocity;
+	}
+
+	private void OnHit()
+	{
+		Sprite.Play("bloody_walk");
+		Sprite.Modulate = new Color("#960000");
+		_flashCooldown = FlashTime;
 	}
 }

@@ -15,11 +15,15 @@ public class Enemy : Area2D
 	private Node2D _player;
 
 	[Signal]
+	public delegate void HitEventHandler();
+	[Signal]
 	public delegate void DiedEventHandler();
 	
 	public override void _Ready()
 	{
 		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		Sprite.Play("walk");
+
 		HUD = GetNode<HUD>("/root/Stage/HUD");
 		CurrentHealth = MaxHealth;
 
@@ -34,7 +38,6 @@ public class Enemy : Area2D
     }
 
 	public override void _Process(float delta) {
-		Sprite.Play("walk");
 		Vector2 movement = Move(delta);
 		Sprite.FlipH = movement.x > 0;
 	}
@@ -43,6 +46,7 @@ public class Enemy : Area2D
 	{
 		Hide();
 		QueueFree();
+		HUD.Call("AddScore", ScoreValue);
 	}
 
 	private void OnEnemyCollide(object area)
@@ -51,9 +55,9 @@ public class Enemy : Area2D
 			if (CurrentHealth > 1) {
 				GD.Print("HIT!");
 				CurrentHealth--;
+				EmitSignal(nameof(HitEventHandler));
 			} else {
 				GD.Print("KILL!!!!");
-				HUD.Call("AddScore", ScoreValue);
 				EmitSignal(nameof(DiedEventHandler));
 			}
 		}
