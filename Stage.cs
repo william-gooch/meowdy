@@ -6,7 +6,6 @@ public class Stage : Node
 	private PackedScene BulletScene;
 	private PackedScene RatScene;
 	private PackedScene BigRatScene;
-	private PackedScene ObstacleScene;
 	private TileMap Background;
 	private Vector2 ScreenSize;
 	private Player player;
@@ -30,7 +29,7 @@ public class Stage : Node
 	private Position2D TopSpawnPosition;
 	private Position2D BottomSpawnPosition;
 	
-	private int NUM_OBSTACLES = 3;
+	private int NUM_OBSTACLES = 6;
 
 	public override void _Ready()
 	{
@@ -38,7 +37,8 @@ public class Stage : Node
 		BulletScene = GD.Load<PackedScene>("res://Bullet.tscn");
 		RatScene = GD.Load<PackedScene>("res://Rat.tscn");
 		BigRatScene = GD.Load<PackedScene>("res://BigRat.tscn");
-		ObstacleScene = GD.Load<PackedScene>("res://Obstacle.tscn");
+		var ObstacleScene = GD.Load<PackedScene>("res://Obstacle.tscn");
+		var BigObstacleScene = GD.Load<PackedScene>("res://BigObstacle.tscn");
 		var startPosition = GetNode<Position2D>("StartPosition");
 		LeftSpawnPosition = GetNode<Position2D>("LeftSpawnPosition");
 		RightSpawnPosition = GetNode<Position2D>("RightSpawnPosition");
@@ -55,7 +55,12 @@ public class Stage : Node
 		// Spawn Obstacles
 		// TODO: Prevent spawn on player or give i frames at start
 		for (int i = 0; i < NUM_OBSTACLES; i++) {
-			Obstacle obstacle = (Obstacle)ObstacleScene.Instance();
+			Area2D obstacle;
+			if (rnd.Next(1,5) == 1) {
+				obstacle = (BigObstacle)BigObstacleScene.Instance();
+			} else {
+				obstacle = (Obstacle)ObstacleScene.Instance();
+			}
 			obstacle.Position = new Vector2(
 				rnd.Next(0,(int)ScreenSize.x),
 				rnd.Next(0,(int)ScreenSize.y)
