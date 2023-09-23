@@ -14,25 +14,31 @@ public class LeaderboardDisplay : Control
 	[Export]
 	public NodePath Container { get; set; }
 
-	private List<LeaderboardManager.LeaderboardItem> _leaderboardItems;
-
     public override void _Ready()
     {
 		LeaderboardManager leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
-		leaderboard.Connect(nameof(LeaderboardManager.AuthenticationSuccess), this, nameof(SetupLeaderboard));
+		leaderboard.Connect(nameof(LeaderboardManager.AuthenticationSuccess), this, nameof(OnAuthenticationSuccess));
+		leaderboard.Connect(nameof(LeaderboardManager.LeaderboardChanged), this, nameof(CreateLeaderboard));
+
+		if (leaderboard.LeaderboardItems != null) {
+			CreateLeaderboard();
+		}
     }
 
-    public async Task SetupLeaderboard() {
+	private void OnAuthenticationSuccess () {
+		Task.Run(() => SetupLeaderboard());
+	}
+
+    private async Task SetupLeaderboard() {
 		LeaderboardManager leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
 		Error error;
 		string message;
 
 		GD.Print("Getting leaderboard...");
-		(error, _leaderboardItems, message) = await leaderboard.GetLeaderboard();
+		(error, _, message) = await leaderboard.GetLeaderboard();
 		if (error == Error.Ok)
 		{
 			GD.Print("Got leaderboard!");
-			CallDeferred("CreateLeaderboard");
 		}
 		else
 		{
@@ -41,9 +47,21 @@ public class LeaderboardDisplay : Control
 	}
 
 	private void CreateLeaderboard() {
+		LeaderboardManager leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
+		Node loadingText = GetNodeOrNull("MarginContainer/LoadingText");
+		if(loadingText != null) {
+			loadingText.QueueFree();
+		}
+
 		Node container = GetNode(Container);
-		foreach (var item in _leaderboardItems) {
+		foreach (Node child in container.GetChildren())
+		{
+			child.QueueFree();
+		}
+
+		foreach (var item in leaderboard.LeaderboardItems) {
 			var newItem = LeaderboardItem.Instance<LeaderboardItem>();
+			newItem.Rank = item.Rank;
 			newItem.PlayerName = item.PlayerName;
 			newItem.Score = item.Score;
 			container.AddChild(newItem);

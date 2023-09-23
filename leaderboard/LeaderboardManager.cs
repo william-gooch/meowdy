@@ -10,6 +10,13 @@ public class LeaderboardManager : Node
 
 	[Signal]
 	public delegate void AuthenticationSuccess();
+
+	[Signal]
+	public delegate void LeaderboardChanged();
+
+	public string PlayerName { get; private set; }
+	public int CurrentScore { get; set; }
+	public List<LeaderboardItem> LeaderboardItems { get; set; }
 	
 	private string sessionToken = null;
 
@@ -29,7 +36,7 @@ public class LeaderboardManager : Node
 	}
 
 	public LeaderboardManager() {
-		LeaderboardData = ResourceLoader.Load<LeaderboardData>("res://leaderboard/Leaderboard.tres");
+		LeaderboardData = ResourceLoader.Load<LeaderboardData>("res://leaderboard/LeaderboardData.tres");
 	}
 
     public override void _Ready()
@@ -139,6 +146,8 @@ public class LeaderboardManager : Node
 		sessionToken = (string) res.Body["session_token"];
 		EmitSignal(nameof(AuthenticationSuccess));
 		GD.Print("Authentication success!");
+		Task.Run(() => GetPlayerName());
+		Task.Run(() => GetLeaderboard());
 		return (Error.Ok, "");
 	}
 
@@ -155,9 +164,9 @@ public class LeaderboardManager : Node
 			return (res.Error, null, res.ErrorString);
 		}
 
-		var items = new List<LeaderboardItem>();
-		foreach (Dictionary item in res.Body["items"] as Godot.Collections.Array) {
-			items.Add(new LeaderboardItem() {
+		LeaderboardItems = new List<LeaderboardItem>();
+		foreach (Dictionary item in res.Body["items"] as Array) {
+			LeaderboardItems.Add(new LeaderboardItem() {
 				MemberId = (string) item["member_id"],
 				Rank = (int) (float) item["rank"],
 				Score = (int) (float) item["score"],
@@ -166,7 +175,24 @@ public class LeaderboardManager : Node
 			});
 		}
 
-		return (Error.Ok, items, "");
+		EmitSignal(nameof(LeaderboardChanged));
+		return (Error.Ok, LeaderboardItems, "");
+	}
+
+	public async Task<(Error error, string playerName, string errorMessage)> GetPlayerName()
+	{
+		var res = await MakeRequest(
+			$"https://api.lootlocker.io/game/player/name",
+			HTTPClient.Method.Get,
+			headers: new[] { "Content-Type: application/json", "x-session-token: "+sessionToken }
+		);
+
+		if (res.Error != Error.Ok) {
+			return (res.Error, null, res.ErrorString);
+		}
+
+		PlayerName = (string) res.Body["name"];
+		return (Error.Ok, PlayerName, "");
 	}
 
 	public async Task<(Error error, string errorMessage)> SetPlayerName(string newName)
@@ -184,16 +210,17 @@ public class LeaderboardManager : Node
 			return (res.Error, res.ErrorString);
 		}
 
+		PlayerName = newName;
 		return (Error.Ok, "");
 	}
 
-	public async Task<(Error error, string errorMessage)> RecordScore(int score) {
+	public async Task<(Error error, string errorMessage)> RecordScore() {
 		GD.Print("Recording score...");
 		var res = await MakeRequest(
 			$"https://api.lootlocker.io/game/leaderboards/{LeaderboardData.LeaderboardKey}/submit",
 			HTTPClient.Method.Post,
 			new Dictionary {
-				{ "score", score }
+				{ "score", CurrentScore }
 			},
 			new[] { "Content-Type: application/json", "x-session-token: "+sessionToken }
 		);
@@ -203,6 +230,7 @@ public class LeaderboardManager : Node
 		}
 
 		GD.Print("Recorded score!");
+		Task.Run(() => GetLeaderboard());
 		return (Error.Ok, "");
 	}
 }
