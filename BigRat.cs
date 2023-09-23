@@ -16,11 +16,11 @@ public class BigRat : Area2D
 	{
 		rnd = new Random();
 		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		Sprite.Play("walk");
 		HUD = GetNode<HUD>("/root/Stage/HUD");
 	}
 	public override void _Process(float delta) {
 		// Basic Random Movement AI (Changes direction every 0.2 seconds)
-		Sprite.Play("walk");
 		MovementTimer = Mathf.Max(0, MovementTimer - delta);
 		int MovementDirection = rnd.Next(1,5);
 		if (MovementTimer <= 0) {
@@ -50,10 +50,9 @@ public class BigRat : Area2D
 	{
 		if (area is Bullet) {
 			if (Health > 1) {
-				GD.Print("DAMAGED BIG RAT!");
+				Sprite.Play("bloody_walk");
 				Health--;
 			} else {
-				GD.Print("DEAD BIG RAT!");
 				HUD.Call("AddScore", ScoreValue);
 				Hide();
 				this.QueueFree();

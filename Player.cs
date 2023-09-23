@@ -23,6 +23,7 @@ public class Player : Area2D
 	private float CurrentDashCooldown = 0f;
 	private HUD HUD;
 	private float FlashCooldown; //TODO: Changes colour of sprite when !0, for taking damage
+	private float HIT_FRAMES = 0.5f;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -79,9 +80,10 @@ public class Player : Area2D
 			y: Mathf.Clamp(Position.y, 0, ScreenSize.y)
 		);
 	
-		if (FlashCooldown > 0) {
-			//TODO: Fix flash another colour for damage
+		if (FlashCooldown <= 0) {
+			Sprite.Modulate = new Color("#ffffff");
 		}
+		FlashCooldown = Mathf.Max(0, FlashCooldown - delta);
 		CurrentDashCooldown = Mathf.Max(0, CurrentDashCooldown - delta); // Decrease cooldown, make sure it doesn't go below 0.
 	}
 
@@ -131,10 +133,8 @@ public class Player : Area2D
 		if (!(area is Bullet)) {
 			
 			if (HUD.Health > 1) {
-				//TODO: Fix flash another colour for damage
-				FlashCooldown = 1f;
-				Sprite.Modulate = new Color("#FFFFFF");
-				//END TODO
+				FlashCooldown = HIT_FRAMES;
+				Sprite.Modulate = new Color("#960000");
 				HUD.Call("DeductHealth");
 			}
 			else {
