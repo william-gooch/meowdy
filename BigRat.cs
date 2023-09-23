@@ -11,6 +11,8 @@ public class BigRat : Area2D
 	private HUD HUD;
 	private int ScoreValue = 10; //Score added on death
 	private int Health = 2;
+	private float FlashCooldown;
+	private float HIT_FRAMES = 0.5f;
 	
 	public override void _Ready()
 	{
@@ -45,6 +47,11 @@ public class BigRat : Area2D
 		Velocity = Velocity.Normalized() * Speed;
 		Position += Velocity * (float)delta;
 		Position = new Vector2(Position.x, Position.y);
+		
+		if (FlashCooldown <= 0) {
+			Sprite.Modulate = new Color("#ffffff");
+		}
+		FlashCooldown = Mathf.Max(0, FlashCooldown - delta);
 	}
 	private void _on_BigRat_area_entered(object area)
 	{
@@ -52,6 +59,8 @@ public class BigRat : Area2D
 			if (Health > 1) {
 				Sprite.Play("bloody_walk");
 				Health--;
+				FlashCooldown = HIT_FRAMES;
+				Sprite.Modulate = new Color("#960000");
 			} else {
 				HUD.Call("AddScore", ScoreValue);
 				Hide();
