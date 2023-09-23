@@ -29,7 +29,7 @@ public class Bullet : Area2D
 	{
 		if (!(area is Player | area is Bullet)) {
 			CPUParticles2D DeathParticles = GetNode<CPUParticles2D>("DeathParticles");
-			GetNode<Sprite>("Sprite").QueueFree();
+			GetNode<Sprite>("Sprite").Hide();
 			//GetNode<CollisionShape2D("CollisionShape2D").QueueFree();
 			DeathParticles.Show();
 			isDestroyed = true;
