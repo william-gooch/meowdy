@@ -1,56 +1,37 @@
 using Godot;
 using System;
 
-public class Rat : Area2D
+public class Rat : Enemy
 {
-	private Random rnd;
-	private float MovementTimer;
-	private Vector2 Velocity;
-	private int Speed = 200;
-	private AnimatedSprite Sprite;
-	private HUD HUD;
-	private int ScoreValue = 5; //Score added on death
+	[Export]
+	public int Speed { get; set; } = 200;
+	[Export]
+	public float SwarmFactor { get; set; } = 1f; // How much the enemies will swarm the player.
+
+	private Random _rnd;
+	private float _movementTimer = 0;
+	private Vector2 _velocity = Vector2.Zero;
 	
-	public override void _Ready()
-	{
-		rnd = new Random();
-		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
-		HUD = GetNode<HUD>("/root/Stage/HUD");
+	public Rat() : base() {
+		_rnd = new Random();
 	}
-	public override void _Process(float delta) {
-		// Basic Random Movement AI (Changes direction every 0.2 seconds)
-		Sprite.Play("walk");
-		MovementTimer = Mathf.Max(0, MovementTimer - delta);
-		int MovementDirection = rnd.Next(1,5);
-		if (MovementTimer <= 0) {
-			Velocity = Vector2.Zero;
-			switch(MovementDirection){
-				case 1:
-					Velocity.x += 1;
-					break;
-				case 2:
-					Velocity.x -= 1;
-					break;
-				case 3:
-					Velocity.y += 1;
-					break;
-				case 4:
-					Velocity.y -= 1;
-					break;
-			}
-			MovementTimer = 0.2f;
+
+	public override Vector2 Move(float delta) {
+		if (_movementTimer <= 0) {
+			// Gaussian random movement. Directions further towards the player are more likely to occur, based on the swarming factor.
+			float u1 = (float) _rnd.NextDouble();
+			float u2 = (float) _rnd.NextDouble();
+			float randStdNormal = Mathf.Sqrt(-2f * Mathf.Log(u1)) * Mathf.Sin(Mathf.Tau * u2);
+			float randAngle = randStdNormal / SwarmFactor;
+			_velocity = DirectionToPlayer().Rotated(randAngle);
+			_movementTimer = 0.2f;
 		}
-		Sprite.FlipH = Velocity.x > 0;
-		Velocity = Velocity.Normalized() * Speed;
-		Position += Velocity * (float)delta;
+
+		_movementTimer = Mathf.Max(0, _movementTimer - delta);
+		_velocity = _velocity.Normalized() * Speed;
+		Position += _velocity * (float)delta;
 		Position = new Vector2(Position.x, Position.y);
-	}
-	private void _on_Rat_area_entered(object area)
-	{
-		if (area is Bullet) {
-			HUD.Call("AddScore", ScoreValue);
-			Hide();
-			this.QueueFree();
-		}
+
+		return _velocity;
 	}
 }

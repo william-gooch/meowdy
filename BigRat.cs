@@ -1,63 +1,63 @@
 using Godot;
 using System;
 
-public class BigRat : Area2D
+public class BigRat : Rat
 {
-	private Random rnd;
-	private float MovementTimer;
-	private Vector2 Velocity;
-	private int Speed = 170;
-	private AnimatedSprite Sprite;
-	private HUD HUD;
-	private int ScoreValue = 10; //Score added on death
-	private int Health = 2;
-	
-	public override void _Ready()
-	{
-		rnd = new Random();
-		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
-		HUD = GetNode<HUD>("/root/Stage/HUD");
+	[Export]
+	public float DashCooldown { get; set; } = 3f;
+	[Export]
+	public float DashWarning { get; set; } = 1f;
+	[Export]
+	public float DashSpeed { get; set; } = 2400;
+	[Export]
+	public float DashDamping { get; set; } = 7f;
+
+	private Vector2 _velocity = Vector2.Zero;
+
+	private float _dashTimer;
+	private float _warningTimer = 0;
+	private Arrow _warningArrow;
+	private Vector2 _plannedDirection;
+
+	public BigRat() : base() {
+		_dashTimer = DashCooldown;
 	}
-	public override void _Process(float delta) {
-		// Basic Random Movement AI (Changes direction every 0.2 seconds)
-		Sprite.Play("walk");
-		MovementTimer = Mathf.Max(0, MovementTimer - delta);
-		int MovementDirection = rnd.Next(1,5);
-		if (MovementTimer <= 0) {
-			Velocity = Vector2.Zero;
-			switch(MovementDirection){
-				case 1:
-					Velocity.x += 1;
-					break;
-				case 2:
-					Velocity.x -= 1;
-					break;
-				case 3:
-					Velocity.y += 1;
-					break;
-				case 4:
-					Velocity.y -= 1;
-					break;
-			}
-			MovementTimer = 0.2f;
+
+    public override void _Ready()
+    {
+        base._Ready();
+		_warningArrow = GetNode<Arrow>("WarningArrow");
+    }
+
+    public override Vector2 Move(float delta) {
+		if (_dashTimer <= 0 && _warningTimer <= 0) {
+			_velocity = _plannedDirection * DashSpeed;
+			_dashTimer = DashCooldown;
+			Sprite.SpeedScale = 1f;
+			_warningArrow.Hide();
+		} else if (_warningTimer <= 0) {
+			base.Move(delta);
 		}
-		Sprite.FlipH = Velocity.x > 0;
-		Velocity = Velocity.Normalized() * Speed;
-		Position += Velocity * (float)delta;
+
+		_velocity *= 1 - (DashDamping * delta);
+		if (_velocity.Length() < 10)
+		{
+			_velocity = Vector2.Zero;
+		}
+
+		Position += _velocity * (float)delta;
 		Position = new Vector2(Position.x, Position.y);
-	}
-	private void _on_BigRat_area_entered(object area)
-	{
-		if (area is Bullet) {
-			if (Health > 1) {
-				GD.Print("DAMAGED BIG RAT!");
-				Health--;
-			} else {
-				GD.Print("DEAD BIG RAT!");
-				HUD.Call("AddScore", ScoreValue);
-				Hide();
-				this.QueueFree();
-			}
+
+		if(_dashTimer > 0 && _dashTimer - delta <= 0) {
+			_warningTimer = DashWarning;
+			_plannedDirection = DirectionToPlayer();
+			_warningArrow.Show();
+			_warningArrow.GlobalRotation = Vector2.Up.AngleTo(_plannedDirection);
+			Sprite.SpeedScale = 3f;
 		}
+		_dashTimer = Mathf.Max(0, _dashTimer - delta);
+		_warningTimer = Mathf.Max(0, _warningTimer - delta);
+
+		return _velocity;
 	}
 }
