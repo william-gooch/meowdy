@@ -8,13 +8,16 @@ public class Rat : Area2D
 	private Vector2 Velocity;
 	private Vector2 ScreenSize;
 	private int Speed = 200;
+	private AnimatedSprite Sprite;
 	
 	public override void _Ready()
 	{
 		rnd = new Random();
+		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 	}
 	public override void _Process(float delta) {
-		// Basic Movement AI
+		// Basic Random Movement AI (Changes direction every 0.2 seconds)
+		Sprite.Play("walk");
 		MovementTimer = Mathf.Max(0, MovementTimer - delta);
 		int MovementDirection = rnd.Next(1,5);
 		if (MovementTimer <= 0) {
@@ -35,6 +38,7 @@ public class Rat : Area2D
 			}
 			MovementTimer = 0.2f;
 		}
+		Sprite.FlipH = Velocity.x > 0;
 		Velocity = Velocity.Normalized() * Speed;
 		Position += Velocity * (float)delta;
 		Position = new Vector2(Position.x, Position.y);
