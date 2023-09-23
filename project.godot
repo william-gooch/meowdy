@@ -14,6 +14,14 @@ config/name="Meowdy"
 run/main_scene="res://Stage.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+LeaderboardManager="*res://leaderboard/LeaderboardManager.cs"
+
+[display]
+
+window/size/resizable=false
+
 [global]
 
 "default texture"=false
