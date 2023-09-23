@@ -10,6 +10,7 @@ public class Stage : Node
 	private int bulletSpeed = 500;
 	private float BulletCooldown = 0.5f;
 	private float CurrentBulletCooldown = 0f;
+	private float MOB_TIME = 5f;
 	private float MobTimer;
 	private Random rnd;
 	private Position2D LeftSpawnPosition;
@@ -45,11 +46,10 @@ public class Stage : Node
 			}
 		}
 		
-		//Spawning Mobs in 4 locations every 3 seconds
+		//Spawning Mobs in 4 locations
 		if (MobTimer <= 0) {
 			Rat rat = (Rat)RatScene.Instance();
 			int location = rnd.Next(1,5);
-			GD.Print(location);
 			switch(location) {
 				case 1:
 					rat.Position = LeftSpawnPosition.Position;
@@ -67,7 +67,7 @@ public class Stage : Node
 					break;
 			}
 			this.AddChild(rat);
-			MobTimer = 3f; //TODO: Reduce time as time goes on
+			MobTimer = MOB_TIME; //TODO: Reduce time as time goes on
 		}
 		
 		// Deduct time from timers and cooldowns

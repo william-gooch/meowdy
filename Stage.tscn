@@ -12,13 +12,13 @@ script = ExtResource( 3 )
 position = Vector2( 512, 300 )
 
 [node name="LeftSpawnPosition" type="Position2D" parent="."]
-position = Vector2( 0, 300 )
+position = Vector2( 15, 300 )
 
 [node name="RightSpawnPosition" type="Position2D" parent="."]
-position = Vector2( 1024, 300 )
+position = Vector2( 1009, 300 )
 
 [node name="TopSpawnPosition" type="Position2D" parent="."]
-position = Vector2( 512, 0 )
+position = Vector2( 512, 15 )
 
 [node name="BottomSpawnPosition" type="Position2D" parent="."]
-position = Vector2( 512, 600 )
+position = Vector2( 512, 585 )
