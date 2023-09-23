@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Stage.cs" type="Script" id=3]
 
 [node name="Stage" type="Node"]
@@ -22,3 +23,5 @@ position = Vector2( 512, 15 )
 
 [node name="BottomSpawnPosition" type="Position2D" parent="."]
 position = Vector2( 512, 585 )
+
+[node name="HUD" parent="." instance=ExtResource( 2 )]

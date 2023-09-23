@@ -7,11 +7,17 @@ public class Stage : Node
 	private PackedScene RatScene;
 	private Vector2 ScreenSize;
 	private Player player;
+	
+	//Bullet Physics
 	private int bulletSpeed = 500;
 	private float BulletCooldown = 0.5f;
 	private float CurrentBulletCooldown = 0f;
+	
+	//Mob Timer
 	private float MOB_TIME = 2f;
 	private float MobTimer;
+	
+	//Mob Spawn points
 	private Random rnd;
 	private Position2D LeftSpawnPosition;
 	private Position2D RightSpawnPosition;
