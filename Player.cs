@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class Player : Area2D
 {
@@ -138,10 +139,15 @@ public class Player : Area2D
 				HUD.Call("DeductHealth");
 			}
 			else {
-				Hide();
-				this.QueueFree();
-				GetTree().Quit();
-			}			
+				GameOver();
+			}
 		}
+	}
+
+	private void GameOver() {
+		var leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
+		leaderboard.CurrentScore = HUD.Score;
+
+		GetTree().ChangeScene("res://leaderboard/LeaderboardScreen.tscn");
 	}
 }

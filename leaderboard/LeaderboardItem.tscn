@@ -9,15 +9,27 @@ script = ExtResource( 1 )
 PlayerName = "Player Name Aaa"
 Score = 1023404
 
+[node name="Rank" type="Label" parent="."]
+margin_top = 13.0
+margin_right = 50.0
+margin_bottom = 27.0
+rect_min_size = Vector2( 50, 0 )
+text = "1"
+align = 1
+valign = 1
+
 [node name="PlayerName" type="Label" parent="."]
-margin_right = 176.0
-margin_bottom = 40.0
+margin_left = 54.0
+margin_top = 13.0
+margin_right = 135.0
+margin_bottom = 27.0
 text = "Player Name"
 
 [node name="Score" type="Label" parent="."]
-margin_left = 180.0
+margin_left = 139.0
+margin_top = 13.0
 margin_right = 440.0
-margin_bottom = 40.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
 text = "500"
 align = 2
