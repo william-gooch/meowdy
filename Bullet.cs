@@ -12,14 +12,13 @@ public class Bullet : Area2D
 	}
 	public override void _Process(float delta)
 	{
-		//velocity.y -= 1;
 		velocity = velocity.Normalized() * speed;
 		Position += velocity * (float)delta;
 		Position = new Vector2(Position.x, Position.y);
 	}
 	private void _on_Bullet_area_entered(object area)
 	{
-		if (!(area is Player)) {
+		if (!(area is Player | area is Bullet)) {
 			Hide();
 			this.QueueFree();
 		}

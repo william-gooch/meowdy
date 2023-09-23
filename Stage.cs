@@ -7,11 +7,14 @@ public class Stage : Node
 	private PackedScene RatScene;
 	private Vector2 ScreenSize;
 	private Player player;
+	private HUD HUD;
 	
 	//Bullet Physics
+	public float CHARGE_SHOT_COOLDOWN{get; set;} = 3f; // Press "F" key for charge shot
 	private int bulletSpeed = 500;
 	private float BulletCooldown = 0.5f;
 	private float CurrentBulletCooldown = 0f;
+	private float CurrentChargeShotCooldown = 0f;
 	
 	//Mob Timer
 	private float MOB_TIME = 2f;
@@ -26,6 +29,7 @@ public class Stage : Node
 
 	public override void _Ready()
 	{
+		HUD = GetNode<HUD>("/root/Stage/HUD");
 		BulletScene = GD.Load<PackedScene>("res://Bullet.tscn");
 		RatScene = GD.Load<PackedScene>("res://Rat.tscn");
 		var startPosition = GetNode<Position2D>("StartPosition");
@@ -43,11 +47,8 @@ public class Stage : Node
 	public override void _Process(float delta)
 	{
 		//Bullet Shooting Physics
-		Bullet bullet = (Bullet)BulletScene.Instance();
 		if (CurrentBulletCooldown <= 0) {
-			GetBulletVelocity(bullet);
-			if (bullet.velocity != Vector2.Zero) {
-				this.AddChild(bullet);
+			if (ShootFromMovement()) {
 				CurrentBulletCooldown = BulletCooldown;
 			}
 		}
@@ -75,33 +76,74 @@ public class Stage : Node
 			this.AddChild(rat);
 			MobTimer = MOB_TIME; //TODO: Reduce time as time goes on
 		}
+		// Charge Shot Physics
+		if (CurrentChargeShotCooldown <= 0f & Input.IsActionPressed("charge_shot")) {
+			ShootUp((Bullet)BulletScene.Instance());
+			ShootDown((Bullet)BulletScene.Instance());
+			ShootLeft((Bullet)BulletScene.Instance());
+			ShootRight((Bullet)BulletScene.Instance());
+			CurrentChargeShotCooldown = CHARGE_SHOT_COOLDOWN;
+		}
 		
 		// Deduct time from timers and cooldowns
+		CurrentChargeShotCooldown = Mathf.Max(0, CurrentChargeShotCooldown - delta);
 		CurrentBulletCooldown = Mathf.Max(0, CurrentBulletCooldown - delta);
 		MobTimer = Mathf.Max(0, MobTimer - delta);
+		
+		// HUD update
+		HUD.ChargeShotCooldownPercentage = 100 - (int)((CurrentChargeShotCooldown/CHARGE_SHOT_COOLDOWN)*100);
 	}
 	
 	//Get Bullet Velocity from inputs
-	private void GetBulletVelocity(Bullet bullet) {
+	private bool ShootFromMovement() {
+		bool HasShot = false;
+		Bullet bullet = (Bullet)BulletScene.Instance();
 		if (Input.IsActionPressed("shoot_up"))
 		{
-			bullet.Position = player.Position;
-			bullet.velocity.y -= 1;
+			ShootUp(bullet);
+			HasShot = true;
 		}
 		if (Input.IsActionPressed("shoot_down"))
 		{
-			bullet.Position = player.Position;
-			bullet.velocity.y += 1;
+			ShootDown(bullet);
+			HasShot = true;
 		}
 		if (Input.IsActionPressed("shoot_left"))
 		{
-			bullet.Position = player.Position;
-			bullet.velocity.x -= 1;
+			ShootLeft(bullet);
+			HasShot = true;
 		}
 		if (Input.IsActionPressed("shoot_right"))
 		{
-			bullet.Position = player.Position;
-			bullet.velocity.x += 1;
+			ShootRight(bullet);
+			HasShot = true;
 		}
+		return HasShot; // cannot use else case to allow for diagonals. 
+	}
+	private void Shoot(Bullet bullet) {
+		//GD.Print(bullet.velocity);
+		if (bullet.velocity != Vector2.Zero) {
+				this.AddChild(bullet);
+		}
+	}
+	private void ShootUp(Bullet bullet) {
+		bullet.Position = player.Position;
+		bullet.velocity.y -= 1;
+		Shoot(bullet);
+	}
+	private void ShootDown(Bullet bullet) {
+		bullet.Position = player.Position;
+		bullet.velocity.y += 1;
+		Shoot(bullet);
+	}
+	private void ShootLeft(Bullet bullet) {
+		bullet.Position = player.Position;
+		bullet.velocity.x -= 1;
+		Shoot(bullet);
+	}
+	private void ShootRight(Bullet bullet) {
+		bullet.Position = player.Position;
+		bullet.velocity.x += 1;
+		Shoot(bullet);
 	}
 }

@@ -15,13 +15,14 @@ public class Player : Area2D
 	public int DashSpeed { get; set; } = 1600; // The speed given to the player when they dash (pixels/sec).
 	[Export]
 	public float DashCooldown { get; set; } = 2f; // The time it takes to regain your dash (sec).
-
+	
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
 	private AnimatedSprite Sprite;
 	private Vector2 PressDirection = Vector2.Zero;
 	private float CurrentDashCooldown = 0f;
 	private HUD HUD;
+	private float FlashCooldown; //TODO: Changes colour of sprite when !0, for taking damage
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -77,15 +78,16 @@ public class Player : Area2D
 			x: Mathf.Clamp(Position.x, 0, ScreenSize.x),
 			y: Mathf.Clamp(Position.y, 0, ScreenSize.y)
 		);
-
+	
+		if (FlashCooldown > 0) {
+			//TODO: Fix flash another colour for damage
+		}
 		CurrentDashCooldown = Mathf.Max(0, CurrentDashCooldown - delta); // Decrease cooldown, make sure it doesn't go below 0.
 	}
 
 	public void Start(Vector2 pos)
 	{
 		Position = pos;
-		Show();
-		//GetNode<CollisionPolygon2D>("CollisionPolygon2D").Disabled = false;
 	}
 
 	private Vector2 GetMovement()
@@ -129,6 +131,10 @@ public class Player : Area2D
 		if (!(area is Bullet)) {
 			
 			if (HUD.Health > 1) {
+				//TODO: Fix flash another colour for damage
+				FlashCooldown = 1f;
+				Sprite.Modulate = new Color("#FFFFFF");
+				//END TODO
 				HUD.Call("DeductHealth");
 			}
 			else {

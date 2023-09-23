@@ -8,10 +8,12 @@ using System;
 public class HUD : Node
 {
 	public int Score = 0;
-	public int DashCooldownPercentage = 50;
+	public int DashCooldownPercentage = 100;
+	public int ChargeShotCooldownPercentage = 100;
 	public int Health = 9;
 	private Label ScoreLabel;
 	private ProgressBar DashCooldownBar;
+	private ProgressBar ChargeShotCooldownBar;
 	private HBoxContainer HealthBar;
 
 	// Called when the node enters the scene tree for the first time.
@@ -19,11 +21,13 @@ public class HUD : Node
 	{
 		ScoreLabel = GetNode<Label>("Score");
 		DashCooldownBar = GetNode<ProgressBar>("DashCooldownBar");
+		ChargeShotCooldownBar = GetNode<ProgressBar>("ChargeShotCooldownBar");
 		HealthBar = GetNode<HBoxContainer>("HealthBar");
 	}
 	
 	public override void _Process(float delta) {
 		DashCooldownBar.Value = DashCooldownPercentage;
+		ChargeShotCooldownBar.Value = ChargeShotCooldownPercentage;
 	}
 	
 	public void AddScore(int Addition) {
