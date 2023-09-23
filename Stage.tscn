@@ -10,3 +10,15 @@ script = ExtResource( 3 )
 
 [node name="StartPosition" type="Position2D" parent="."]
 position = Vector2( 512, 300 )
+
+[node name="LeftSpawnPosition" type="Position2D" parent="."]
+position = Vector2( 0, 300 )
+
+[node name="RightSpawnPosition" type="Position2D" parent="."]
+position = Vector2( 1024, 300 )
+
+[node name="TopSpawnPosition" type="Position2D" parent="."]
+position = Vector2( 512, 0 )
+
+[node name="BottomSpawnPosition" type="Position2D" parent="."]
+position = Vector2( 512, 600 )
