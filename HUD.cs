@@ -1,6 +1,10 @@
 using Godot;
 using System;
 
+//References:
+//license: Freeware, Non-Commercial
+//link: https://www.fontspace.com/merkur-font-f11606
+
 public class HUD : Node
 {
 	public int Score = 0;
