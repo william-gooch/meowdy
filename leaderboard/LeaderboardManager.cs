@@ -7,6 +7,9 @@ public class LeaderboardManager : Node
 {
 	[Export]
 	public LeaderboardData LeaderboardData;
+
+	[Signal]
+	public delegate void AuthenticationSuccess();
 	
 	private string sessionToken = null;
 
@@ -29,7 +32,12 @@ public class LeaderboardManager : Node
 		LeaderboardData = ResourceLoader.Load<LeaderboardData>("res://leaderboard/Leaderboard.tres");
 	}
 
-	private async Task<LeaderboardResponse> MakeRequest(
+    public override void _Ready()
+    {
+		Task.Run(() => Authenticate());
+    }
+
+    private async Task<LeaderboardResponse> MakeRequest(
 		string url,
 		HTTPClient.Method method,
 		Dictionary body = null,
@@ -94,6 +102,7 @@ public class LeaderboardManager : Node
 
 	public async Task<(Error error, string message)> Authenticate()
 	{
+		GD.Print("Authenticating...");
 		var dataFile = new File();
 		dataFile.Open("user://LootLocker.data", File.ModeFlags.Read);
 		string playerIdentifier = dataFile.GetAsText();
@@ -128,6 +137,8 @@ public class LeaderboardManager : Node
 		}
 
 		sessionToken = (string) res.Body["session_token"];
+		EmitSignal(nameof(AuthenticationSuccess));
+		GD.Print("Authentication success!");
 		return (Error.Ok, "");
 	}
 
@@ -177,6 +188,7 @@ public class LeaderboardManager : Node
 	}
 
 	public async Task<(Error error, string errorMessage)> RecordScore(int score) {
+		GD.Print("Recording score...");
 		var res = await MakeRequest(
 			$"https://api.lootlocker.io/game/leaderboards/{LeaderboardData.LeaderboardKey}/submit",
 			HTTPClient.Method.Post,
@@ -190,6 +202,7 @@ public class LeaderboardManager : Node
 			return (res.Error, res.ErrorString);
 		}
 
+		GD.Print("Recorded score!");
 		return (Error.Ok, "");
 	}
 }

@@ -16,25 +16,16 @@ public class LeaderboardDisplay : Control
 
 	private List<LeaderboardManager.LeaderboardItem> _leaderboardItems;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		Task.Run(() => SetupLeaderboard());
-	}
+    public override void _Ready()
+    {
+		LeaderboardManager leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
+		leaderboard.Connect(nameof(LeaderboardManager.AuthenticationSuccess), this, nameof(SetupLeaderboard));
+    }
 
     public async Task SetupLeaderboard() {
 		LeaderboardManager leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
-
-		GD.Print("Authenticating...");
-		var (error, message) = await leaderboard.Authenticate();
-
-		if (error == Error.Ok) {
-			GD.Print("Authentication succeeded!");
-		}
-		else
-		{
-			GD.PrintErr($"{error}: {message}");
-		}
+		Error error;
+		string message;
 
 		GD.Print("Getting leaderboard...");
 		(error, _leaderboardItems, message) = await leaderboard.GetLeaderboard();
