@@ -14,7 +14,7 @@ outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.592157, 1, 0.952941, 1 )
+bg_color = Color( 0.960784, 0.552941, 0.223529, 1 )
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -48,7 +48,7 @@ margin_top = 7.0
 margin_right = 1017.0
 margin_bottom = 67.0
 custom_fonts/font = SubResource( 1 )
-text = "0000"
+text = "0"
 align = 1
 
 [node name="DashCooldownBar" type="ProgressBar" parent="."]

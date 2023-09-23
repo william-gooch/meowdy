@@ -3,7 +3,6 @@ using System;
 
 public class HealthBar : HBoxContainer
 {
-	private int MAX_HEALTH = 9;
 	private Texture Full;
 	private Texture Empty;
 

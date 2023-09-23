@@ -1,15 +1,16 @@
 using Godot;
 using System;
 
-public class Rat : Area2D
+public class BigRat : Area2D
 {
 	private Random rnd;
 	private float MovementTimer;
 	private Vector2 Velocity;
-	private int Speed = 200;
+	private int Speed = 170;
 	private AnimatedSprite Sprite;
 	private HUD HUD;
-	private int ScoreValue = 5; //Score added on death
+	private int ScoreValue = 10; //Score added on death
+	private int Health = 2;
 	
 	public override void _Ready()
 	{
@@ -45,12 +46,18 @@ public class Rat : Area2D
 		Position += Velocity * (float)delta;
 		Position = new Vector2(Position.x, Position.y);
 	}
-	private void _on_Rat_area_entered(object area)
+	private void _on_BigRat_area_entered(object area)
 	{
 		if (area is Bullet) {
-			HUD.Call("AddScore", ScoreValue);
-			Hide();
-			this.QueueFree();
+			if (Health > 1) {
+				GD.Print("DAMAGED BIG RAT!");
+				Health--;
+			} else {
+				GD.Print("DEAD BIG RAT!");
+				HUD.Call("AddScore", ScoreValue);
+				Hide();
+				this.QueueFree();
+			}
 		}
 	}
 }

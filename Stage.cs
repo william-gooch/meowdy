@@ -5,6 +5,7 @@ public class Stage : Node
 {
 	private PackedScene BulletScene;
 	private PackedScene RatScene;
+	private PackedScene BigRatScene;
 	private PackedScene ObstacleScene;
 	private TileMap Background;
 	private Vector2 ScreenSize;
@@ -13,7 +14,6 @@ public class Stage : Node
 	
 	//Bullet Physics
 	public float CHARGE_SHOT_COOLDOWN{get; set;} = 3f; // Press "F" key for charge shot
-	private int bulletSpeed = 500;
 	private float BulletCooldown = 0.5f;
 	private float CurrentBulletCooldown = 0f;
 	private float CurrentChargeShotCooldown = 0f;
@@ -21,6 +21,7 @@ public class Stage : Node
 	//Mob Timer
 	private float MOB_TIME = 2f;
 	private float MobTimer;
+	private float BigRatSpawnChance = 0.1f;
 	
 	//Mob Spawn points
 	private Random rnd;
@@ -36,6 +37,7 @@ public class Stage : Node
 		HUD = GetNode<HUD>("/root/Stage/HUD");
 		BulletScene = GD.Load<PackedScene>("res://Bullet.tscn");
 		RatScene = GD.Load<PackedScene>("res://Rat.tscn");
+		BigRatScene = GD.Load<PackedScene>("res://BigRat.tscn");
 		ObstacleScene = GD.Load<PackedScene>("res://Obstacle.tscn");
 		var startPosition = GetNode<Position2D>("StartPosition");
 		LeftSpawnPosition = GetNode<Position2D>("LeftSpawnPosition");
@@ -70,30 +72,10 @@ public class Stage : Node
 				CurrentBulletCooldown = BulletCooldown;
 			}
 		}
-		
-		//Spawning Mobs in 4 locations
 		if (MobTimer <= 0) {
-			Rat rat = (Rat)RatScene.Instance();
-			int location = rnd.Next(1,5);
-			switch(location) {
-				case 1:
-					rat.Position = LeftSpawnPosition.Position;
-					break;
-				case 2:
-					rat.Position = RightSpawnPosition.Position;
-					break;
-				case 3:
-					rat.Position = TopSpawnPosition.Position;
-					break;
-				case 4:
-					rat.Position = BottomSpawnPosition.Position;
-					break;
-				default:
-					break;
-			}
-			this.AddChildBelowNode(Background,rat);
-			MobTimer = MOB_TIME; //TODO: Reduce time as time goes on
+			SpawnMob();
 		}
+		
 		// Charge Shot Physics
 		if (CurrentChargeShotCooldown <= 0f & Input.IsActionPressed("charge_shot")) {
 			ShootUp((Bullet)BulletScene.Instance());
@@ -110,6 +92,35 @@ public class Stage : Node
 		
 		// HUD update
 		HUD.ChargeShotCooldownPercentage = 100 - (int)((CurrentChargeShotCooldown/CHARGE_SHOT_COOLDOWN)*100);
+	}
+	private void SpawnMob() {
+		//Spawning Mobs in 4 locations
+		int location = rnd.Next(1,5);
+		int type = rnd.Next(1,101);
+		Area2D rat;
+		if (type <= BigRatSpawnChance*100) {
+			rat = (BigRat)BigRatScene.Instance();
+		} else {
+			rat = (Rat)RatScene.Instance();
+		}
+		switch(location) {
+			case 1:
+				rat.Position = LeftSpawnPosition.Position;
+				break;
+			case 2:
+				rat.Position = RightSpawnPosition.Position;
+				break;
+			case 3:
+				rat.Position = TopSpawnPosition.Position;
+				break;
+			case 4:
+				rat.Position = BottomSpawnPosition.Position;
+				break;
+			default:
+				break;
+		}
+		this.AddChildBelowNode(Background,rat);
+		MobTimer = MOB_TIME; //TODO: Reduce time as time goes on
 	}
 	
 	//Get Bullet Velocity from inputs
