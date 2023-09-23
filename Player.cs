@@ -23,15 +23,15 @@ public class Player : Area2D
 	private Vector2 PressDirection = Vector2.Zero;
 
 	private float CurrentDashCooldown = 0f;
-
-	[Signal]
-	public delegate void Hit();
+	
+	private HUD HUD;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
 		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		HUD = GetNode<HUD>("/root/Stage/HUD");
 	}
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -44,6 +44,8 @@ public class Player : Area2D
 			Velocity = movement * DashSpeed;
 			CurrentDashCooldown = DashCooldown;
 		}
+		// Update DashCooldownBar
+		HUD.DashCooldownPercentage = (int)((CurrentDashCooldown/DashCooldown)*100);
 
 		if (movement.Length() > 0)
 		{

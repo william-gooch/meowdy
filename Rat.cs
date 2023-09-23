@@ -9,15 +9,14 @@ public class Rat : Area2D
 	private Vector2 ScreenSize;
 	private int Speed = 200;
 	private AnimatedSprite Sprite;
-	//private Node HUDScene;
 	private HUD HUD;
+	private int ScoreValue = 5; //Score added on death
 	
 	public override void _Ready()
 	{
 		rnd = new Random();
 		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		HUD = GetNode<HUD>("/root/Stage/HUD");
-		//HUDScene = GD.Load<PackedScene>("res://HUD.cs");
 	}
 	public override void _Process(float delta) {
 		// Basic Random Movement AI (Changes direction every 0.2 seconds)
@@ -50,8 +49,7 @@ public class Rat : Area2D
 	private void _on_Rat_area_entered(object area)
 	{
 		if (area is Bullet) {
-			GD.Print("SLAY");
-			HUD.Score += 50;
+			HUD.Score += ScoreValue;
 			Hide();
 			this.QueueFree();
 			//TODO: Emit score signal or add to score

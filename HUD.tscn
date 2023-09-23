@@ -18,3 +18,12 @@ margin_bottom = 67.0
 custom_fonts/font = SubResource( 1 )
 text = "0000"
 align = 1
+
+[node name="DashCooldownBar" type="ProgressBar" parent="."]
+margin_left = 9.0
+margin_top = 8.0
+margin_right = 164.0
+margin_bottom = 31.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+percent_visible = false
