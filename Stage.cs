@@ -6,6 +6,7 @@ public class Stage : Node
 	private PackedScene BulletScene;
 	private PackedScene RatScene;
 	private PackedScene ObstacleScene;
+	private TileMap Background;
 	private Vector2 ScreenSize;
 	private Player player;
 	private HUD HUD;
@@ -41,6 +42,8 @@ public class Stage : Node
 		RightSpawnPosition = GetNode<Position2D>("RightSpawnPosition");
 		TopSpawnPosition = GetNode<Position2D>("TopSpawnPosition");
 		BottomSpawnPosition = GetNode<Position2D>("BottomSpawnPosition");
+		Background = GetNode<TileMap>("Background");
+		ScreenSize = GetViewport().Size;
 		GD.Randomize();
 		rnd = new Random();
 		player = GetNode<Player>("Player");
@@ -48,12 +51,14 @@ public class Stage : Node
 		MobTimer = 3f;
 		
 		// Spawn Obstacles
+		// TODO: Prevent spawn on player or give i frames at start
 		for (int i = 0; i < NUM_OBSTACLES; i++) {
 			Obstacle obstacle = (Obstacle)ObstacleScene.Instance();
 			obstacle.Position = new Vector2(
 				rnd.Next(0,(int)ScreenSize.x),
-				rnd.Next(0,(int)ScreenSize.y));
-			this.AddChild(obstacle);
+				rnd.Next(0,(int)ScreenSize.y)
+			);
+			this.AddChildBelowNode(Background,obstacle);
 		}
 	}
 	
@@ -86,7 +91,7 @@ public class Stage : Node
 				default:
 					break;
 			}
-			this.AddChild(rat);
+			this.AddChildBelowNode(Background,rat);
 			MobTimer = MOB_TIME; //TODO: Reduce time as time goes on
 		}
 		// Charge Shot Physics

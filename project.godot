@@ -18,6 +18,10 @@ config/icon="res://icon.png"
 
 LeaderboardManager="*res://leaderboard/LeaderboardManager.cs"
 
+[display]
+
+window/size/resizable=false
+
 [global]
 
 "default texture"=false
