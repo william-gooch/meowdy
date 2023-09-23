@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://BigRat.cs" type="Script" id=1]
 [ext_resource path="res://assets/big-rat/rat2_walk2.png" type="Texture" id=2]
@@ -6,9 +6,18 @@
 [ext_resource path="res://assets/big-rat/rat2_walk1.png" type="Texture" id=4]
 [ext_resource path="res://assets/big-rat/rat2_walk3.png" type="Texture" id=5]
 [ext_resource path="res://Arrow.cs" type="Script" id=6]
+[ext_resource path="res://assets/big-rat/rat2_bloody_walk4.png" type="Texture" id=6]
+[ext_resource path="res://assets/big-rat/rat2_bloody_walk1.png" type="Texture" id=7]
+[ext_resource path="res://assets/big-rat/rat2_bloody_walk3.png" type="Texture" id=8]
+[ext_resource path="res://assets/big-rat/rat2_bloody_walk2.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "bloody_walk",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 4 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "walk",
@@ -26,7 +35,7 @@ SwarmFactor = 3.0
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 3, 3 )
 frames = SubResource( 1 )
-animation = "walk"
+animation = "bloody_walk"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( -1, 7, -48, -7, -4, -10, -3, -23, -30, -34, -30, -42, 5, -48, 7, -39, 16, -46, 31, -46, 42, -27, 39, 27, 11, 28, 18, 6, 13, -9 )
