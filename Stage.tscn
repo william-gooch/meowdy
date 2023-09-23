@@ -14,5 +14,3 @@ position = Vector2( 1072, 101 )
 
 [node name="StartPosition" type="Position2D" parent="."]
 position = Vector2( 512, 300 )
-
-[node name="BulletTimer" type="Timer" parent="."]
