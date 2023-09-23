@@ -81,19 +81,12 @@ public class Player : Area2D
 
 		CurrentDashCooldown = Mathf.Max(0, CurrentDashCooldown - delta); // Decrease cooldown, make sure it doesn't go below 0.
 	}
-	private void _on_Player_body_entered(object body)
-	{
-		Hide(); // Player disappears after being hit.
-		EmitSignal(nameof(Hit));
-		// Must be deferred as we can't change physics properties on a physics callback.
-		GetNode<CollisionPolygon2D>("CollisionPolygon2D").SetDeferred("disabled", true);
-	}
 
 	public void Start(Vector2 pos)
 	{
 		Position = pos;
 		Show();
-		GetNode<CollisionPolygon2D>("CollisionPolygon2D").Disabled = false;
+		//GetNode<CollisionPolygon2D>("CollisionPolygon2D").Disabled = false;
 	}
 
 	private Vector2 GetMovement()
@@ -131,5 +124,14 @@ public class Player : Area2D
 			PressDirection.y = 0;
 
 		return movement;
+	}
+	private void _on_Player_area_entered(object area)
+	{
+		if (!(area is Bullet)) {
+			Hide();
+			this.QueueFree();
+			GD.Print("LOSER"); //TODO: Gameover
+			GetTree().Quit();
+		}
 	}
 }

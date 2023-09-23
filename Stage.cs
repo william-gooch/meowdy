@@ -10,7 +10,7 @@ public class Stage : Node
 	private int bulletSpeed = 500;
 	private float BulletCooldown = 0.5f;
 	private float CurrentBulletCooldown = 0f;
-	private float MOB_TIME = 5f;
+	private float MOB_TIME = 2f;
 	private float MobTimer;
 	private Random rnd;
 	private Position2D LeftSpawnPosition;

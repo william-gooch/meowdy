@@ -17,10 +17,12 @@ public class Bullet : Area2D
 		Position += velocity * (float)delta;
 		Position = new Vector2(Position.x, Position.y);
 	}
-	private void _on_Bullet_body_entered(object body)
+	private void _on_Bullet_area_entered(object area)
 	{
-		//Hide();
-		//GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
+		if (!(area is Player)) {
+			Hide();
+			this.QueueFree();
+		}
 	}
-	//TODO: this.QueueFree();
 }
+

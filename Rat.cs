@@ -39,4 +39,13 @@ public class Rat : Area2D
 		Position += Velocity * (float)delta;
 		Position = new Vector2(Position.x, Position.y);
 	}
+	private void _on_Rat_area_entered(object area)
+	{
+		if (area is Bullet) {
+			GD.Print("SLAY");
+			Hide();
+			this.QueueFree();
+			//TODO: Emit score signal or add to score
+		}
+	}
 }
