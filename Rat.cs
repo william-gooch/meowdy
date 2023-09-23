@@ -49,7 +49,7 @@ public class Rat : Area2D
 	private void _on_Rat_area_entered(object area)
 	{
 		if (area is Bullet) {
-			HUD.Score += ScoreValue;
+			HUD.Call("AddScore", ScoreValue);
 			Hide();
 			this.QueueFree();
 			//TODO: Emit score signal or add to score

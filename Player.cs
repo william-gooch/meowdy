@@ -19,11 +19,8 @@ public class Player : Area2D
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
 	private AnimatedSprite Sprite;
-
 	private Vector2 PressDirection = Vector2.Zero;
-
 	private float CurrentDashCooldown = 0f;
-	
 	private HUD HUD;
 
 	// Called when the node enters the scene tree for the first time.
@@ -45,7 +42,7 @@ public class Player : Area2D
 			CurrentDashCooldown = DashCooldown;
 		}
 		// Update DashCooldownBar
-		HUD.DashCooldownPercentage = (int)((CurrentDashCooldown/DashCooldown)*100);
+		HUD.DashCooldownPercentage = 100 - (int)((CurrentDashCooldown/DashCooldown)*100);
 
 		if (movement.Length() > 0)
 		{
@@ -130,10 +127,15 @@ public class Player : Area2D
 	private void _on_Player_area_entered(object area)
 	{
 		if (!(area is Bullet)) {
-			Hide();
-			this.QueueFree();
-			GD.Print("LOSER"); //TODO: Gameover
-			GetTree().Quit();
+			
+			if (HUD.Health > 1) {
+				HUD.Call("DeductHealth");
+			}
+			else {
+				Hide();
+				this.QueueFree();
+				GetTree().Quit();
+			}			
 		}
 	}
 }

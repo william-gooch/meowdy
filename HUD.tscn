@@ -1,11 +1,39 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/merkur-font/Merkur-j147.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://HealthBar.cs" type="Script" id=3]
+[ext_resource path="res://assets/heart/heart1.png" type="Texture" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
 font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.592157, 1, 0.952941, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+border_blend = true
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.0823529, 0.113725, 0.223529, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+border_blend = true
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
 
 [node name="HUD" type="Node"]
 script = ExtResource( 1 )
@@ -20,10 +48,73 @@ text = "0000"
 align = 1
 
 [node name="DashCooldownBar" type="ProgressBar" parent="."]
-margin_left = 9.0
-margin_top = 8.0
-margin_right = 164.0
-margin_bottom = 31.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+margin_left = 7.0
+margin_top = 568.0
+margin_right = 227.0
+margin_bottom = 591.0
+custom_colors/font_color = Color( 1, 0.137255, 0.137255, 1 )
+custom_colors/font_color_shadow = Color( 0.396078, 0, 0, 1 )
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
 percent_visible = false
+
+[node name="HealthBar" type="HBoxContainer" parent="."]
+margin_left = 11.0
+margin_top = 10.0
+margin_right = 187.0
+margin_bottom = 26.0
+rect_scale = Vector2( 2.5, 2.5 )
+script = ExtResource( 3 )
+
+[node name="Heart0" type="TextureRect" parent="HealthBar"]
+margin_right = 16.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
+
+[node name="Heart1" type="TextureRect" parent="HealthBar"]
+margin_left = 20.0
+margin_right = 36.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
+
+[node name="Heart2" type="TextureRect" parent="HealthBar"]
+margin_left = 40.0
+margin_right = 56.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
+
+[node name="Heart3" type="TextureRect" parent="HealthBar"]
+margin_left = 60.0
+margin_right = 76.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
+
+[node name="Heart4" type="TextureRect" parent="HealthBar"]
+margin_left = 80.0
+margin_right = 96.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
+
+[node name="Heart5" type="TextureRect" parent="HealthBar"]
+margin_left = 100.0
+margin_right = 116.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
+
+[node name="Heart6" type="TextureRect" parent="HealthBar"]
+margin_left = 120.0
+margin_right = 136.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
+
+[node name="Heart7" type="TextureRect" parent="HealthBar"]
+margin_left = 140.0
+margin_right = 156.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
+
+[node name="Heart8" type="TextureRect" parent="HealthBar"]
+margin_left = 160.0
+margin_right = 176.0
+margin_bottom = 16.0
+texture = ExtResource( 4 )
