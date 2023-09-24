@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+
 public class Stage : Node
 {
 	private PackedScene BulletScene;
@@ -15,7 +16,7 @@ public class Stage : Node
 
 	//Bullet Physics
 	public float CHARGE_SHOT_COOLDOWN { get; set; } = 3f; // Press "F" key for charge shot
-	private float BulletCooldown = 0.5f;
+	private float BulletCooldown = 0.3f;
 	private float CurrentBulletCooldown = 0f;
 	private float CurrentChargeShotCooldown = 0f;
 
@@ -39,6 +40,7 @@ public class Stage : Node
 	//Waves
 	private int NUM_WAVES = 10;
 	private int currentWave;
+	private double SEMITONE_MULTIPLIER = Math.Pow(2.0, 1.0 / 12.0);
 
 	public override void _Ready()
 	{
@@ -246,6 +248,9 @@ public class Stage : Node
 			BigRatSpawnChance = Mathf.Clamp((float)(BigRatSpawnChance * 1.5), 0, 1);
 			PowerUpSpawnChance = Mathf.Clamp((float)(PowerUpSpawnChance * 1.5), 0, 1);
 			currentWave++;
+
+			GetNode<AudioStreamPlayer>("Soundtrack").PitchScale = (float)Math.Pow(SEMITONE_MULTIPLIER, currentWave);
+
 			HUD.UpdateWave("Wave " + currentWave);
 		}
 	}
