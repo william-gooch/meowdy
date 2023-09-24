@@ -10,7 +10,7 @@
 [ext_resource path="res://assets/big-rat/rat2_bloody_walk3.png" type="Texture" id=8]
 [ext_resource path="res://assets/big-rat/rat2_bloody_walk2.png" type="Texture" id=9]
 [ext_resource path="res://Arrow.cs" type="Script" id=10]
-[ext_resource path="res://assets/hit sounds/rat_hit1.wav" type="AudioStream" id=11]
+[ext_resource path="res://HitAudio.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -28,11 +28,12 @@ animations = [ {
 [node name="BigRat" type="Area2D"]
 position = Vector2( 0, -19 )
 script = ExtResource( 1 )
+FlashTime = 0.5
 MaxHealth = 2
 ScoreValue = 15
+HitKnockback = 800.0
 Speed = 50
 SwarmFactor = 1.5
-FlashTime = 0.5
 DashCooldown = 3.0
 DashWarning = 1.0
 DashSpeed = 2600.0
@@ -56,5 +57,4 @@ end_cap_mode = 2
 script = ExtResource( 10 )
 Length = 125.0
 
-[node name="Audio" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 11 )
+[node name="HitAudio" parent="." instance=ExtResource( 11 )]
