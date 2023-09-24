@@ -22,9 +22,9 @@ public class Catnip : Area2D
 			RemoveChild(GetNode("CollisionShape2D"));
 			RemoveChild(GetNode("Sprite"));
 			player.MaxSpeed = (int)(speed * 1.5);
-			GD.Print("Speeding up");
+			//GD.Print("Speeding up");
 			await ToSignal(GetTree().CreateTimer(9.5f), "timeout"); //TODO: Potential optimisation
-			GD.Print("Catnip wears off");
+			//GD.Print("Catnip wears off");
 			player.MaxSpeed = speed;
 			QueueFree();
 		}

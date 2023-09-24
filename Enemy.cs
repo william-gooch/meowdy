@@ -87,12 +87,12 @@ public class Enemy : Area2D
 
 		if (CurrentHealth > 1)
 		{
-			GD.Print("HIT!");
+			//GD.Print("HIT!");
 			CurrentHealth--;
 		}
 		else
 		{
-			GD.Print("KILL!!!!");
+			//GD.Print("KILL!!!!");
 			EmitSignal(nameof(DiedEventHandler));
 		}
 	}

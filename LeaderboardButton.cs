@@ -16,7 +16,7 @@ public class LeaderboardButton : Button
 
     private void _on_LeaderboardButton_pressed()
 	{
-		GD.Print("Go to leaderboard");
+		//GD.Print("Go to leaderboard");
 		GetTree().ChangeScene("res://leaderboard/LeaderboardScreen.tscn");
 	}
 }

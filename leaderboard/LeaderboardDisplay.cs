@@ -34,16 +34,16 @@ public class LeaderboardDisplay : Control
 		Error error;
 		string message;
 
-		GD.Print("Getting leaderboard...");
+		//GD.Print("Getting leaderboard...");
 		(error, _, message) = await leaderboard.GetLeaderboard();
-		if (error == Error.Ok)
-		{
-			GD.Print("Got leaderboard!");
-		}
-		else
-		{
-			GD.PrintErr($"{error}: {message}");
-		}
+		// if (error == Error.Ok)
+		// {
+		// 	GD.Print("Got leaderboard!");
+		// }
+		// else
+		// {
+		// 	GD.PrintErr($"{error}: {message}");
+		// }
 	}
 
 	private void CreateLeaderboard() {

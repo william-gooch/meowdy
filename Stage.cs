@@ -144,7 +144,7 @@ public class Stage : Node
 				rnd.Next(0, (int)ScreenSize.y)
 			);
 			int PowerUpType = rnd.Next(1, 3);
-			GD.Print(PowerUpType);
+			//GD.Print(PowerUpType);
 			switch (PowerUpType)
 			{
 				case 1:
@@ -161,7 +161,7 @@ public class Stage : Node
 		}
 		else
 		{
-			GD.Print("Unlucky! No Power-Up yet");
+			//GD.Print("Unlucky! No Power-Up yet");
 		}
 	}
 

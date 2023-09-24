@@ -110,7 +110,7 @@ public class LeaderboardManager : Node
 
 	public async Task<(Error error, string message)> Authenticate()
 	{
-		GD.Print("Authenticating...");
+		//GD.Print("Authenticating...");
 		var dataFile = new File();
 		dataFile.Open("user://LootLocker.data", File.ModeFlags.Read);
 		string playerIdentifier = dataFile.GetAsText();
@@ -146,7 +146,7 @@ public class LeaderboardManager : Node
 
 		sessionToken = (string) res.Body["session_token"];
 		EmitSignal(nameof(AuthenticationSuccess));
-		GD.Print("Authentication success!");
+		//GD.Print("Authentication success!");
 		Task.Run(() => GetPlayerName());
 		Task.Run(() => GetLeaderboard());
 		return (Error.Ok, "");
@@ -216,7 +216,7 @@ public class LeaderboardManager : Node
 	}
 
 	public async Task<(Error error, string errorMessage)> RecordScore() {
-		GD.Print("Recording score...");
+		//GD.Print("Recording score...");
 		var res = await MakeRequest(
 			$"https://api.lootlocker.io/game/leaderboards/{LeaderboardData.LeaderboardKey}/submit",
 			HTTPClient.Method.Post,
@@ -230,7 +230,7 @@ public class LeaderboardManager : Node
 			return (res.Error, res.ErrorString);
 		}
 
-		GD.Print("Recorded score!");
+		//GD.Print("Recorded score!");
 		Task.Run(() => GetLeaderboard());
 		return (Error.Ok, "");
 	}
