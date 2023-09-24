@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=2]
@@ -37,6 +37,10 @@ corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+font_data = ExtResource( 2 )
 
 [node name="HUD" type="Node"]
 script = ExtResource( 1 )
@@ -143,3 +147,14 @@ custom_colors/font_color_shadow = Color( 0.396078, 0, 0, 1 )
 custom_styles/fg = SubResource( 2 )
 custom_styles/bg = SubResource( 3 )
 percent_visible = false
+
+[node name="WaveNotifier" type="Label" parent="."]
+margin_left = 9.0
+margin_top = 487.0
+margin_right = 170.0
+margin_bottom = 538.0
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 0.0
+custom_colors/font_color = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "Warm Up!"

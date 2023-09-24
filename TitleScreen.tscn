@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://PlayButton.cs" type="Script" id=1]
 [ext_resource path="res://assets/meowdy menu.png" type="Texture" id=2]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://LeaderboardButton.cs" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -71,6 +72,7 @@ margin_left = 6.0
 margin_top = 206.0
 margin_right = 150.0
 margin_bottom = 313.0
+custom_colors/font_color_hover = Color( 0.290196, 0.00392157, 0.00392157, 1 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/hover = SubResource( 2 )
 custom_styles/pressed = SubResource( 3 )
@@ -85,6 +87,7 @@ margin_left = 13.0
 margin_top = 312.0
 margin_right = 242.0
 margin_bottom = 363.0
+custom_colors/font_color_hover = Color( 0.290196, 0.00392157, 0.00392157, 1 )
 custom_fonts/font = SubResource( 7 )
 custom_styles/hover = SubResource( 8 )
 custom_styles/pressed = SubResource( 9 )
@@ -92,6 +95,7 @@ custom_styles/focus = SubResource( 10 )
 custom_styles/disabled = SubResource( 11 )
 custom_styles/normal = SubResource( 12 )
 text = "LeaderBoard"
+script = ExtResource( 4 )
 
 [node name="Title" type="Label" parent="."]
 margin_left = 7.0
@@ -115,3 +119,4 @@ custom_fonts/font = SubResource( 14 )
 text = "ScoreSpace GameJam"
 
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="LeaderboardButton" to="LeaderboardButton" method="_on_LeaderboardButton_pressed"]

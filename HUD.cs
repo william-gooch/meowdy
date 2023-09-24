@@ -13,6 +13,7 @@ public class HUD : Node
 	public int MAX_HEALTH = 9;
 	public int Health;
 	private Label ScoreLabel;
+	private Label WaveLabel;
 	private ProgressBar DashCooldownBar;
 	private ProgressBar ChargeShotCooldownBar;
 	private HBoxContainer HealthBar;
@@ -22,6 +23,7 @@ public class HUD : Node
 	{
 		Health = MAX_HEALTH;
 		ScoreLabel = GetNode<Label>("Score");
+		WaveLabel = GetNode<Label>("WaveNotifier");
 		DashCooldownBar = GetNode<ProgressBar>("DashCooldownBar");
 		ChargeShotCooldownBar = GetNode<ProgressBar>("ChargeShotCooldownBar");
 		HealthBar = GetNode<HBoxContainer>("HealthBar");
@@ -47,5 +49,8 @@ public class HUD : Node
 			Health++;
 			HealthBar.Call("UpdateHealth", Health);
 		}
+	}
+	public void UpdateWave(string text) {
+		WaveLabel.Text = text;
 	}
 }
