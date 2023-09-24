@@ -4,8 +4,6 @@ using System;
 public class BigRat : Rat
 {
 	[Export]
-	public float FlashTime { get; set; }
-	[Export]
 	public float DashCooldown { get; set; }
 	[Export]
 	public float DashWarning { get; set; }
@@ -13,8 +11,6 @@ public class BigRat : Rat
 	public float DashSpeed { get; set; }
 	[Export]
 	public float DashDamping { get; set; }
-	[Export]
-	public float HitKnockback { get; set; }
 
 	private Vector2 _velocity = Vector2.Zero;
 
@@ -22,9 +18,9 @@ public class BigRat : Rat
 	private float _warningTimer = 0;
 	private Arrow _warningArrow;
 	private Vector2 _plannedDirection;
-	private float _flashCooldown = 0;
 
-	public BigRat() : base() {
+	public BigRat() : base()
+	{
 		_dashTimer = DashCooldown;
 	}
 
@@ -34,17 +30,21 @@ public class BigRat : Rat
 		_warningArrow = GetNode<Arrow>("WarningArrow");
 	}
 
-	public override Vector2 Move(float delta) {
-		Vector2 movement = Vector2.Zero;
+	public override Vector2 Move(float delta)
+	{
+		if (IsDead)
+		{
+			return base.Move(delta);
+		}
 
-		if (_dashTimer <= 0 && _warningTimer <= 0) {
+		if (_dashTimer <= 0 && _warningTimer <= 0)
+		{
 			_velocity = _plannedDirection * DashSpeed;
 			_dashTimer = DashCooldown;
 			Sprite.SpeedScale = 1f;
 			_warningArrow.Hide();
-		} else if (_warningTimer <= 0) {
-			movement += base.Move(delta);
 		}
+		else if (_warningTimer <= 0) { }
 
 		_velocity *= 1 - (DashDamping * delta);
 		if (_velocity.Length() < 10)
@@ -52,10 +52,8 @@ public class BigRat : Rat
 			_velocity = Vector2.Zero;
 		}
 
-		Position += _velocity * (float)delta;
-		Position = new Vector2(Position.x, Position.y);
-
-		if(_dashTimer > 0 && _dashTimer - delta <= 0) {
+		if (_dashTimer > 0 && _dashTimer - delta <= 0)
+		{
 			_warningTimer = DashWarning;
 			_plannedDirection = DirectionToPlayer();
 			_warningArrow.Show();
@@ -65,22 +63,12 @@ public class BigRat : Rat
 		_dashTimer = Mathf.Max(0, _dashTimer - delta);
 		_warningTimer = Mathf.Max(0, _warningTimer - delta);
 
-		if (_flashCooldown <= 0) {
-			Sprite.Modulate = new Color("#ffffff");
-		}
-		_flashCooldown = Mathf.Max(0, _flashCooldown - delta);
-
-		return movement + _velocity;
+		return _velocity + base.Move(delta);
 	}
 
 	protected override void OnHit(Vector2 direction)
 	{
 		base.OnHit(direction);
-
 		Sprite.Play("bloody_walk");
-		Sprite.Modulate = new Color("#960000");
-		_flashCooldown = FlashTime;
-
-		_velocity = direction * 800;
 	}
 }

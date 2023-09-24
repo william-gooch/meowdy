@@ -17,12 +17,15 @@ public class Player : Area2D
 	[Export]
 	public float DashCooldown { get; set; } = 2f; // The time it takes to regain your dash (sec).
 	[Export]
+	public float HitKnockback { get; set; } = 600; // The speed at which you're knocked back when hit.
+	[Export]
 	public float DashInvulnerabilityTime { get; set; } = 0.5f; // Amount of time you are invulnerable when you dash (sec)
 	[Export]
 	public float HitInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you are hit (sec)
 	[Export]
 	public float SpawnInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you spawn in (sec)
-	
+
+	private HitAudio Audio;
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
 	private AnimatedSprite Sprite;
@@ -37,6 +40,7 @@ public class Player : Area2D
 		ScreenSize = GetViewportRect().Size;
 		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		HUD = GetNode<HUD>("/root/Stage/HUD");
+		Audio = GetNode<HitAudio>("HitAudio");
 
 		InvulnerabilityCooldown = SpawnInvulnerabilityTime;
 		Sprite.Modulate = new Color("#ffffff")
@@ -61,7 +65,7 @@ public class Player : Area2D
 			};
 		}
 		// Update DashCooldownBar
-		HUD.DashCooldownPercentage = 100 - (int)((CurrentDashCooldown/DashCooldown)*100);
+		HUD.DashCooldownPercentage = 100 - (int)((CurrentDashCooldown / DashCooldown) * 100);
 
 		if (movement.Length() > 0)
 		{
@@ -96,8 +100,9 @@ public class Player : Area2D
 			x: Mathf.Clamp(Position.x, 0, ScreenSize.x),
 			y: Mathf.Clamp(Position.y, 0, ScreenSize.y)
 		);
-	
-		if (InvulnerabilityCooldown <= 0) {
+
+		if (InvulnerabilityCooldown <= 0)
+		{
 			Sprite.Modulate = new Color("#ffffff");
 		}
 		InvulnerabilityCooldown = Mathf.Max(0, InvulnerabilityCooldown - delta);
@@ -147,26 +152,34 @@ public class Player : Area2D
 	}
 	private void _on_Player_area_entered(object area)
 	{
-		if (InvulnerabilityCooldown > 0) {
+		if (InvulnerabilityCooldown > 0)
+		{
 			return;
 		}
 
-		if (area is Enemy | area is Obstacle | area is BigObstacle) {
-			if (HUD.Health > 1) {
+		if (area is Enemy | area is Obstacle | area is BigObstacle)
+		{
+			if (HUD.Health > 1)
+			{
 				InvulnerabilityCooldown = HitInvulnerabilityTime;
 				Sprite.Modulate = new Color("#960000")
 				{
 					a = 0.5f
 				};
 				HUD.Call("DeductHealth");
+
+				Velocity = (GlobalPosition - (area as Node2D).GlobalPosition).Normalized() * HitKnockback;
+				Audio.Hit();
 			}
-			else {
+			else
+			{
 				GameOver();
 			}
 		}
 	}
 
-	private void GameOver() {
+	private void GameOver()
+	{
 		var leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
 		leaderboard.CurrentScore = HUD.Score;
 
