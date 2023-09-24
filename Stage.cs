@@ -23,7 +23,7 @@ public class Stage : Node
 	private float MOB_TIME = 2f;
 	private float MobTimer;
 	private float BigRatSpawnChance = 0.1f;
-	
+
 	//Mob Spawn points
 	private Random rnd;
 	private Position2D LeftSpawnPosition;
@@ -101,10 +101,10 @@ public class Stage : Node
 		// Charge Shot Physics
 		if (CurrentChargeShotCooldown <= 0f & Input.IsActionPressed("charge_shot"))
 		{
-			ShootUp((Bullet)BulletScene.Instance());
-			ShootDown((Bullet)BulletScene.Instance());
-			ShootLeft((Bullet)BulletScene.Instance());
-			ShootRight((Bullet)BulletScene.Instance());
+			Shoot(Vector2.Up);
+			Shoot(Vector2.Down);
+			Shoot(Vector2.Left);
+			Shoot(Vector2.Right);
 			CurrentChargeShotCooldown = CHARGE_SHOT_COOLDOWN;
 		}
 
@@ -197,63 +197,42 @@ public class Stage : Node
 	private bool ShootFromMovement()
 	{
 		bool HasShot = false;
-		Bullet bullet;
+		Vector2 direction = Vector2.Zero;
 		if (Input.IsActionPressed("shoot_up"))
 		{
-			bullet = (Bullet)BulletScene.Instance();
-			ShootUp(bullet);
+			direction.y -= 1;
 			HasShot = true;
 		}
 		if (Input.IsActionPressed("shoot_down"))
 		{
-			bullet = (Bullet)BulletScene.Instance();
-			ShootDown(bullet);
+			direction.y += 1;
 			HasShot = true;
 		}
 		if (Input.IsActionPressed("shoot_left"))
 		{
-			bullet = (Bullet)BulletScene.Instance();
-			ShootLeft(bullet);
+			direction.x -= 1;
 			HasShot = true;
 		}
 		if (Input.IsActionPressed("shoot_right"))
 		{
-			bullet = (Bullet)BulletScene.Instance();
-			ShootRight(bullet);
+			direction.x += 1;
 			HasShot = true;
+		}
+
+		if (HasShot)
+		{
+			Shoot(direction);
 		}
 		return HasShot; // cannot use else case to allow for diagonals. 
 	}
-	private void Shoot(Bullet bullet)
+	private void Shoot(Vector2 direction)
 	{
-		//GD.Print(bullet.velocity);
+		Bullet bullet = BulletScene.Instance<Bullet>();
+		bullet.Position = player.Position;
+		bullet.direction = direction;
 		if (bullet.GetParent() == null && bullet.direction != Vector2.Zero)
 		{
 			AddChild(bullet);
 		}
-	}
-	private void ShootUp(Bullet bullet)
-	{
-		bullet.Position = player.Position;
-		bullet.direction.y -= 1;
-		Shoot(bullet);
-	}
-	private void ShootDown(Bullet bullet)
-	{
-		bullet.Position = player.Position;
-		bullet.direction.y += 1;
-		Shoot(bullet);
-	}
-	private void ShootLeft(Bullet bullet)
-	{
-		bullet.Position = player.Position;
-		bullet.direction.x -= 1;
-		Shoot(bullet);
-	}
-	private void ShootRight(Bullet bullet)
-	{
-		bullet.Position = player.Position;
-		bullet.direction.x += 1;
-		Shoot(bullet);
 	}
 }
