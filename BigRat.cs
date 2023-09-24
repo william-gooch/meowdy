@@ -4,15 +4,15 @@ using System;
 public class BigRat : Rat
 {
 	[Export]
-	public float FlashTime { get; set; } = 0.5f;
+	public float FlashTime { get; set; }
 	[Export]
-	public float DashCooldown { get; set; } = 3f;
+	public float DashCooldown { get; set; }
 	[Export]
-	public float DashWarning { get; set; } = 1f;
+	public float DashWarning { get; set; }
 	[Export]
-	public float DashSpeed { get; set; } = 2400;
+	public float DashSpeed { get; set; }
 	[Export]
-	public float DashDamping { get; set; } = 7f;
+	public float DashDamping { get; set; }
 
 	private Vector2 _velocity = Vector2.Zero;
 

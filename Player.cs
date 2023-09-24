@@ -17,7 +17,9 @@ public class Player : Area2D
 	[Export]
 	public float DashCooldown { get; set; } = 2f; // The time it takes to regain your dash (sec).
 	[Export]
-	public float InvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you are hit (sec)
+	public float DashInvulnerabilityTime { get; set; } = 0.5f; // Amount of time you are invulnerable when you dash (sec)
+	[Export]
+	public float HitInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you are hit (sec)
 	
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
@@ -44,6 +46,11 @@ public class Player : Area2D
 		{
 			Velocity = movement * DashSpeed;
 			CurrentDashCooldown = DashCooldown;
+			InvulnerabilityCooldown = DashInvulnerabilityTime;
+			Sprite.Modulate = new Color("#ffffff")
+			{
+				a = 0.5f
+			};
 		}
 		// Update DashCooldownBar
 		HUD.DashCooldownPercentage = 100 - (int)((CurrentDashCooldown/DashCooldown)*100);
@@ -138,7 +145,7 @@ public class Player : Area2D
 
 		if (!(area is Bullet)) {
 			if (HUD.Health > 1) {
-				InvulnerabilityCooldown = InvulnerabilityTime;
+				InvulnerabilityCooldown = HitInvulnerabilityTime;
                 Sprite.Modulate = new Color("#960000")
                 {
                     a = 0.5f

@@ -4,9 +4,9 @@ using System;
 public class Enemy : Area2D
 {
 	[Export]
-	public int MaxHealth { get; set; } = 1;
+	public int MaxHealth { get; set; }
 	[Export]
-	public int ScoreValue { get; set; } = 5;
+	public int ScoreValue { get; set; }
 
 	protected AnimatedSprite Sprite;
 	protected HUD HUD;

@@ -4,9 +4,9 @@ using System;
 public class Rat : Enemy
 {
 	[Export]
-	public int Speed { get; set; } = 200;
+	public int Speed { get; set; }
 	[Export]
-	public float SwarmFactor { get; set; } = 1f; // How much the enemies will swarm the player.
+	public float SwarmFactor { get; set; } // How much the enemies will swarm the player.
 
 	private Random _rnd;
 	private float _movementTimer = 0;
