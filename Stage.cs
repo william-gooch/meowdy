@@ -249,14 +249,4 @@ public class Stage : Node
 			HUD.UpdateWave("Wave " + currentWave);
 		}
 	}
-	private void _on_WaveTimer_timeout()
-	{
-		if (currentWave < NUM_WAVES) {
-			MOB_TIME = (float)(MOB_TIME * 0.9);
-			BigRatSpawnChance = Mathf.Clamp((float)(BigRatSpawnChance * 1.5),0,1);
-			PowerUpSpawnChance = Mathf.Clamp((float)(PowerUpSpawnChance * 1.5),0,1);
-			currentWave++;
-			HUD.UpdateWave("Wave "+currentWave);
-		}
-	}
 }

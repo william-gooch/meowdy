@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://assets/pause-button/pause2.png" type="Texture" id=5]
 [ext_resource path="res://assets/pause-button/pause1.png" type="Texture" id=6]
 [ext_resource path="res://leaderboard/TitleScreenButton.cs" type="Script" id=7]
+[ext_resource path="res://assets/icons/icon_dash.png" type="Texture" id=8]
+[ext_resource path="res://assets/icons/icon_shoot.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -43,8 +45,6 @@ corner_radius_bottom_left = 40
 size = 32
 font_data = ExtResource( 2 )
 
-<<<<<<< HEAD
-=======
 [sub_resource type="DynamicFont" id=5]
 size = 32
 font_data = ExtResource( 2 )
@@ -59,7 +59,6 @@ font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxEmpty" id=10]
 
->>>>>>> main
 [node name="HUD" type="Node"]
 script = ExtResource( 1 )
 
@@ -75,9 +74,9 @@ align = 1
 
 [node name="DashCooldownBar" type="ProgressBar" parent="."]
 margin_left = 7.0
-margin_top = 568.0
-margin_right = 227.0
-margin_bottom = 591.0
+margin_top = 563.0
+margin_right = 273.0
+margin_bottom = 597.0
 custom_colors/font_color = Color( 1, 0.137255, 0.137255, 1 )
 custom_colors/font_color_shadow = Color( 0.396078, 0, 0, 1 )
 custom_styles/fg = SubResource( 2 )
@@ -157,9 +156,9 @@ expand = true
 
 [node name="ChargeShotCooldownBar" type="ProgressBar" parent="."]
 margin_left = 7.0
-margin_top = 540.0
-margin_right = 227.0
-margin_bottom = 563.0
+margin_top = 525.0
+margin_right = 273.0
+margin_bottom = 559.0
 custom_colors/font_color = Color( 1, 0.137255, 0.137255, 1 )
 custom_colors/font_color_shadow = Color( 0.396078, 0, 0, 1 )
 custom_styles/fg = SubResource( 2 )
@@ -167,17 +166,15 @@ custom_styles/bg = SubResource( 3 )
 percent_visible = false
 
 [node name="WaveNotifier" type="Label" parent="."]
-margin_left = 9.0
-margin_top = 487.0
-margin_right = 170.0
-margin_bottom = 538.0
+margin_left = 10.0
+margin_top = 475.0
+margin_right = 171.0
+margin_bottom = 526.0
 size_flags_horizontal = 0
 size_flags_stretch_ratio = 0.0
 custom_colors/font_color = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_fonts/font = SubResource( 4 )
 text = "Warm Up!"
-<<<<<<< HEAD
-=======
 
 [node name="TitleScreenButton" type="Button" parent="."]
 margin_left = 855.0
@@ -194,5 +191,20 @@ custom_styles/normal = SubResource( 10 )
 text = "BACK"
 script = ExtResource( 7 )
 
+[node name="ChargeShotIcon" type="TextureRect" parent="."]
+margin_left = 235.0
+margin_top = 526.0
+margin_right = 266.0
+margin_bottom = 557.0
+texture = ExtResource( 9 )
+expand = true
+
+[node name="DashIcon" type="TextureRect" parent="."]
+margin_left = 235.0
+margin_top = 563.0
+margin_right = 268.0
+margin_bottom = 596.0
+texture = ExtResource( 8 )
+expand = true
+
 [connection signal="pressed" from="TitleScreenButton" to="TitleScreenButton" method="_on_TitleScreenButton_pressed"]
->>>>>>> main
