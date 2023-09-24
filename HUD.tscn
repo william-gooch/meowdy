@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/heart/heart1.png" type="Texture" id=4]
 [ext_resource path="res://assets/pause-button/pause2.png" type="Texture" id=5]
 [ext_resource path="res://assets/pause-button/pause1.png" type="Texture" id=6]
+[ext_resource path="res://leaderboard/TitleScreenButton.cs" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -41,6 +42,20 @@ corner_radius_bottom_left = 40
 [sub_resource type="DynamicFont" id=4]
 size = 32
 font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="StyleBoxEmpty" id=10]
 
 [node name="HUD" type="Node"]
 script = ExtResource( 1 )
@@ -158,3 +173,20 @@ size_flags_stretch_ratio = 0.0
 custom_colors/font_color = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_fonts/font = SubResource( 4 )
 text = "Warm Up!"
+
+[node name="TitleScreenButton" type="Button" parent="."]
+margin_left = 4.0
+margin_top = 7.0
+margin_right = 114.0
+margin_bottom = 58.0
+custom_colors/font_color_hover = Color( 0.211765, 0.0470588, 0.0470588, 1 )
+custom_fonts/font = SubResource( 5 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 8 )
+custom_styles/disabled = SubResource( 9 )
+custom_styles/normal = SubResource( 10 )
+text = "BACK"
+script = ExtResource( 7 )
+
+[connection signal="pressed" from="TitleScreenButton" to="TitleScreenButton" method="_on_TitleScreenButton_pressed"]
