@@ -31,10 +31,9 @@ public class Catnip : Area2D
 	}
 	private void _on_Timer_timeout()
 	{
-		if (player != null)
+		if (player == null)
 		{
-			player.MaxSpeed = speed;
+			QueueFree();
 		}
-		this.QueueFree();
 	}
 }
