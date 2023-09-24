@@ -22,7 +22,7 @@ public class Stage : Node
 	//Mob Timer
 	private float MOB_TIME = 2f;
 	private float MobTimer;
-	private float BigRatSpawnChance = 0.1f;
+	private float BigRatSpawnChance = 0.05f;
 	
 	//Mob Spawn points
 	private Random rnd;
@@ -36,7 +36,7 @@ public class Stage : Node
 	//Power up
 	private float PowerUpCooldown = 10f;
 	private float CurrentPowerUpCooldown;
-	private float PowerUpSpawnChance = 0.2f;
+	private float PowerUpSpawnChance = 0.1f;
 	
 	//Waves
 	private int NUM_WAVES = 10;
@@ -233,10 +233,11 @@ public class Stage : Node
 	private void _on_WaveTimer_timeout()
 	{
 		if (currentWave < NUM_WAVES) {
-			MOB_TIME = (float)(MOB_TIME * 0.8); //Decrease by 20% each round
-			BigRatSpawnChance = (float)(BigRatSpawnChance * 1.2); //Increse by 20% each round
+			MOB_TIME = (float)(MOB_TIME * 0.9);
+			BigRatSpawnChance = Mathf.Clamp((float)(BigRatSpawnChance * 1.5),0,1);
+			PowerUpSpawnChance = Mathf.Clamp((float)(PowerUpSpawnChance * 1.5),0,1);
 			currentWave++;
-			GD.Print("Wave " + currentWave);
+			HUD.UpdateWave("Wave "+currentWave);
 		}
 	}
 }
