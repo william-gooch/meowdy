@@ -3,10 +3,20 @@ using System;
 
 public class LeaderboardButton : Button
 {
-	private void _on_LeaderboardButton_pressed()
+    public override void _Ready()
+    {
+		LeaderboardManager leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
+		Disabled = !leaderboard.IsAuthenticated;
+		leaderboard.Connect(nameof(LeaderboardManager.AuthenticationSuccess), this, nameof(Enable));
+    }
+
+	private void Enable() {
+		Disabled = false;
+	}
+
+    private void _on_LeaderboardButton_pressed()
 	{
 		GD.Print("Go to leaderboard");
-		var leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
 		GetTree().ChangeScene("res://leaderboard/LeaderboardScreen.tscn");
 	}
 }

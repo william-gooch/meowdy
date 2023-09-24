@@ -18,6 +18,7 @@ public class LeaderboardManager : Node
 	public int CurrentScore { get; set; }
 	public List<LeaderboardItem> LeaderboardItems { get; set; }
 	
+	public bool IsAuthenticated { get => sessionToken != null; }
 	private string sessionToken = null;
 
 	private class LeaderboardResponse {
