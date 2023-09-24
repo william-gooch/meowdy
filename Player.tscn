@@ -37,7 +37,7 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 2 ) ],
 "loop": true,
-"name": "old-walk",
+"name": "new-walk",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 11 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ],

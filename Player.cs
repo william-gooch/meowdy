@@ -92,7 +92,7 @@ public class Player : Area2D
 		{
 			if (Velocity.Length() > 0)
 			{
-				Sprite.Play("walk");
+				Sprite.Play("new-walk");
 				Sprite.FlipH = Velocity.x > 0;
 			}
 			else
