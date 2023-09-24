@@ -25,6 +25,7 @@ public class Player : Area2D
 	[Export]
 	public float SpawnInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you spawn in (sec)
 
+	private HitAudio Audio;
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
 	private AnimatedSprite Sprite;
@@ -39,6 +40,7 @@ public class Player : Area2D
 		ScreenSize = GetViewportRect().Size;
 		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		HUD = GetNode<HUD>("/root/Stage/HUD");
+		Audio = GetNode<HitAudio>("HitAudio");
 
 		InvulnerabilityCooldown = SpawnInvulnerabilityTime;
 		Sprite.Modulate = new Color("#ffffff")
@@ -167,6 +169,7 @@ public class Player : Area2D
 				HUD.Call("DeductHealth");
 
 				Velocity = (GlobalPosition - (area as Node2D).GlobalPosition).Normalized() * HitKnockback;
+				Audio.Hit();
 			}
 			else
 			{
