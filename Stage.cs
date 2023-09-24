@@ -20,7 +20,7 @@ public class Stage : Node
 	//Mob Timer
 	private float MOB_TIME = 2f;
 	private float MobTimer;
-	private float BigRatSpawnChance = 0.3f;
+	private float BigRatSpawnChance = 0.1f;
 	
 	//Mob Spawn points
 	private Random rnd;
@@ -156,28 +156,28 @@ public class Stage : Node
 	}
 	private void Shoot(Bullet bullet) {
 		//GD.Print(bullet.velocity);
-		if (bullet.GetParent() == null && bullet.velocity != Vector2.Zero) {
+		if (bullet.GetParent() == null && bullet.direction != Vector2.Zero) {
 			AddChild(bullet);
 		}
 	}
 	private void ShootUp(Bullet bullet) {
 		bullet.Position = player.Position;
-		bullet.velocity.y -= 1;
+		bullet.direction.y -= 1;
 		Shoot(bullet);
 	}
 	private void ShootDown(Bullet bullet) {
 		bullet.Position = player.Position;
-		bullet.velocity.y += 1;
+		bullet.direction.y += 1;
 		Shoot(bullet);
 	}
 	private void ShootLeft(Bullet bullet) {
 		bullet.Position = player.Position;
-		bullet.velocity.x -= 1;
+		bullet.direction.x -= 1;
 		Shoot(bullet);
 	}
 	private void ShootRight(Bullet bullet) {
 		bullet.Position = player.Position;
-		bullet.velocity.x += 1;
+		bullet.direction.x += 1;
 		Shoot(bullet);
 	}
 }

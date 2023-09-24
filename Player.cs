@@ -16,6 +16,8 @@ public class Player : Area2D
 	public int DashSpeed { get; set; } = 1600; // The speed given to the player when they dash (pixels/sec).
 	[Export]
 	public float DashCooldown { get; set; } = 2f; // The time it takes to regain your dash (sec).
+	[Export]
+	public float InvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you are hit (sec)
 	
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
@@ -23,8 +25,7 @@ public class Player : Area2D
 	private Vector2 PressDirection = Vector2.Zero;
 	private float CurrentDashCooldown = 0f;
 	private HUD HUD;
-	private float FlashCooldown; //TODO: Changes colour of sprite when !0, for taking damage
-	private float HIT_FRAMES = 0.5f;
+	private float InvulnerabilityCooldown; //TODO: Changes colour of sprite when !0, for taking damage
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -81,10 +82,10 @@ public class Player : Area2D
 			y: Mathf.Clamp(Position.y, 0, ScreenSize.y)
 		);
 	
-		if (FlashCooldown <= 0) {
+		if (InvulnerabilityCooldown <= 0) {
 			Sprite.Modulate = new Color("#ffffff");
 		}
-		FlashCooldown = Mathf.Max(0, FlashCooldown - delta);
+		InvulnerabilityCooldown = Mathf.Max(0, InvulnerabilityCooldown - delta);
 		CurrentDashCooldown = Mathf.Max(0, CurrentDashCooldown - delta); // Decrease cooldown, make sure it doesn't go below 0.
 	}
 
@@ -131,12 +132,18 @@ public class Player : Area2D
 	}
 	private void _on_Player_area_entered(object area)
 	{
+		if (InvulnerabilityCooldown > 0) {
+			return;
+		}
+
 		if (!(area is Bullet)) {
-			
 			if (HUD.Health > 1) {
-				FlashCooldown = HIT_FRAMES;
-				Sprite.Modulate = new Color("#960000");
-				HUD.Call("DeductHealth");
+				InvulnerabilityCooldown = InvulnerabilityTime;
+                Sprite.Modulate = new Color("#960000")
+                {
+                    a = 0.5f
+                };
+                HUD.Call("DeductHealth");
 			}
 			else {
 				GameOver();

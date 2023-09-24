@@ -3,15 +3,17 @@ using System;
 
 public class Bullet : Area2D
 {
-	private int speed = 500;
-	public Vector2 velocity;
+	[Export]
+	public int Speed { get; set; } = 800;
+
+	public Vector2 direction;
+
 	private bool isDestroyed = false;
 	private float deathTime = 0.5f;
+
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		//Hide();
-	}
+	public override void _Ready() { }
+
 	public override void _Process(float delta)
 	{
 		if (isDestroyed) {
@@ -20,8 +22,8 @@ public class Bullet : Area2D
 			}
 			deathTime = Mathf.Max(0, deathTime - delta);
 		} else {
-			velocity = velocity.Normalized() * speed;
-			Position += velocity * (float)delta;
+			direction = direction.Normalized() * Speed;
+			Position += direction * (float)delta;
 			Position = new Vector2(Position.x, Position.y);
 		}
 	}
