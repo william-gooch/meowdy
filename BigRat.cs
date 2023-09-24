@@ -32,7 +32,7 @@ public class BigRat : Rat
 	{
 		base._Ready();
 		_warningArrow = GetNode<Arrow>("WarningArrow");
-    }
+	}
 
 	public override Vector2 Move(float delta) {
 		Vector2 movement = Vector2.Zero;

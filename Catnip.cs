@@ -4,6 +4,8 @@ using System;
 public class Catnip : Area2D
 {
 	private HUD HUD;
+	private int speed;
+	private Player player;
 	public override void _Ready()
 	{
 		HUD = GetNode<HUD>("/root/Stage/HUD");
@@ -13,15 +15,23 @@ public class Catnip : Area2D
 	private async void _on_Catnip_area_entered(object area)
 	{
 		if (area is Player) {
-			int CurrentSpeed = ((Player)area).MaxSpeed;
+			player = (Player)area;
+			speed = player.MaxSpeed;
 			this.RemoveChild(GetNode<AnimatedSprite>("AnimatedSprite"));
 			this.RemoveChild(GetNode<CollisionShape2D>("CollisionShape2D"));
-			((Player)area).MaxSpeed = (int)(CurrentSpeed * 1.5);
+			player.MaxSpeed = (int)(speed * 1.5);
 			GD.Print("Speeding up");
 			await ToSignal(GetTree().CreateTimer(9.5f), "timeout"); //TODO: Potential optimisation
 			GD.Print("Catnip wears off");
-			((Player)area).MaxSpeed = CurrentSpeed;
+			player.MaxSpeed = speed;
 			this.QueueFree();
 		}
+	}
+	private void _on_Timer_timeout()
+	{
+		if (player != null) {
+			player.MaxSpeed = speed;
+		} 
+		this.QueueFree();
 	}
 }
