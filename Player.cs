@@ -33,6 +33,7 @@ public class Player : Area2D
 	private float CurrentDashCooldown = 0f;
 	private HUD HUD;
 	private float InvulnerabilityCooldown; //TODO: Changes colour of sprite when !0, for taking damage
+	private bool Dash = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -59,10 +60,12 @@ public class Player : Area2D
 			Velocity = movement * DashSpeed;
 			CurrentDashCooldown = DashCooldown;
 			InvulnerabilityCooldown = DashInvulnerabilityTime;
-			Sprite.Modulate = new Color("#ffffff")
-			{
-				a = 0.5f
-			};
+			//Sprite.Modulate = new Color("#ffffff")
+			//{
+				//a = 0.5f
+			//};
+			//Sprite.Play("dash");
+			Dash = true;
 		}
 		// Update DashCooldownBar
 		HUD.DashCooldownPercentage = 100 - (int)((CurrentDashCooldown / DashCooldown) * 100);
@@ -84,15 +87,17 @@ public class Player : Area2D
 			}
 		}
 
-		if (Velocity.Length() > 0)
-		{
-			Sprite.Play("walk");
-			Sprite.SpeedScale = Mathf.Exp(Velocity.Length() / MaxSpeed) / Mathf.E;
-			Sprite.FlipH = Velocity.x > 0;
-		}
-		else
-		{
-			Sprite.Play("idle");
+		if (!Dash) {
+			if (Velocity.Length() > 0)
+			{
+				Sprite.Play("walk");
+				Sprite.SpeedScale = Mathf.Exp(Velocity.Length() / MaxSpeed) / Mathf.E;
+				Sprite.FlipH = Velocity.x > 0;
+			}
+			else
+			{
+				Sprite.Play("idle");
+			}
 		}
 
 		Position += Velocity * (float)delta;
@@ -175,6 +180,12 @@ public class Player : Area2D
 			{
 				GameOver();
 			}
+		}
+	}
+	private void _on_AnimatedSprite_animation_finished()
+	{
+		if (Sprite.Animation == "dash") {
+			Dash = false;
 		}
 	}
 
