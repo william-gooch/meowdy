@@ -22,8 +22,8 @@ public class Stage : Node
 	//Mob Timer
 	private float MOB_TIME = 2f;
 	private float MobTimer;
-	private float BigRatSpawnChance = 0.9f;
-
+	private float BigRatSpawnChance = 0.1f;
+	
 	//Mob Spawn points
 	private Random rnd;
 	private Position2D LeftSpawnPosition;

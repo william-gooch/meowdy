@@ -11,12 +11,20 @@ public class Rat : Enemy
 	private Random _rnd;
 	private float _movementTimer = 0;
 	private Vector2 _velocity = Vector2.Zero;
+
+	protected AudioStreamPlayer2D Audio { get; private set; }
 	
 	public Rat() : base() {
 		_rnd = new Random();
 	}
 
-	public override Vector2 Move(float delta) {
+    public override void _Ready()
+    {
+        base._Ready();
+		Audio = GetNode<AudioStreamPlayer2D>("Audio");
+    }
+
+    public override Vector2 Move(float delta) {
 		if (_movementTimer <= 0) {
 			// Gaussian random movement. Directions further towards the player are more likely to occur, based on the swarming factor.
 			float u1 = (float) _rnd.NextDouble();
@@ -33,5 +41,10 @@ public class Rat : Enemy
 		Position = new Vector2(Position.x, Position.y);
 
 		return _velocity;
+	}
+
+	protected override void OnHit(Vector2 direction) {
+		base.OnHit(direction);
+		Audio.Play();
 	}
 }

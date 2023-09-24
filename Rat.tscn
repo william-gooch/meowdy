@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/rat/rat_walk2.png" type="Texture" id=1]
 [ext_resource path="res://assets/rat/rat_walk1.png" type="Texture" id=2]
 [ext_resource path="res://Rat.cs" type="Script" id=3]
 [ext_resource path="res://assets/rat/rat_walk4.png" type="Texture" id=4]
 [ext_resource path="res://assets/rat/rat_walk3.png" type="Texture" id=5]
+[ext_resource path="res://assets/hit sounds/rat_hit1.wav" type="AudioStream" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -34,3 +35,6 @@ animation = "idle"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( 0, 6, -9, 9, -20, 4, -30, 2, -19, -2, -9, 3, -9, -15, -24, -27, 0, -27, 18, -3, 21, 30, 9, 30 )
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
