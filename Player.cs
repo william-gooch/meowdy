@@ -64,7 +64,7 @@ public class Player : Area2D
 			//{
 				//a = 0.5f
 			//};
-			//Sprite.Play("dash");
+			Sprite.Play("dash");
 			Dash = true;
 		}
 		// Update DashCooldownBar
@@ -87,11 +87,11 @@ public class Player : Area2D
 			}
 		}
 
+		// Sprite.SpeedScale = Mathf.Exp(Velocity.Length() / MaxSpeed) / Mathf.E;
 		if (!Dash) {
 			if (Velocity.Length() > 0)
 			{
 				Sprite.Play("walk");
-				Sprite.SpeedScale = Mathf.Exp(Velocity.Length() / MaxSpeed) / Mathf.E;
 				Sprite.FlipH = Velocity.x > 0;
 			}
 			else

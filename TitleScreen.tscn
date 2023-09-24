@@ -209,14 +209,14 @@ text = "Power-Up!
 position = Vector2( 944, 539 )
 scale = Vector2( 2.5, 2.5 )
 frames = SubResource( 16 )
-frame = 2
+frame = 5
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 position = Vector2( 998, 537 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 17 )
-frame = 6
+frame = 1
 playing = true
 
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_PlayButton_pressed"]
