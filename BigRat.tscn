@@ -42,6 +42,6 @@ default_color = Color( 0.439216, 0.298039, 0.0156863, 1 )
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
-script = ExtResource( 6 )
+script = ExtResource( 1 )
 
 [connection signal="area_entered" from="." to="." method="OnEnemyCollide"]
