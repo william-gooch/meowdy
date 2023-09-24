@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://PlayButton.cs" type="Script" id=1]
 [ext_resource path="res://assets/meowdy menu.png" type="Texture" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://assets/powerups/milk/milk4.png" type="Texture" id=19]
 [ext_resource path="res://assets/powerups/catnip/catnip8.png" type="Texture" id=20]
 [ext_resource path="res://assets/powerups/milk/milk6.png" type="Texture" id=21]
+[ext_resource path="res://assets/soundtrack/main menu.mp3" type="AudioStream" id=22]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -209,15 +210,19 @@ text = "Power-Up!
 position = Vector2( 944, 539 )
 scale = Vector2( 2.5, 2.5 )
 frames = SubResource( 16 )
-frame = 5
+frame = 1
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 position = Vector2( 998, 537 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 17 )
-frame = 1
+frame = 5
 playing = true
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 22 )
+autoplay = true
 
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="LeaderboardButton" to="LeaderboardButton" method="_on_LeaderboardButton_pressed"]
