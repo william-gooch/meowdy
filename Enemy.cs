@@ -66,7 +66,7 @@ public class Enemy : Area2D
 		_flashCooldown = Mathf.Max(0, _flashCooldown - delta);
 	}
 
-	protected virtual async void OnDeath()
+	protected virtual void OnDeath()
 	{
 		GetNode("CollisionPolygon2D").QueueFree();
 		IsDead = true;
