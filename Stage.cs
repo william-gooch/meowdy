@@ -22,7 +22,7 @@ public class Stage : Node
 	//Mob Timer
 	private float MOB_TIME = 2f;
 	private float MobTimer;
-	private float BigRatSpawnChance = 0.9f;
+	private float BigRatSpawnChance = 0.1f;
 	
 	//Mob Spawn points
 	private Random rnd;
@@ -36,7 +36,11 @@ public class Stage : Node
 	//Power up
 	private float PowerUpCooldown = 10f;
 	private float CurrentPowerUpCooldown;
-	private float PowerUpSpawnChance = 0.5f;
+	private float PowerUpSpawnChance = 0.2f;
+	
+	//Waves
+	private int NUM_WAVES = 10;
+	private int currentWave;
 
 	public override void _Ready()
 	{
@@ -225,5 +229,14 @@ public class Stage : Node
 		bullet.Position = player.Position;
 		bullet.direction.x += 1;
 		Shoot(bullet);
+	}
+	private void _on_WaveTimer_timeout()
+	{
+		if (currentWave < NUM_WAVES) {
+			MOB_TIME = (float)(MOB_TIME * 0.8); //Decrease by 20% each round
+			BigRatSpawnChance = (float)(BigRatSpawnChance * 1.2); //Increse by 20% each round
+			currentWave++;
+			GD.Print("Wave " + currentWave);
+		}
 	}
 }
