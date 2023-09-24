@@ -23,7 +23,6 @@ public class Stage : Node
 	private float MOB_TIME = 2f;
 	private float MobTimer;
 	private float BigRatSpawnChance = 0.05f;
-
 	//Mob Spawn points
 	private Random rnd;
 	private Position2D LeftSpawnPosition;
@@ -37,7 +36,6 @@ public class Stage : Node
 	private float PowerUpCooldown = 10f;
 	private float CurrentPowerUpCooldown;
 	private float PowerUpSpawnChance = 0.1f;
-
 	//Waves
 	private int NUM_WAVES = 10;
 	private int currentWave;

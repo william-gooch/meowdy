@@ -1,9 +1,26 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://PlayButton.cs" type="Script" id=1]
 [ext_resource path="res://assets/meowdy menu.png" type="Texture" id=2]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://LeaderboardButton.cs" type="Script" id=4]
+[ext_resource path="res://assets/controls.png" type="Texture" id=5]
+[ext_resource path="res://assets/powerups/milk/milk1.png" type="Texture" id=6]
+[ext_resource path="res://assets/powerups/catnip/catnip4.png" type="Texture" id=7]
+[ext_resource path="res://assets/powerups/milk/milk7.png" type="Texture" id=8]
+[ext_resource path="res://assets/powerups/catnip/catnip3.png" type="Texture" id=9]
+[ext_resource path="res://assets/powerups/catnip/catnip2.png" type="Texture" id=10]
+[ext_resource path="res://assets/powerups/milk/milk8.png" type="Texture" id=11]
+[ext_resource path="res://assets/powerups/catnip/catnip5.png" type="Texture" id=12]
+[ext_resource path="res://assets/powerups/catnip/catnip6.png" type="Texture" id=13]
+[ext_resource path="res://assets/powerups/catnip/catnip7.png" type="Texture" id=14]
+[ext_resource path="res://assets/powerups/milk/milk5.png" type="Texture" id=15]
+[ext_resource path="res://assets/powerups/milk/milk2.png" type="Texture" id=16]
+[ext_resource path="res://assets/powerups/milk/milk3.png" type="Texture" id=17]
+[ext_resource path="res://assets/powerups/catnip/catnip1.png" type="Texture" id=18]
+[ext_resource path="res://assets/powerups/milk/milk4.png" type="Texture" id=19]
+[ext_resource path="res://assets/powerups/catnip/catnip8.png" type="Texture" id=20]
+[ext_resource path="res://assets/powerups/milk/milk6.png" type="Texture" id=21]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -40,6 +57,26 @@ font_data = ExtResource( 3 )
 [sub_resource type="DynamicFont" id=14]
 size = 25
 font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=15]
+size = 20
+font_data = ExtResource( 3 )
+
+[sub_resource type="SpriteFrames" id=16]
+animations = [ {
+"frames": [ ExtResource( 18 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 20 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=17]
+animations = [ {
+"frames": [ ExtResource( 16 ), ExtResource( 17 ), ExtResource( 19 ), ExtResource( 6 ), ExtResource( 15 ), ExtResource( 21 ), ExtResource( 8 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="TitleScreen" type="Node"]
 
@@ -114,9 +151,73 @@ margin_left = 11.0
 margin_top = 370.0
 margin_right = 288.0
 margin_bottom = 410.0
-custom_colors/font_color = Color( 0.505882, 0.505882, 0.505882, 1 )
+custom_colors/font_color = Color( 0.988235, 0.670588, 0, 1 )
 custom_fonts/font = SubResource( 14 )
-text = "ScoreSpace GameJam"
+text = "ScoreSpace GameJam
+SHOOT-EM-UP"
+
+[node name="ControlsImage" type="TextureRect" parent="."]
+margin_left = 920.0
+margin_top = 168.0
+margin_right = 1161.0
+margin_bottom = 409.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Move" type="Label" parent="."]
+margin_left = 861.0
+margin_top = 205.0
+margin_right = 960.0
+margin_bottom = 256.0
+custom_fonts/font = SubResource( 15 )
+text = "Move"
+
+[node name="Shoot" type="Label" parent="."]
+margin_left = 855.0
+margin_top = 279.0
+margin_right = 954.0
+margin_bottom = 330.0
+custom_fonts/font = SubResource( 15 )
+text = "Shoot"
+
+[node name="Special" type="Label" parent="."]
+margin_left = 856.0
+margin_top = 330.0
+margin_right = 966.0
+margin_bottom = 381.0
+custom_fonts/font = SubResource( 15 )
+text = "Special"
+
+[node name="Dash" type="Label" parent="."]
+margin_left = 858.0
+margin_top = 377.0
+margin_right = 968.0
+margin_bottom = 428.0
+custom_fonts/font = SubResource( 15 )
+text = "Dash"
+
+[node name="Powerups" type="Label" parent="."]
+margin_left = 910.0
+margin_top = 565.0
+margin_right = 1021.0
+margin_bottom = 634.0
+custom_fonts/font = SubResource( 15 )
+text = "Power-Up!
+"
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 944, 539 )
+scale = Vector2( 2.5, 2.5 )
+frames = SubResource( 16 )
+frame = 2
+playing = true
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
+position = Vector2( 998, 537 )
+scale = Vector2( 3, 3 )
+frames = SubResource( 17 )
+frame = 6
+playing = true
 
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="LeaderboardButton" to="LeaderboardButton" method="_on_LeaderboardButton_pressed"]
