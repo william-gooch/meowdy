@@ -71,11 +71,14 @@ public class Enemy : Area2D
 		GetNode("CollisionPolygon2D").QueueFree();
 		IsDead = true;
 		Sprite.Stop();
-		await ToSignal(GetTree().CreateTimer(DeathDelay), "timeout");
+		HUD.Call("AddScore", ScoreValue);
+		GetTree().CreateTimer(DeathDelay).Connect("timeout", this, nameof(OnDeathTimeout));
+	}
 
+	protected virtual void OnDeathTimeout()
+	{
 		Hide();
 		QueueFree();
-		HUD.Call("AddScore", ScoreValue);
 	}
 
 	protected virtual void OnHit(Vector2 direction)
