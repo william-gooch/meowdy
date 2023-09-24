@@ -16,4 +16,8 @@ public class Milk : Area2D
 			this.QueueFree();
 		}
 	}
+	private void _on_Timer_timeout()
+	{
+		this.QueueFree();
+	}
 }
