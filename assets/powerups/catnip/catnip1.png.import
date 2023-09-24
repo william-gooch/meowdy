@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/milk.png-fc5bb9b4f1b1d91a4b6a43045554a1a3.stex"
+path="res://.import/catnip1.png-e4323435a5ea577d596d95084ce62fa7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/powerups/milk.png"
-dest_files=[ "res://.import/milk.png-fc5bb9b4f1b1d91a4b6a43045554a1a3.stex" ]
+source_file="res://assets/powerups/catnip/catnip1.png"
+dest_files=[ "res://.import/catnip1.png-e4323435a5ea577d596d95084ce62fa7.stex" ]
 
 [params]
 

@@ -6,6 +6,8 @@ public class Stage : Node
 	private PackedScene BulletScene;
 	private PackedScene RatScene;
 	private PackedScene BigRatScene;
+	private PackedScene MilkScene = GD.Load<PackedScene>("res://Milk.tscn");
+	private PackedScene CatnipScene= GD.Load<PackedScene>("res://Catnip.tscn");
 	private TileMap Background;
 	private Vector2 ScreenSize;
 	private Player player;
@@ -30,6 +32,11 @@ public class Stage : Node
 	private Position2D BottomSpawnPosition;
 	
 	private int NUM_OBSTACLES = 6;
+	
+	//Power up
+	private float PowerUpCooldown = 10f;
+	private float CurrentPowerUpCooldown;
+	private float PowerUpSpawnChance = 0.5f;
 
 	public override void _Ready()
 	{
@@ -46,6 +53,7 @@ public class Stage : Node
 		BottomSpawnPosition = GetNode<Position2D>("BottomSpawnPosition");
 		Background = GetNode<TileMap>("Background");
 		ScreenSize = GetViewport().Size;
+		TODO: CurrentPowerUpCooldown = PowerUpCooldown;
 		GD.Randomize();
 		rnd = new Random();
 		player = GetNode<Player>("Player");
@@ -77,6 +85,8 @@ public class Stage : Node
 				CurrentBulletCooldown = BulletCooldown;
 			}
 		}
+		
+		//MobSpawner
 		if (MobTimer <= 0) {
 			SpawnMob();
 		}
@@ -90,14 +100,50 @@ public class Stage : Node
 			CurrentChargeShotCooldown = CHARGE_SHOT_COOLDOWN;
 		}
 		
+		//Power Up Spawner
+		if (CurrentPowerUpCooldown <= 0) {
+			SpawnPowerUp();
+			CurrentPowerUpCooldown = PowerUpCooldown;
+		}
+		
+		
 		// Deduct time from timers and cooldowns
 		CurrentChargeShotCooldown = Mathf.Max(0, CurrentChargeShotCooldown - delta);
 		CurrentBulletCooldown = Mathf.Max(0, CurrentBulletCooldown - delta);
+		CurrentPowerUpCooldown = Mathf.Max(0, CurrentPowerUpCooldown - delta);
 		MobTimer = Mathf.Max(0, MobTimer - delta);
 		
 		// HUD update
 		HUD.ChargeShotCooldownPercentage = 100 - (int)((CurrentChargeShotCooldown/CHARGE_SHOT_COOLDOWN)*100);
 	}
+	
+	// Spawns Power Up, checks spawnchance.
+	private void SpawnPowerUp() {
+		int SpawnChance = rnd.Next(1,101);
+		if (SpawnChance <= PowerUpSpawnChance * 100) {
+			Vector2 Position = new Vector2(
+				rnd.Next(0,(int)ScreenSize.x),
+				rnd.Next(0,(int)ScreenSize.y)
+			);
+			int PowerUpType = rnd.Next(1,3);
+			GD.Print(PowerUpType);
+			switch (PowerUpType) {
+				case 1:
+					Milk milk = (Milk)MilkScene.Instance();
+					milk.Position = Position;
+					this.AddChildBelowNode(Background,milk);
+					break;
+				case 2:
+					Catnip catnip = (Catnip)CatnipScene.Instance();
+					catnip.Position = Position;
+					this.AddChildBelowNode(Background,catnip);
+					break;
+			}
+		} else {
+			GD.Print("Unlucky! No Power-Up yet");
+		}
+	}
+	
 	private void SpawnMob() {
 		//Spawning Mobs in 4 locations
 		int location = rnd.Next(1,5);

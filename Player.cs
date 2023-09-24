@@ -143,7 +143,7 @@ public class Player : Area2D
 			return;
 		}
 
-		if (!(area is Bullet)) {
+		if (area is Enemy | area is Obstacle | area is BigObstacle) {
 			if (HUD.Health > 1) {
 				InvulnerabilityCooldown = HitInvulnerabilityTime;
 				Sprite.Modulate = new Color("#960000")

@@ -10,7 +10,8 @@ public class HUD : Node
 	public int Score = 0;
 	public int DashCooldownPercentage = 100;
 	public int ChargeShotCooldownPercentage = 100;
-	public int Health = 9;
+	public int MAX_HEALTH = 9;
+	public int Health;
 	private Label ScoreLabel;
 	private ProgressBar DashCooldownBar;
 	private ProgressBar ChargeShotCooldownBar;
@@ -19,6 +20,7 @@ public class HUD : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Health = MAX_HEALTH;
 		ScoreLabel = GetNode<Label>("Score");
 		DashCooldownBar = GetNode<ProgressBar>("DashCooldownBar");
 		ChargeShotCooldownBar = GetNode<ProgressBar>("ChargeShotCooldownBar");
@@ -38,5 +40,12 @@ public class HUD : Node
 	public void DeductHealth() {
 		Health--;
 		HealthBar.Call("UpdateHealth", Health);
+	}
+	
+	public void AddHealth() {
+		if (Health < 9) {
+			Health++;
+			HealthBar.Call("UpdateHealth", Health);
+		}
 	}
 }
