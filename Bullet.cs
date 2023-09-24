@@ -35,17 +35,15 @@ public class Bullet : Area2D
 			}
 
 			CPUParticles2D DeathParticles = GetNode<CPUParticles2D>("DeathParticles");
-			DeathParticles.Show();
-			Destroyed = true;
-			await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
-			try {
-				this.RemoveChild(GetNode<Sprite>("BulletSprite"));
-				this.RemoveChild(GetNode<CollisionShape2D>("CollisionShape2D"));
-			} catch(Exception e) {//TODO: BUG on hit enemy
-				GD.Print(e);
-				GD.Print("Couldn't clear bullet sprite before displaying particles.");
+			await ToSignal(GetTree().CreateTimer(0.01f), "timeout");
+			if(HasNode("BulletSprite")) {
+				RemoveChild(GetNode<Sprite>("BulletSprite"));
+			}
+			if(HasNode("CollisionShape2D")) {
+				RemoveChild(GetNode<CollisionShape2D>("CollisionShape2D"));
 			}
 			DeathParticles.Show();
+			Destroyed = true;
 		}
 	}
 }
