@@ -26,15 +26,15 @@ public class BigRat : Rat
 		_dashTimer = DashCooldown;
 	}
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 		_warningArrow = GetNode<Arrow>("WarningArrow");
 
 		Connect(nameof(HitEventHandler), this, nameof(OnHit));
     }
 
-    public override Vector2 Move(float delta) {
+	public override Vector2 Move(float delta) {
 		if (_dashTimer <= 0 && _warningTimer <= 0) {
 			_velocity = _plannedDirection * DashSpeed;
 			_dashTimer = DashCooldown;
