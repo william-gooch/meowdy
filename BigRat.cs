@@ -32,7 +32,7 @@ public class BigRat : Rat
 		_warningArrow = GetNode<Arrow>("WarningArrow");
 
 		Connect(nameof(HitEventHandler), this, nameof(OnHit));
-    }
+	}
 
 	public override Vector2 Move(float delta) {
 		if (_dashTimer <= 0 && _warningTimer <= 0) {

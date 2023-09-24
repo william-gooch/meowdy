@@ -27,18 +27,19 @@ public class Bullet : Area2D
 			Position = new Vector2(Position.x, Position.y);
 		}
 	}
-	private void _on_Bullet_area_entered(object area)
+	private async void _on_Bullet_area_entered(object area)
 	{
 		if (!(area is Player | area is Bullet)) {
 			CPUParticles2D DeathParticles = GetNode<CPUParticles2D>("DeathParticles");
+			DeathParticles.Show();
 			try {
-				GetNode<Sprite>("BulletSprite").QueueFree();
+				isDestroyed = true;
+				await ToSignal(GetTree().CreateTimer(0.05f), "timeout");
+				this.RemoveChild(GetNode<Sprite>("BulletSprite"));
+				this.RemoveChild(GetNode<CollisionShape2D>("CollisionShape2D"));
 			} catch(Exception e) {//TODO: BUG on hit enemy
 				GD.Print("Couldn't clear bullet sprite before displaying particles.");
 			}
-			//GetNode<CollisionShape2D("CollisionShape2D").QueueFree();
-			DeathParticles.Show();
-			isDestroyed = true;
 		}
 	}
 }

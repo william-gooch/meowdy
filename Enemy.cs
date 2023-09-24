@@ -33,9 +33,9 @@ public class Enemy : Area2D
 	}
 
 	public virtual Vector2 Move(float delta)
-    {
-        return Vector2.Zero;
-    }
+	{
+		return Vector2.Zero;
+	}
 
 	public override void _Process(float delta) {
 		Vector2 movement = Move(delta);

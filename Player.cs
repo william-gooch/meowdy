@@ -146,11 +146,11 @@ public class Player : Area2D
 		if (!(area is Bullet)) {
 			if (HUD.Health > 1) {
 				InvulnerabilityCooldown = HitInvulnerabilityTime;
-                Sprite.Modulate = new Color("#960000")
-                {
-                    a = 0.5f
-                };
-                HUD.Call("DeductHealth");
+				Sprite.Modulate = new Color("#960000")
+				{
+					a = 0.5f
+				};
+				HUD.Call("DeductHealth");
 			}
 			else {
 				GameOver();
