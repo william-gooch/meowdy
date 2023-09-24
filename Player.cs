@@ -193,8 +193,9 @@ public class Player : Area2D
 
 	private void GameOver()
 	{
+		int Score = HUD.Score;
 		var leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
-		leaderboard.CurrentScore = HUD.Score;
+		leaderboard.CurrentScore = Score;
 
 		GetTree().ChangeScene("res://leaderboard/LeaderboardScreen.tscn");
 	}

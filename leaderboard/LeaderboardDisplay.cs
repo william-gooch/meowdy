@@ -14,8 +14,8 @@ public class LeaderboardDisplay : Control
 	[Export]
 	public NodePath Container { get; set; }
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		LeaderboardManager leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
 		leaderboard.Connect(nameof(LeaderboardManager.AuthenticationSuccess), this, nameof(OnAuthenticationSuccess));
 		leaderboard.Connect(nameof(LeaderboardManager.LeaderboardChanged), this, nameof(CreateLeaderboard));
@@ -23,13 +23,13 @@ public class LeaderboardDisplay : Control
 		if (leaderboard.LeaderboardItems != null) {
 			CreateLeaderboard();
 		}
-    }
+	}
 
 	private void OnAuthenticationSuccess () {
 		Task.Run(() => SetupLeaderboard());
 	}
 
-    private async Task SetupLeaderboard() {
+	private async Task SetupLeaderboard() {
 		LeaderboardManager leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
 		Error error;
 		string message;
