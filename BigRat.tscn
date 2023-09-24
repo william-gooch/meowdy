@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://BigRat.cs" type="Script" id=1]
 [ext_resource path="res://assets/big-rat/rat2_walk2.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/big-rat/rat2_bloody_walk2.png" type="Texture" id=9]
 [ext_resource path="res://Arrow.cs" type="Script" id=10]
 [ext_resource path="res://RatHitAudio.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/shadow.png" type="Texture" id=12]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -38,6 +39,11 @@ DashCooldown = 3.0
 DashWarning = 1.0
 DashSpeed = 2600.0
 DashDamping = 7.0
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 21, 55 )
+scale = Vector2( 5.25, 2.25 )
+texture = ExtResource( 12 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 3, 3 )
