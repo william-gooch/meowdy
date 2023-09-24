@@ -22,7 +22,7 @@ public class Stage : Node
 	//Mob Timer
 	private float MOB_TIME = 2f;
 	private float MobTimer;
-	private float BigRatSpawnChance = 0.1f;
+	private float BigRatSpawnChance = 0.9f;
 	
 	//Mob Spawn points
 	private Random rnd;

@@ -15,7 +15,7 @@ public class Enemy : Area2D
 	private Node2D _player;
 
 	[Signal]
-	public delegate void HitEventHandler();
+	public delegate void HitEventHandler(Vector2 direction);
 	[Signal]
 	public delegate void DiedEventHandler();
 	
@@ -29,6 +29,7 @@ public class Enemy : Area2D
 
 		_player = GetNodeOrNull<Node2D>("/root/Stage/Player");
 
+		Connect(nameof(HitEventHandler), this, nameof(OnHit));
 		Connect(nameof(DiedEventHandler), this, nameof(OnDeath));
 	}
 
@@ -39,7 +40,9 @@ public class Enemy : Area2D
 
 	public override void _Process(float delta) {
 		Vector2 movement = Move(delta);
-		Sprite.FlipH = movement.x > 0;
+		if (movement.x != 0) {
+			Sprite.FlipH = movement.x > 0;
+		}
 	}
 
 	protected virtual void OnDeath()
@@ -49,17 +52,14 @@ public class Enemy : Area2D
 		HUD.Call("AddScore", ScoreValue);
 	}
 
-	private void OnEnemyCollide(object area)
+	protected virtual void OnHit(Vector2 direction)
 	{
-		if (area is Bullet) {
-			if (CurrentHealth > 1) {
-				GD.Print("HIT!");
-				CurrentHealth--;
-				EmitSignal(nameof(HitEventHandler));
-			} else {
-				GD.Print("KILL!!!!");
-				EmitSignal(nameof(DiedEventHandler));
-			}
+		if (CurrentHealth > 1) {
+			GD.Print("HIT!");
+			CurrentHealth--;
+		} else {
+			GD.Print("KILL!!!!");
+			EmitSignal(nameof(DiedEventHandler));
 		}
 	}
 

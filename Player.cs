@@ -20,6 +20,8 @@ public class Player : Area2D
 	public float DashInvulnerabilityTime { get; set; } = 0.5f; // Amount of time you are invulnerable when you dash (sec)
 	[Export]
 	public float HitInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you are hit (sec)
+	[Export]
+	public float SpawnInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you spawn in (sec)
 	
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
@@ -35,6 +37,12 @@ public class Player : Area2D
 		ScreenSize = GetViewportRect().Size;
 		Sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		HUD = GetNode<HUD>("/root/Stage/HUD");
+
+		InvulnerabilityCooldown = SpawnInvulnerabilityTime;
+		Sprite.Modulate = new Color("#ffffff")
+		{
+			a = 0.5f
+		};
 	}
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.

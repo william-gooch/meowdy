@@ -13,6 +13,8 @@ public class BigRat : Rat
 	public float DashSpeed { get; set; }
 	[Export]
 	public float DashDamping { get; set; }
+	[Export]
+	public float HitKnockback { get; set; }
 
 	private Vector2 _velocity = Vector2.Zero;
 
@@ -30,18 +32,18 @@ public class BigRat : Rat
 	{
 		base._Ready();
 		_warningArrow = GetNode<Arrow>("WarningArrow");
-
-		Connect(nameof(HitEventHandler), this, nameof(OnHit));
-	}
+    }
 
 	public override Vector2 Move(float delta) {
+		Vector2 movement = Vector2.Zero;
+
 		if (_dashTimer <= 0 && _warningTimer <= 0) {
 			_velocity = _plannedDirection * DashSpeed;
 			_dashTimer = DashCooldown;
 			Sprite.SpeedScale = 1f;
 			_warningArrow.Hide();
 		} else if (_warningTimer <= 0) {
-			base.Move(delta);
+			movement += base.Move(delta);
 		}
 
 		_velocity *= 1 - (DashDamping * delta);
@@ -68,13 +70,17 @@ public class BigRat : Rat
 		}
 		_flashCooldown = Mathf.Max(0, _flashCooldown - delta);
 
-		return _velocity;
+		return movement + _velocity;
 	}
 
-	private void OnHit()
+	protected override void OnHit(Vector2 direction)
 	{
+		base.OnHit(direction);
+
 		Sprite.Play("bloody_walk");
 		Sprite.Modulate = new Color("#960000");
 		_flashCooldown = FlashTime;
+
+		_velocity = direction * 800;
 	}
 }
