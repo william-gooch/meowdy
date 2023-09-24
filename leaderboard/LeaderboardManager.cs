@@ -40,12 +40,12 @@ public class LeaderboardManager : Node
 		LeaderboardData = ResourceLoader.Load<LeaderboardData>("res://leaderboard/LeaderboardData.tres");
 	}
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		Task.Run(() => Authenticate());
-    }
+	}
 
-    private async Task<LeaderboardResponse> MakeRequest(
+	private async Task<LeaderboardResponse> MakeRequest(
 		string url,
 		HTTPClient.Method method,
 		Dictionary body = null,

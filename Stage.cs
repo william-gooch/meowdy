@@ -21,8 +21,10 @@ public class Stage : Node
 	private float CurrentChargeShotCooldown = 0f;
 
 	//Mob Timer
+	private float BASE_MOB_TIME = 2f;
 	private float MOB_TIME = 2f;
 	private float MobTimer;
+	private float BaseBigRatSpawnChance = 0.05f;
 	private float BigRatSpawnChance = 0.05f;
 	//Mob Spawn points
 	private Random rnd;
@@ -36,7 +38,8 @@ public class Stage : Node
 	//Power up
 	private float PowerUpCooldown = 10f;
 	private float CurrentPowerUpCooldown;
-	private float PowerUpSpawnChance = 0.1f;
+	private float BasePowerUpSpawnChance = 0.2f;
+	private float PowerUpSpawnChance = 0.2f;
 	//Waves
 	private int NUM_WAVES = 10;
 	private int currentWave;
@@ -244,9 +247,9 @@ public class Stage : Node
 	{
 		if (currentWave < NUM_WAVES)
 		{
-			MOB_TIME = (float)(MOB_TIME * 0.9);
-			BigRatSpawnChance = Mathf.Clamp((float)(BigRatSpawnChance * 1.5), 0, 1);
-			PowerUpSpawnChance = Mathf.Clamp((float)(PowerUpSpawnChance * 1.5), 0, 1);
+			MOB_TIME = BASE_MOB_TIME * Mathf.Pow(0.9f, currentWave);
+			BigRatSpawnChance = Mathf.Clamp((float)(BaseBigRatSpawnChance * Mathf.Pow(1.5f, currentWave)), 0, 1);
+			PowerUpSpawnChance = Mathf.Clamp((float)(BasePowerUpSpawnChance * Mathf.Pow(1.5f, currentWave)), 0, 1);
 			currentWave++;
 
 			GetNode<AudioStreamPlayer>("Soundtrack").PitchScale = (float)Math.Pow(SEMITONE_MULTIPLIER, currentWave);

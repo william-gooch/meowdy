@@ -7,11 +7,11 @@ public class Player : Area2D
 	[Export]
 	public float Acceleration { get; set; } = 3000; // How fast the player will accelerate (pixels/sec/sec)
 	[Export]
-	public float ImpulseDamping { get; set; } = 10f; // The damping factor when velocity is above MaxSpeed
+	public float ImpulseDamping { get; set; } = 12f; // The damping factor when velocity is above MaxSpeed
 	[Export]
 	public float StopDamping { get; set; } = 15f; // The damping factor when no input is pressed.
 	[Export]
-	public int MaxSpeed { get; set; } = 400; // The maximum speed of the player (pixels/sec).
+	public int MaxSpeed { get; set; } = 300; // The maximum speed of the player (pixels/sec).
 	[Export]
 	public int DashSpeed { get; set; } = 1600; // The speed given to the player when they dash (pixels/sec).
 	[Export]
@@ -62,7 +62,7 @@ public class Player : Area2D
 			InvulnerabilityCooldown = DashInvulnerabilityTime;
 			//Sprite.Modulate = new Color("#ffffff")
 			//{
-				//a = 0.5f
+			//a = 0.5f
 			//};
 			Sprite.Play("dash");
 			Dash = true;
@@ -88,7 +88,8 @@ public class Player : Area2D
 		}
 
 		// Sprite.SpeedScale = Mathf.Exp(Velocity.Length() / MaxSpeed) / Mathf.E;
-		if (!Dash) {
+		if (!Dash)
+		{
 			if (Velocity.Length() > 0)
 			{
 				Sprite.Play("walk");
@@ -184,7 +185,8 @@ public class Player : Area2D
 	}
 	private void _on_AnimatedSprite_animation_finished()
 	{
-		if (Sprite.Animation == "dash") {
+		if (Sprite.Animation == "dash")
+		{
 			Dash = false;
 		}
 	}
