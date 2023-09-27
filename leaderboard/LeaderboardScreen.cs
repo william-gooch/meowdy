@@ -22,7 +22,9 @@ public class LeaderboardScreen : Node
 	{
 		string newName = GetNode<LineEdit>("CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/NameEntry").Text;
 
-		Task.Run(() => _leaderboard.SetPlayerName(newName));   
-		Task.Run(() => _leaderboard.RecordScore());   
+		//Task.Run(() => _leaderboard.SetPlayerName(newName));   
+		//Task.Run(() => _leaderboard.RecordScore()); 
+		_leaderboard.SetPlayerName(newName);
+		_leaderboard.RecordScore();  
 	}
 }
