@@ -11,9 +11,6 @@ public class Bullet : Area2D
 	public bool Destroyed { get; private set; } = false;
 	private float deathTime = 0.5f;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready() { }
-
 	public override void _Process(float delta)
 	{
 		if (Destroyed)
@@ -31,7 +28,7 @@ public class Bullet : Area2D
 			Position = new Vector2(Position.x, Position.y);
 		}
 	}
-	private async void _on_Bullet_area_entered(object area)
+	private void _on_Bullet_area_entered(object area)
 	{
 		if (area is Enemy | area is BigObstacle | area is Obstacle)
 		{
@@ -40,8 +37,6 @@ public class Bullet : Area2D
 				(area as Enemy).EmitSignal(nameof(Enemy.HitEventHandler), this.direction);
 			}
 
-			CPUParticles2D DeathParticles = GetNode<CPUParticles2D>("DeathParticles");
-			await ToSignal(GetTree().CreateTimer(0.01f), "timeout");
 			if (HasNode("BulletSprite"))
 			{
 				GetNode<Sprite>("BulletSprite").QueueFree();
@@ -50,6 +45,8 @@ public class Bullet : Area2D
 			{
 				GetNode<CollisionShape2D>("CollisionShape2D").QueueFree();
 			}
+			
+			CPUParticles2D DeathParticles = GetNode<CPUParticles2D>("DeathParticles");
 			DeathParticles.Show();
 			Destroyed = true;
 		}
