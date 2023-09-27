@@ -26,7 +26,8 @@ public class LeaderboardDisplay : Control
 	}
 
 	private void OnAuthenticationSuccess () {
-		Task.Run(() => SetupLeaderboard());
+		//Task.Run(() => SetupLeaderboard());
+		SetupLeaderboard();
 	}
 
 	private async Task SetupLeaderboard() {
