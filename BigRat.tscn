@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://BigRat.cs" type="Script" id=1]
 [ext_resource path="res://assets/big-rat/rat2_walk2.png" type="Texture" id=2]
@@ -26,6 +26,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 27.5, 35.5 )
+
 [node name="BigRat" type="Area2D"]
 position = Vector2( 0, -19 )
 script = ExtResource( 1 )
@@ -41,7 +44,7 @@ DashSpeed = 2600.0
 DashDamping = 7.0
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 21, 55 )
+position = Vector2( 3, 54 )
 scale = Vector2( 5.25, 2.25 )
 texture = ExtResource( 12 )
 
@@ -49,9 +52,6 @@ texture = ExtResource( 12 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 1 )
 animation = "walk"
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( -1, 7, -48, -7, -4, -10, -3, -23, -30, -34, -30, -42, 5, -48, 7, -39, 16, -46, 31, -46, 42, -27, 39, 27, 11, 28, 18, 6, 13, -9 )
 
 [node name="WarningArrow" type="Line2D" parent="."]
 visible = false
@@ -64,3 +64,7 @@ script = ExtResource( 10 )
 Length = 125.0
 
 [node name="HitAudio" parent="." instance=ExtResource( 11 )]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.5, -2.5 )
+shape = SubResource( 2 )

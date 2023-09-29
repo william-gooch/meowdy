@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/rat/rat_walk2.png" type="Texture" id=1]
 [ext_resource path="res://assets/rat/rat_walk1.png" type="Texture" id=2]
@@ -21,6 +21,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 13.5714, 27.1429 )
+
 [node name="Rat" type="Area2D"]
 scale = Vector2( 0.7, 0.7 )
 script = ExtResource( 3 )
@@ -37,12 +40,14 @@ scale = Vector2( 3, 3 )
 frames = SubResource( 1 )
 animation = "idle"
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( 0, 6, -9, 9, -20, 4, -30, 2, -19, -2, -9, 3, -9, -15, -24, -27, 0, -27, 18, -3, 21, 30, 9, 30 )
-
 [node name="HitAudio" parent="." instance=ExtResource( 6 )]
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 7.14286, 34.2857 )
 scale = Vector2( 1.83929, 1 )
 texture = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.714286, 1.42857 )
+scale = Vector2( 0.999999, 0.999999 )
+shape = SubResource( 2 )
