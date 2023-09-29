@@ -42,7 +42,8 @@ public class LeaderboardManager : Node
 
 	public override void _Ready()
 	{
-		Task.Run(() => Authenticate());
+		//Task.Run(() => Authenticate());
+		Authenticate();
 	}
 
 	private async Task<LeaderboardResponse> MakeRequest(
@@ -147,8 +148,10 @@ public class LeaderboardManager : Node
 		sessionToken = (string) res.Body["session_token"];
 		EmitSignal(nameof(AuthenticationSuccess));
 		//GD.Print("Authentication success!");
-		Task.Run(() => GetPlayerName());
-		Task.Run(() => GetLeaderboard());
+		//Task.Run(() => GetPlayerName());
+		//Task.Run(() => GetLeaderboard());
+		GetPlayerName();
+		GetLeaderboard();
 		return (Error.Ok, "");
 	}
 
@@ -231,7 +234,8 @@ public class LeaderboardManager : Node
 		}
 
 		//GD.Print("Recorded score!");
-		Task.Run(() => GetLeaderboard());
+		//Task.Run(() => GetLeaderboard());
+		GetLeaderboard();
 		return (Error.Ok, "");
 	}
 }

@@ -68,7 +68,7 @@ public class Enemy : Area2D
 
 	protected virtual void OnDeath()
 	{
-		GetNode("CollisionPolygon2D").QueueFree();
+		GetNode("CollisionShape2D").QueueFree();
 		IsDead = true;
 		Sprite.Stop();
 		HUD.Call("AddScore", ScoreValue);
