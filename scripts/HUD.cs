@@ -12,8 +12,12 @@ public class HUD : Node
 	public int ChargeShotCooldownPercentage = 100;
 	public int MAX_HEALTH = 9;
 	public int Health;
+	public int Gold = 0;
+	public int Multiplier = 1;
 	private Label ScoreLabel;
+	private Label GoldLabel;
 	private Label WaveLabel;
+	private Label MultiplierLabel;
 	private ProgressBar DashCooldownBar;
 	private ProgressBar ChargeShotCooldownBar;
 	private HBoxContainer HealthBar;
@@ -23,6 +27,8 @@ public class HUD : Node
 	{
 		Health = MAX_HEALTH;
 		ScoreLabel = GetNode<Label>("Score");
+		GoldLabel = GetNode<Label>("Gold");
+		MultiplierLabel = GetNode<Label>("Multiplier");
 		WaveLabel = GetNode<Label>("WaveNotifier");
 		DashCooldownBar = GetNode<ProgressBar>("DashCooldownBar");
 		ChargeShotCooldownBar = GetNode<ProgressBar>("ChargeShotCooldownBar");
@@ -35,8 +41,18 @@ public class HUD : Node
 	}
 	
 	public void AddScore(int Addition) {
-		Score += Addition;
+		Score += Addition * Multiplier;
 		ScoreLabel.Text = Score.ToString();
+	}
+	
+	public void AddGold(int Addition) {
+		Gold += Addition * Multiplier;
+		GoldLabel.Text = Gold.ToString();
+	}
+	
+	public void SetMultiplier (int Val) {
+		Multiplier = Val;
+		MultiplierLabel.Text = "x" + Val;
 	}
 	
 	public void DeductHealth() {

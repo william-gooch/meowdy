@@ -22,6 +22,7 @@ public class Enemy : Area2D
 	private Node2D _player;
 	private float _flashCooldown = 0;
 	private Vector2 _velocity = Vector2.Zero;
+	private PackedScene CurrencyScene = GD.Load<PackedScene>("res://scenes/Currency.tscn");
 
 	[Signal]
 	public delegate void HitEventHandler(Vector2 direction);
@@ -68,6 +69,14 @@ public class Enemy : Area2D
 
 	protected virtual void OnDeath()
 	{
+		Random random = new Random();
+		int r = random.Next(1,6);
+		GD.Print(r);
+		if (r == 1) {
+			Currency currency = CurrencyScene.Instance<Currency>();
+			currency.Position = GlobalPosition;
+			GetParent().AddChild(currency);
+		}
 		GetNode("CollisionShape2D").QueueFree();
 		IsDead = true;
 		Sprite.Stop();
@@ -77,7 +86,6 @@ public class Enemy : Area2D
 
 	protected virtual void OnDeathTimeout()
 	{
-		Hide();
 		QueueFree();
 	}
 

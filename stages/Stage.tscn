@@ -7,7 +7,6 @@
 [ext_resource path="res://assets/ground-tiles/sand_tile.png" type="Texture" id=5]
 [ext_resource path="res://assets/soundtrack/fight.mp3" type="AudioStream" id=6]
 
-
 [sub_resource type="TileSet" id=1]
 0/name = "sand_tile1.png 0"
 0/texture = ExtResource( 4 )

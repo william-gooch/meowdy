@@ -7,8 +7,6 @@ public class Catnip : Area2D
 	public float CatnipTimer = 9.5f;
 	
 	private HUD HUD;
-	private int speed;
-	private Player player;
 	private float currentTime;
 	private bool isActive = false;
 	
@@ -23,7 +21,7 @@ public class Catnip : Area2D
 	{
 		if (isActive) {
 			if (currentTime <= 0) {
-				player.MaxSpeed = speed;
+				HUD.SetMultiplier(HUD.Multiplier-1);
 				QueueFree();
 			}
 			currentTime = Mathf.Max(0, currentTime - delta);
@@ -33,19 +31,17 @@ public class Catnip : Area2D
 	{
 		if (area is Player)
 		{
-			player = (Player)area;
-			speed = player.MaxSpeed;
+			HUD.SetMultiplier(HUD.Multiplier+1);
 			RemoveChild(GetNode("AnimatedSprite"));
 			RemoveChild(GetNode("CollisionShape2D"));
 			RemoveChild(GetNode("Sprite"));
-			player.MaxSpeed = (int)(speed * 1.5);
 			currentTime = CatnipTimer;
 			isActive = true;
 		}
 	}
 	private void _on_Timer_timeout()
 	{
-		if (player == null)
+		if (!isActive)
 		{
 			QueueFree();
 		}
