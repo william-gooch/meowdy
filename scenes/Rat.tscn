@@ -2,10 +2,10 @@
 
 [ext_resource path="res://assets/rat/rat_walk2.png" type="Texture" id=1]
 [ext_resource path="res://assets/rat/rat_walk1.png" type="Texture" id=2]
-[ext_resource path="res://Rat.cs" type="Script" id=3]
+[ext_resource path="res://scripts/Rat.cs" type="Script" id=3]
 [ext_resource path="res://assets/rat/rat_walk4.png" type="Texture" id=4]
 [ext_resource path="res://assets/rat/rat_walk3.png" type="Texture" id=5]
-[ext_resource path="res://RatHitAudio.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/RatHitAudio.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/shadow.png" type="Texture" id=7]
 
 [sub_resource type="SpriteFrames" id=1]

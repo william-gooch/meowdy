@@ -7,8 +7,8 @@ public class Stage : Node
 	private PackedScene BulletScene;
 	private PackedScene RatScene;
 	private PackedScene BigRatScene;
-	private PackedScene MilkScene = GD.Load<PackedScene>("res://Milk.tscn");
-	private PackedScene CatnipScene = GD.Load<PackedScene>("res://Catnip.tscn");
+	private PackedScene MilkScene = GD.Load<PackedScene>("res://scenes/Milk.tscn");
+	private PackedScene CatnipScene = GD.Load<PackedScene>("res://scenes/Catnip.tscn");
 	private TileMap Background;
 	private Vector2 ScreenSize;
 	private Player player;
@@ -48,11 +48,11 @@ public class Stage : Node
 	public override void _Ready()
 	{
 		HUD = GetNode<HUD>("/root/Stage/HUD");
-		BulletScene = GD.Load<PackedScene>("res://Bullet.tscn");
-		RatScene = GD.Load<PackedScene>("res://Rat.tscn");
-		BigRatScene = GD.Load<PackedScene>("res://BigRat.tscn");
-		var ObstacleScene = GD.Load<PackedScene>("res://Obstacle.tscn");
-		var BigObstacleScene = GD.Load<PackedScene>("res://BigObstacle.tscn");
+		BulletScene = GD.Load<PackedScene>("res://scenes/Bullet.tscn");
+		RatScene = GD.Load<PackedScene>("res://scenes/Rat.tscn");
+		BigRatScene = GD.Load<PackedScene>("res://scenes/BigRat.tscn");
+		var ObstacleScene = GD.Load<PackedScene>("res://scenes/Obstacle.tscn");
+		var BigObstacleScene = GD.Load<PackedScene>("res://scenes/BigObstacle.tscn");
 		var startPosition = GetNode<Position2D>("StartPosition");
 		LeftSpawnPosition = GetNode<Position2D>("LeftSpawnPosition");
 		RightSpawnPosition = GetNode<Position2D>("RightSpawnPosition");

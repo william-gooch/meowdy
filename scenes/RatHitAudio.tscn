@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://HitAudio.cs" type="Script" id=1]
+[ext_resource path="res://scripts/HitAudio.cs" type="Script" id=1]
 [ext_resource path="res://assets/hit sounds/rat_hit7.wav" type="AudioStream" id=2]
 [ext_resource path="res://assets/hit sounds/rat_hit1.wav" type="AudioStream" id=3]
 [ext_resource path="res://assets/hit sounds/rat_hit2.wav" type="AudioStream" id=4]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/hit sounds/rat_hit6.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/hit sounds/rat_hit3.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/hit sounds/rat_hit4.wav" type="AudioStream" id=8]
+
 
 [node name="HitAudio" type="AudioStreamPlayer2D"]
 stream = ExtResource( 3 )

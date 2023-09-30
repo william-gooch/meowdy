@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://BigRat.cs" type="Script" id=1]
+[ext_resource path="res://scripts/BigRat.cs" type="Script" id=1]
 [ext_resource path="res://assets/big-rat/rat2_walk2.png" type="Texture" id=2]
 [ext_resource path="res://assets/big-rat/rat2_walk4.png" type="Texture" id=3]
 [ext_resource path="res://assets/big-rat/rat2_walk1.png" type="Texture" id=4]
@@ -9,8 +9,8 @@
 [ext_resource path="res://assets/big-rat/rat2_bloody_walk1.png" type="Texture" id=7]
 [ext_resource path="res://assets/big-rat/rat2_bloody_walk3.png" type="Texture" id=8]
 [ext_resource path="res://assets/big-rat/rat2_bloody_walk2.png" type="Texture" id=9]
-[ext_resource path="res://Arrow.cs" type="Script" id=10]
-[ext_resource path="res://RatHitAudio.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scripts/Arrow.cs" type="Script" id=10]
+[ext_resource path="res://scenes/RatHitAudio.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/shadow.png" type="Texture" id=12]
 
 [sub_resource type="SpriteFrames" id=1]

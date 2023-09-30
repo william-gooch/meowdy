@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://HitAudio.cs" type="Script" id=1]
+[ext_resource path="res://scripts/HitAudio.cs" type="Script" id=1]
 [ext_resource path="res://assets/hit sounds/cat_hit.wav" type="AudioStream" id=2]
 [ext_resource path="res://assets/hit sounds/rat_hit1.wav" type="AudioStream" id=3]
+
 
 [node name="HitAudio" type="AudioStreamPlayer2D"]
 stream = ExtResource( 3 )

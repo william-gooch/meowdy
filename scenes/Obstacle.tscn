@@ -1,8 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/obstacles/small-cactus/cactus1.png" type="Texture" id=1]
-[ext_resource path="res://Obstacle.cs" type="Script" id=2]
+[ext_resource path="res://scripts/Obstacle.cs" type="Script" id=2]
 [ext_resource path="res://assets/shadow.png" type="Texture" id=3]
+
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.66667

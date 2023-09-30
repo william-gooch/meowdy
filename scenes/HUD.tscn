@@ -1,14 +1,15 @@
 [gd_scene load_steps=20 format=2]
 
-[ext_resource path="res://HUD.cs" type="Script" id=1]
+[ext_resource path="res://scripts/HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://HealthBar.cs" type="Script" id=3]
+[ext_resource path="res://scripts/HealthBar.cs" type="Script" id=3]
 [ext_resource path="res://assets/heart/heart1.png" type="Texture" id=4]
 [ext_resource path="res://assets/pause-button/pause2.png" type="Texture" id=5]
 [ext_resource path="res://assets/pause-button/pause1.png" type="Texture" id=6]
 [ext_resource path="res://leaderboard/TitleScreenButton.cs" type="Script" id=7]
 [ext_resource path="res://assets/icons/icon_dash.png" type="Texture" id=8]
 [ext_resource path="res://assets/icons/icon_shoot.png" type="Texture" id=9]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
