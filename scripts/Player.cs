@@ -35,6 +35,15 @@ public class Player : Area2D
 	private float InvulnerabilityCooldown; //TODO: Changes colour of sprite when !0, for taking damage
 	private bool Dash = false;
 
+	//Bullet Physics
+	private PackedScene BulletScene = GD.Load<PackedScene>("res://scenes/Bullet.tscn");
+	[Export]
+	public float CHARGE_SHOT_COOLDOWN { get; set; } = 3f; // Press "F" key for charge shot
+	[Export]
+	public float BULLET_COOLDOWN { get; set;} = 0.3f;
+	private float CurrentBulletCooldown = 0f;
+	private float CurrentChargeShotCooldown = 0f;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -53,6 +62,8 @@ public class Player : Area2D
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
+
+		// Movement Physics
 		var movement = GetMovement();
 
 		if (Input.IsActionJustPressed("dash") && CurrentDashCooldown <= 0f)
@@ -60,15 +71,10 @@ public class Player : Area2D
 			Velocity = movement * DashSpeed;
 			CurrentDashCooldown = DashCooldown;
 			InvulnerabilityCooldown = DashInvulnerabilityTime;
-			//Sprite.Modulate = new Color("#ffffff")
-			//{
-			//a = 0.5f
-			//};
 			Sprite.Play("dash");
 			Dash = true;
 		}
-		// Update DashCooldownBar
-		HUD.DashCooldownPercentage = 100 - (int)((CurrentDashCooldown / DashCooldown) * 100);
+		
 
 		if (movement.Length() > 0)
 		{
@@ -86,8 +92,93 @@ public class Player : Area2D
 				Velocity = Vector2.Zero;
 			}
 		}
+		Position += Velocity * (float)delta;
+		Position = new Vector2(
+			x: Mathf.Clamp(Position.x, 0, ScreenSize.x),
+			y: Mathf.Clamp(Position.y, 0, ScreenSize.y)
+		);
 
-		// Sprite.SpeedScale = Mathf.Exp(Velocity.Length() / MaxSpeed) / Mathf.E;
+		//Bullet Shooting Physics
+		ShootFromMovement();
+
+		// Charge Shot Physics
+		if (CurrentChargeShotCooldown <= 0f & Input.IsActionPressed("charge_shot"))
+		{
+			ShootPerpendiculars();
+			CurrentChargeShotCooldown = CHARGE_SHOT_COOLDOWN;
+		}
+		// HUD update
+		HUD.ChargeShotCooldownPercentage = 100 - (int)((CurrentChargeShotCooldown / CHARGE_SHOT_COOLDOWN) * 100);
+
+		// Timers
+		HUD.DashCooldownPercentage = 100 - (int)((CurrentDashCooldown / DashCooldown) * 100);
+		CurrentChargeShotCooldown = Mathf.Max(0, CurrentChargeShotCooldown - delta);
+		CurrentBulletCooldown = Mathf.Max(0, CurrentBulletCooldown - delta);
+		InvulnerabilityCooldown = Mathf.Max(0, InvulnerabilityCooldown - delta);
+		CurrentDashCooldown = Mathf.Max(0, CurrentDashCooldown - delta); // Decrease cooldown, make sure it doesn't go below 0.
+
+		DoAnimation();
+	}
+
+	private void ShootDiagonals() {
+		Shoot(Vector2.Down + Vector2.Right);
+		Shoot(Vector2.Down+ Vector2.Left);
+		Shoot(Vector2.Up + Vector2.Right);
+		Shoot(Vector2.Up + Vector2.Left);
+	}
+	private void ShootPerpendiculars() {
+		Shoot(Vector2.Up);
+		Shoot(Vector2.Down);
+		Shoot(Vector2.Left);
+		Shoot(Vector2.Right);
+	}
+	private void ShootFromMovement() {
+		if (CurrentBulletCooldown <= 0f)
+		{
+			if (Input.IsActionPressed("shoot_up") & Input.IsActionPressed("shoot_right"))
+			{
+				Shoot(Vector2.Up + Vector2.Right);
+			}
+			else if (Input.IsActionPressed("shoot_up") & Input.IsActionPressed("shoot_left"))
+			{
+				Shoot(Vector2.Up + Vector2.Left);
+			}
+			else if (Input.IsActionPressed("shoot_up")) {
+				Shoot(Vector2.Up);
+			}
+			else if (Input.IsActionPressed("shoot_down") & Input.IsActionPressed("shoot_right")) 
+			{
+				Shoot(Vector2.Down + Vector2.Right);
+			}
+			else if (Input.IsActionPressed("shoot_down") & Input.IsActionPressed("shoot_left")) {
+				Shoot(Vector2.Down + Vector2.Left);
+			}
+			else if (Input.IsActionPressed("shoot_down")) {
+				Shoot(Vector2.Down);
+			}
+			else if (Input.IsActionPressed("shoot_left"))
+			{
+				Shoot(Vector2.Left);
+			}
+			else if (Input.IsActionPressed("shoot_right"))
+			{
+				Shoot(Vector2.Right);
+			}
+		}
+	}
+	private void Shoot(Vector2 direction)
+	{
+		Bullet bullet = BulletScene.Instance<Bullet>();
+		bullet.Position = GlobalPosition;
+		bullet.direction = direction;
+		if (bullet.GetParent() == null && bullet.direction != Vector2.Zero)
+		{
+			Owner.AddChild(bullet);
+		}
+		CurrentBulletCooldown = BULLET_COOLDOWN;
+	}
+
+	private void DoAnimation() {
 		if (!Dash)
 		{
 			if (Velocity.Length() > 0)
@@ -100,19 +191,10 @@ public class Player : Area2D
 				Sprite.Play("idle");
 			}
 		}
-
-		Position += Velocity * (float)delta;
-		Position = new Vector2(
-			x: Mathf.Clamp(Position.x, 0, ScreenSize.x),
-			y: Mathf.Clamp(Position.y, 0, ScreenSize.y)
-		);
-
 		if (InvulnerabilityCooldown <= 0)
 		{
 			Sprite.Modulate = new Color("#ffffff");
 		}
-		InvulnerabilityCooldown = Mathf.Max(0, InvulnerabilityCooldown - delta);
-		CurrentDashCooldown = Mathf.Max(0, CurrentDashCooldown - delta); // Decrease cooldown, make sure it doesn't go below 0.
 	}
 
 	public void Start(Vector2 pos)

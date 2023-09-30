@@ -4,21 +4,14 @@ using System;
 
 public class Stage : Node
 {
-	private PackedScene BulletScene;
-	private PackedScene RatScene;
-	private PackedScene BigRatScene;
+	private PackedScene RatScene = GD.Load<PackedScene>("res://scenes/Rat.tscn");
+	private PackedScene BigRatScene = GD.Load<PackedScene>("res://scenes/BigRat.tscn");
 	private PackedScene MilkScene = GD.Load<PackedScene>("res://scenes/Milk.tscn");
 	private PackedScene CatnipScene = GD.Load<PackedScene>("res://scenes/Catnip.tscn");
 	private TileMap Background;
 	private Vector2 ScreenSize;
 	private Player player;
 	private HUD HUD;
-
-	//Bullet Physics
-	public float CHARGE_SHOT_COOLDOWN { get; set; } = 3f; // Press "F" key for charge shot
-	private float BulletCooldown = 0.3f;
-	private float CurrentBulletCooldown = 0f;
-	private float CurrentChargeShotCooldown = 0f;
 
 	//Mob Timer
 	private float BASE_MOB_TIME = 2f;
@@ -48,9 +41,6 @@ public class Stage : Node
 	public override void _Ready()
 	{
 		HUD = GetNode<HUD>("/root/Stage/HUD");
-		BulletScene = GD.Load<PackedScene>("res://scenes/Bullet.tscn");
-		RatScene = GD.Load<PackedScene>("res://scenes/Rat.tscn");
-		BigRatScene = GD.Load<PackedScene>("res://scenes/BigRat.tscn");
 		var ObstacleScene = GD.Load<PackedScene>("res://scenes/Obstacle.tscn");
 		var BigObstacleScene = GD.Load<PackedScene>("res://scenes/BigObstacle.tscn");
 		var startPosition = GetNode<Position2D>("StartPosition");
@@ -60,15 +50,14 @@ public class Stage : Node
 		BottomSpawnPosition = GetNode<Position2D>("BottomSpawnPosition");
 		Background = GetNode<TileMap>("Background");
 		ScreenSize = GetViewport().Size;
-	TODO: CurrentPowerUpCooldown = PowerUpCooldown;
+		CurrentPowerUpCooldown = PowerUpCooldown;
 		GD.Randomize();
 		rnd = new Random();
 		player = GetNode<Player>("Player");
 		player.Start(startPosition.Position);
 		MobTimer = 3f;
 
-		// Spawn Obstacles
-		// TODO: Prevent spawn on player or give i frames at start
+		// Randomly Spawn Obstacles
 		for (int i = 0; i < NUM_OBSTACLES; i++)
 		{
 			Area2D obstacle;
@@ -90,29 +79,11 @@ public class Stage : Node
 
 	public override void _Process(float delta)
 	{
-		//Bullet Shooting Physics
-		if (CurrentBulletCooldown <= 0)
-		{
-			if (ShootFromMovement())
-			{
-				CurrentBulletCooldown = BulletCooldown;
-			}
-		}
 
 		//MobSpawner
 		if (MobTimer <= 0)
 		{
 			SpawnMob();
-		}
-
-		// Charge Shot Physics
-		if (CurrentChargeShotCooldown <= 0f & Input.IsActionPressed("charge_shot"))
-		{
-			Shoot(Vector2.Up);
-			Shoot(Vector2.Down);
-			Shoot(Vector2.Left);
-			Shoot(Vector2.Right);
-			CurrentChargeShotCooldown = CHARGE_SHOT_COOLDOWN;
 		}
 
 		//Power Up Spawner
@@ -124,13 +95,8 @@ public class Stage : Node
 
 
 		// Deduct time from timers and cooldowns
-		CurrentChargeShotCooldown = Mathf.Max(0, CurrentChargeShotCooldown - delta);
-		CurrentBulletCooldown = Mathf.Max(0, CurrentBulletCooldown - delta);
 		CurrentPowerUpCooldown = Mathf.Max(0, CurrentPowerUpCooldown - delta);
 		MobTimer = Mathf.Max(0, MobTimer - delta);
-
-		// HUD update
-		HUD.ChargeShotCooldownPercentage = 100 - (int)((CurrentChargeShotCooldown / CHARGE_SHOT_COOLDOWN) * 100);
 	}
 
 	// Spawns Power Up, checks spawnchance.
@@ -198,49 +164,6 @@ public class Stage : Node
 		}
 		this.AddChildBelowNode(Background, rat);
 		MobTimer = MOB_TIME; //TODO: Reduce time as time goes on
-	}
-
-	//Get Bullet Velocity from inputs
-	private bool ShootFromMovement()
-	{
-		bool HasShot = false;
-		Vector2 direction = Vector2.Zero;
-		if (Input.IsActionPressed("shoot_up"))
-		{
-			direction.y -= 1;
-			HasShot = true;
-		}
-		if (Input.IsActionPressed("shoot_down"))
-		{
-			direction.y += 1;
-			HasShot = true;
-		}
-		if (Input.IsActionPressed("shoot_left"))
-		{
-			direction.x -= 1;
-			HasShot = true;
-		}
-		if (Input.IsActionPressed("shoot_right"))
-		{
-			direction.x += 1;
-			HasShot = true;
-		}
-
-		if (HasShot)
-		{
-			Shoot(direction);
-		}
-		return HasShot; // cannot use else case to allow for diagonals. 
-	}
-	private void Shoot(Vector2 direction)
-	{
-		Bullet bullet = BulletScene.Instance<Bullet>();
-		bullet.Position = player.Position;
-		bullet.direction = direction;
-		if (bullet.GetParent() == null && bullet.direction != Vector2.Zero)
-		{
-			AddChild(bullet);
-		}
 	}
 
 	private void _on_WaveTimer_timeout()
