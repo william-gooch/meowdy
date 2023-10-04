@@ -70,9 +70,7 @@ public class Enemy : Area2D
 	protected virtual void OnDeath()
 	{
 		Random random = new Random();
-		int r = random.Next(1,6);
-		GD.Print(r);
-		if (r == 1) {
+		if (random.Next(1,6) == 1) {
 			Currency currency = CurrencyScene.Instance<Currency>();
 			currency.Position = GlobalPosition;
 			GetParent().AddChild(currency);
@@ -98,12 +96,10 @@ public class Enemy : Area2D
 
 		if (CurrentHealth > 1)
 		{
-			//GD.Print("HIT!");
 			CurrentHealth--;
 		}
 		else
 		{
-			//GD.Print("KILL!!!!");
 			EmitSignal(nameof(DiedEventHandler));
 		}
 	}

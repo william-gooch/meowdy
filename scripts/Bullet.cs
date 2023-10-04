@@ -5,6 +5,8 @@ public class Bullet : Area2D
 {
 	[Export]
 	public int Speed { get; set; } = 800;
+	[Export]
+	public float bulletTime = 0.35f;
 
 	public Vector2 direction;
 
@@ -26,6 +28,10 @@ public class Bullet : Area2D
 			direction = direction.Normalized();
 			Position += direction * Speed * (float)delta;
 			Position = new Vector2(Position.x, Position.y);
+			bulletTime = Mathf.Max(0, bulletTime - delta);
+			if (bulletTime <= 0) {
+				KillBullet();
+			}
 		}
 	}
 	private void _on_Bullet_area_entered(object area)
@@ -36,8 +42,11 @@ public class Bullet : Area2D
 			{
 				(area as Enemy).EmitSignal(nameof(Enemy.HitEventHandler), this.direction);
 			}
-
-			if (HasNode("BulletSprite"))
+			KillBullet();
+		}
+	}
+	private void KillBullet() {
+		if (HasNode("BulletSprite"))
 			{
 				GetNode<Sprite>("BulletSprite").QueueFree();
 			}
@@ -49,7 +58,6 @@ public class Bullet : Area2D
 			CPUParticles2D DeathParticles = GetNode<CPUParticles2D>("DeathParticles");
 			DeathParticles.Show();
 			Destroyed = true;
-		}
 	}
 }
 

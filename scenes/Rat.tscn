@@ -32,8 +32,8 @@ MaxHealth = 1
 ScoreValue = 5
 DeathDelay = 0.25
 HitKnockback = 800.0
-Speed = 100
-SwarmFactor = 0.8
+Speed = 80
+SwarmFactor = 0.9
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 3, 3 )

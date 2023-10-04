@@ -125,10 +125,6 @@ public class Stage : Node
 					break;
 			}
 		}
-		else
-		{
-			//GD.Print("Unlucky! No Power-Up yet");
-		}
 	}
 
 	private void SpawnMob()

@@ -34,6 +34,7 @@ public class Player : Area2D
 	private HUD HUD;
 	private float InvulnerabilityCooldown; //TODO: Changes colour of sprite when !0, for taking damage
 	private bool Dash = false;
+	private int SpecialLevel = 2;
 
 	//Bullet Physics
 	private PackedScene BulletScene = GD.Load<PackedScene>("res://scenes/Bullet.tscn");
@@ -106,6 +107,9 @@ public class Player : Area2D
 		{
 			ShootPerpendiculars();
 			CurrentChargeShotCooldown = CHARGE_SHOT_COOLDOWN;
+			if (SpecialLevel >= 2) {
+				ShootDiagonals();
+			}
 		}
 		// HUD update
 		HUD.ChargeShotCooldownPercentage = 100 - (int)((CurrentChargeShotCooldown / CHARGE_SHOT_COOLDOWN) * 100);

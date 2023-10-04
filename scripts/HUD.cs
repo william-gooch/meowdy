@@ -21,6 +21,8 @@ public class HUD : Node
 	private ProgressBar DashCooldownBar;
 	private ProgressBar ChargeShotCooldownBar;
 	private HBoxContainer HealthBar;
+	private Popup Shop;
+	private TextureButton PauseButton;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -33,6 +35,8 @@ public class HUD : Node
 		DashCooldownBar = GetNode<ProgressBar>("DashCooldownBar");
 		ChargeShotCooldownBar = GetNode<ProgressBar>("ChargeShotCooldownBar");
 		HealthBar = GetNode<HBoxContainer>("HealthBar");
+		Shop = GetNode<Popup>("Shop");
+		PauseButton = GetNode<TextureButton>("PauseButton");
 	}
 	
 	public override void _Process(float delta) {
@@ -47,7 +51,7 @@ public class HUD : Node
 	
 	public void AddGold(int Addition) {
 		Gold += Addition * Multiplier;
-		GoldLabel.Text = Gold.ToString();
+		GoldLabel.Text = Gold + " Gold";
 	}
 	
 	public void SetMultiplier (int Val) {
@@ -68,5 +72,18 @@ public class HUD : Node
 	}
 	public void UpdateWave(string text) {
 		WaveLabel.Text = text;
+		Shop.Show();
+		PauseButton.Hide();
+		GetTree().Paused = true;
+	}
+	private void _on_Done_pressed()
+	{
+		Shop.Hide();
+		PauseButton.Show();
+		GetTree().Paused = false;
+	}
+	private void _on_BuyHealth_pressed()
+	{
+		AddHealth();
 	}
 }

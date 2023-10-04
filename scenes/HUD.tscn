@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://scripts/HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=2]
@@ -9,6 +9,23 @@
 [ext_resource path="res://leaderboard/TitleScreenButton.cs" type="Script" id=7]
 [ext_resource path="res://assets/icons/icon_dash.png" type="Texture" id=8]
 [ext_resource path="res://assets/icons/icon_shoot.png" type="Texture" id=9]
+[ext_resource path="res://scenes/PauseButton.cs" type="Script" id=10]
+[ext_resource path="res://assets/powerups/milk/milk5.png" type="Texture" id=11]
+[ext_resource path="res://assets/powerups/milk/milk1.png" type="Texture" id=12]
+[ext_resource path="res://assets/powerups/milk/milk7.png" type="Texture" id=13]
+[ext_resource path="res://assets/powerups/milk/milk3.png" type="Texture" id=14]
+[ext_resource path="res://assets/powerups/milk/milk2.png" type="Texture" id=15]
+[ext_resource path="res://assets/powerups/milk/milk4.png" type="Texture" id=16]
+[ext_resource path="res://assets/powerups/catnip/catnip1.png" type="Texture" id=17]
+[ext_resource path="res://assets/powerups/catnip/catnip3.png" type="Texture" id=18]
+[ext_resource path="res://assets/powerups/milk/milk8.png" type="Texture" id=19]
+[ext_resource path="res://assets/powerups/milk/milk6.png" type="Texture" id=20]
+[ext_resource path="res://assets/powerups/catnip/catnip8.png" type="Texture" id=21]
+[ext_resource path="res://assets/powerups/catnip/catnip2.png" type="Texture" id=22]
+[ext_resource path="res://assets/powerups/catnip/catnip4.png" type="Texture" id=23]
+[ext_resource path="res://assets/powerups/catnip/catnip7.png" type="Texture" id=24]
+[ext_resource path="res://assets/powerups/catnip/catnip5.png" type="Texture" id=25]
+[ext_resource path="res://assets/powerups/catnip/catnip6.png" type="Texture" id=26]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -67,7 +84,45 @@ font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxEmpty" id=10]
 
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0, 0, 0, 0.454902 )
+
+[sub_resource type="SpriteFrames" id=14]
+animations = [ {
+"frames": [ ExtResource( 17 ), ExtResource( 22 ), ExtResource( 18 ), ExtResource( 23 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 24 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=16]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxEmpty" id=17]
+
+[sub_resource type="StyleBoxEmpty" id=18]
+
+[sub_resource type="StyleBoxEmpty" id=19]
+
+[sub_resource type="StyleBoxEmpty" id=20]
+
+[sub_resource type="StyleBoxEmpty" id=21]
+
+[sub_resource type="SpriteFrames" id=15]
+animations = [ {
+"frames": [ ExtResource( 12 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 11 ), ExtResource( 20 ), ExtResource( 13 ), ExtResource( 19 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=22]
+size = 64
+font_data = ExtResource( 2 )
+
 [node name="HUD" type="Node"]
+pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="Score" type="Label" parent="."]
@@ -95,9 +150,9 @@ margin_left = 782.0
 margin_top = 57.0
 margin_right = 935.0
 margin_bottom = 105.0
-custom_colors/font_color = Color( 0.619608, 0.454902, 0.0588235, 1 )
+custom_colors/font_color = Color( 0.607843, 0.0235294, 0.0235294, 1 )
 custom_fonts/font = SubResource( 11 )
-text = "0"
+text = "0 Gold"
 align = 2
 
 [node name="DashCooldownBar" type="ProgressBar" parent="."]
@@ -172,15 +227,18 @@ margin_right = 176.0
 margin_bottom = 16.0
 texture = ExtResource( 4 )
 
-[node name="TextureButton" type="TextureButton" parent="."]
-margin_left = 965.0
-margin_top = 538.0
-margin_right = 1017.0
-margin_bottom = 590.0
+[node name="PauseButton" type="TextureButton" parent="."]
+pause_mode = 2
+margin_left = 283.0
+margin_top = 535.0
+margin_right = 335.0
+margin_bottom = 587.0
+toggle_mode = true
 texture_normal = ExtResource( 5 )
 texture_pressed = ExtResource( 6 )
 texture_hover = ExtResource( 6 )
 expand = true
+script = ExtResource( 10 )
 
 [node name="ChargeShotCooldownBar" type="ProgressBar" parent="."]
 margin_left = 7.0
@@ -205,10 +263,10 @@ custom_fonts/font = SubResource( 4 )
 text = "Warm Up!"
 
 [node name="TitleScreenButton" type="Button" parent="."]
-margin_left = 855.0
-margin_top = 540.0
-margin_right = 965.0
-margin_bottom = 591.0
+margin_left = 912.0
+margin_top = 546.0
+margin_right = 1022.0
+margin_bottom = 597.0
 custom_colors/font_color_disabled = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_colors/font_color_focus = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_colors/font_color = Color( 0.635294, 0.0313726, 0.0313726, 1 )
@@ -239,4 +297,204 @@ margin_bottom = 596.0
 texture = ExtResource( 8 )
 expand = true
 
+[node name="Shop" type="Popup" parent="."]
+visible = true
+margin_left = 477.0
+margin_top = 60.0
+margin_right = 517.0
+margin_bottom = 100.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Shop"]
+margin_left = -476.0
+margin_top = -60.0
+margin_right = 548.0
+margin_bottom = 540.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 13 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop/PanelContainer"]
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Row1" type="HBoxContainer" parent="Shop/PanelContainer/VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 0, 250 )
+custom_constants/separation = 300
+alignment = 1
+
+[node name="Catnip" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row1"]
+margin_left = 212.0
+margin_right = 212.0
+margin_bottom = 250.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Shop/PanelContainer/VBoxContainer/Row1/Catnip"]
+position = Vector2( 0, 150 )
+scale = Vector2( 5, 5 )
+frames = SubResource( 14 )
+frame = 7
+playing = true
+
+[node name="BuyCatnip" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Catnip"]
+margin_left = -40.0
+margin_top = 200.0
+margin_right = 24.0
+margin_bottom = 251.0
+custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 20 )
+custom_styles/normal = SubResource( 21 )
+text = "Buy"
+icon_align = 1
+
+[node name="Health" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row1"]
+margin_left = 512.0
+margin_right = 512.0
+margin_bottom = 250.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Shop/PanelContainer/VBoxContainer/Row1/Health"]
+position = Vector2( 0, 150 )
+scale = Vector2( 5, 5 )
+frames = SubResource( 15 )
+
+[node name="BuyHealth" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Health"]
+margin_left = -40.0
+margin_top = 200.0
+margin_right = 24.0
+margin_bottom = 251.0
+custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 20 )
+custom_styles/normal = SubResource( 21 )
+text = "Buy"
+icon_align = 1
+
+[node name="Special" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row1"]
+margin_left = 812.0
+margin_right = 812.0
+margin_bottom = 250.0
+
+[node name="Buy" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Special"]
+margin_left = -40.0
+margin_top = 200.0
+margin_right = 24.0
+margin_bottom = 251.0
+custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 20 )
+custom_styles/normal = SubResource( 21 )
+text = "Buy"
+icon_align = 1
+
+[node name="Row2" type="HBoxContainer" parent="Shop/PanelContainer/VBoxContainer"]
+margin_top = 254.0
+margin_right = 1024.0
+margin_bottom = 454.0
+rect_min_size = Vector2( 0, 200 )
+custom_constants/separation = 300
+alignment = 1
+
+[node name="Shotspeed" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row2"]
+margin_left = 212.0
+margin_right = 212.0
+margin_bottom = 200.0
+
+[node name="Buy" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/Shotspeed"]
+margin_left = -40.0
+margin_top = 150.0
+margin_right = 24.0
+margin_bottom = 201.0
+custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 20 )
+custom_styles/normal = SubResource( 21 )
+text = "Buy"
+icon_align = 1
+
+[node name="Range" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row2"]
+margin_left = 512.0
+margin_right = 512.0
+margin_bottom = 200.0
+
+[node name="Buy" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/Range"]
+margin_left = -40.0
+margin_top = 150.0
+margin_right = 24.0
+margin_bottom = 201.0
+custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 20 )
+custom_styles/normal = SubResource( 21 )
+text = "Buy"
+icon_align = 1
+
+[node name="ScoreMultiplier" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row2"]
+margin_left = 812.0
+margin_right = 812.0
+margin_bottom = 200.0
+
+[node name="Buy" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/ScoreMultiplier"]
+margin_left = -40.0
+margin_top = 150.0
+margin_right = 24.0
+margin_bottom = 201.0
+custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 20 )
+custom_styles/normal = SubResource( 21 )
+text = "Buy"
+icon_align = 1
+
+[node name="Title" type="Label" parent="Shop"]
+margin_left = -53.0
+margin_top = -58.0
+margin_right = 103.0
+margin_bottom = 43.0
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 0.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 22 )
+text = "Shop"
+align = 1
+
+[node name="Done" type="Button" parent="Shop"]
+pause_mode = 2
+margin_left = -11.0
+margin_top = 458.0
+margin_right = 71.0
+margin_bottom = 509.0
+custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 16 )
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 20 )
+custom_styles/normal = SubResource( 21 )
+text = "Done"
+icon_align = 1
+
+[connection signal="toggled" from="PauseButton" to="PauseButton" method="_on_PauseButton_toggled"]
 [connection signal="pressed" from="TitleScreenButton" to="TitleScreenButton" method="_on_TitleScreenButton_pressed"]
+[connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row1/Health/BuyHealth" to="." method="_on_BuyHealth_pressed"]
+[connection signal="pressed" from="Shop/Done" to="." method="_on_Done_pressed"]
