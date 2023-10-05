@@ -35,7 +35,7 @@ public class Stage : Node
 	private float PowerUpSpawnChance = 0.2f;
 	//Waves
 	private int NUM_WAVES = 10;
-	private int currentWave;
+	private int currentWave = 1;
 	private double SEMITONE_MULTIPLIER = Math.Pow(2.0, 1.0 / 12.0);
 
 	public override void _Ready()

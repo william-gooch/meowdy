@@ -20,7 +20,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 13.0
+radius = 19.0
 height = 0.0
 
 [node name="Catnip" type="Area2D"]

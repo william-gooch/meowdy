@@ -24,7 +24,11 @@ public class Player : Area2D
 	public float HitInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you are hit (sec)
 	[Export]
 	public float SpawnInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you spawn in (sec)
-
+	[Export]
+	public int SpecialLevel { get; set;} = 1; //if 1, normal special move, >=2 upgraded
+	[Export]
+	public float bulletTime = 0.35f;
+	
 	private HitAudio Audio;
 	private Vector2 ScreenSize; // Size of the game window.
 	private Vector2 Velocity = Vector2.Zero;
@@ -34,14 +38,13 @@ public class Player : Area2D
 	private HUD HUD;
 	private float InvulnerabilityCooldown; //TODO: Changes colour of sprite when !0, for taking damage
 	private bool Dash = false;
-	private int SpecialLevel = 2;
 
 	//Bullet Physics
 	private PackedScene BulletScene = GD.Load<PackedScene>("res://scenes/Bullet.tscn");
 	[Export]
 	public float CHARGE_SHOT_COOLDOWN { get; set; } = 3f; // Press "F" key for charge shot
 	[Export]
-	public float BULLET_COOLDOWN { get; set;} = 0.3f;
+	public float BULLET_COOLDOWN { get; set;} = 0.5f;
 	private float CurrentBulletCooldown = 0f;
 	private float CurrentChargeShotCooldown = 0f;
 

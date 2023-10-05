@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://scripts/HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://leaderboard/TitleScreenButton.cs" type="Script" id=7]
 [ext_resource path="res://assets/icons/icon_dash.png" type="Texture" id=8]
 [ext_resource path="res://assets/icons/icon_shoot.png" type="Texture" id=9]
-[ext_resource path="res://scenes/PauseButton.cs" type="Script" id=10]
+[ext_resource path="res://scripts/PauseButton.cs" type="Script" id=10]
 [ext_resource path="res://assets/powerups/milk/milk5.png" type="Texture" id=11]
 [ext_resource path="res://assets/powerups/milk/milk1.png" type="Texture" id=12]
 [ext_resource path="res://assets/powerups/milk/milk7.png" type="Texture" id=13]
@@ -26,6 +26,8 @@
 [ext_resource path="res://assets/powerups/catnip/catnip7.png" type="Texture" id=24]
 [ext_resource path="res://assets/powerups/catnip/catnip5.png" type="Texture" id=25]
 [ext_resource path="res://assets/powerups/catnip/catnip6.png" type="Texture" id=26]
+[ext_resource path="res://scenes/CatHitAudio.tscn" type="PackedScene" id=27]
+[ext_resource path="res://assets/fonts/vt323/VT323-Regular.ttf" type="DynamicFontData" id=28]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -109,6 +111,10 @@ font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxEmpty" id=21]
 
+[sub_resource type="DynamicFont" id=25]
+size = 40
+font_data = ExtResource( 28 )
+
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
 "frames": [ ExtResource( 12 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 11 ), ExtResource( 20 ), ExtResource( 13 ), ExtResource( 19 ) ],
@@ -116,6 +122,17 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="DynamicFont" id=23]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=24]
+bg_color = Color( 0.188235, 0.0117647, 0.0117647, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="DynamicFont" id=22]
 size = 64
@@ -260,7 +277,7 @@ size_flags_horizontal = 0
 size_flags_stretch_ratio = 0.0
 custom_colors/font_color = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_fonts/font = SubResource( 4 )
-text = "Warm Up!"
+text = "Wave 1"
 
 [node name="TitleScreenButton" type="Button" parent="."]
 margin_left = 912.0
@@ -305,37 +322,37 @@ margin_right = 517.0
 margin_bottom = 100.0
 
 [node name="PanelContainer" type="PanelContainer" parent="Shop"]
-margin_left = -476.0
+margin_left = -480.0
 margin_top = -60.0
-margin_right = 548.0
+margin_right = 551.0
 margin_bottom = 540.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 13 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Shop/PanelContainer"]
-margin_right = 1024.0
+margin_right = 1031.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row1" type="HBoxContainer" parent="Shop/PanelContainer/VBoxContainer"]
-margin_right = 1024.0
+margin_right = 1031.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 0, 250 )
 custom_constants/separation = 300
 alignment = 1
 
 [node name="Catnip" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row1"]
-margin_left = 212.0
-margin_right = 212.0
+margin_left = 215.0
+margin_right = 215.0
 margin_bottom = 250.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Shop/PanelContainer/VBoxContainer/Row1/Catnip"]
 position = Vector2( 0, 150 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 14 )
-frame = 7
+frame = 5
 playing = true
 
 [node name="BuyCatnip" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Catnip"]
@@ -353,15 +370,26 @@ custom_styles/normal = SubResource( 21 )
 text = "Buy"
 icon_align = 1
 
+[node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row1/Catnip"]
+margin_left = 3.0
+margin_top = 165.0
+margin_right = 54.0
+margin_bottom = 216.0
+custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+custom_fonts/font = SubResource( 25 )
+text = "2G"
+
 [node name="Health" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row1"]
-margin_left = 512.0
-margin_right = 512.0
+margin_left = 515.0
+margin_right = 515.0
 margin_bottom = 250.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Shop/PanelContainer/VBoxContainer/Row1/Health"]
 position = Vector2( 0, 150 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 15 )
+frame = 2
+playing = true
 
 [node name="BuyHealth" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Health"]
 margin_left = -40.0
@@ -378,15 +406,32 @@ custom_styles/normal = SubResource( 21 )
 text = "Buy"
 icon_align = 1
 
+[node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row1/Health"]
+margin_left = 3.0
+margin_top = 165.0
+margin_right = 54.0
+margin_bottom = 216.0
+custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+custom_fonts/font = SubResource( 25 )
+text = "3G"
+
 [node name="Special" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row1"]
-margin_left = 812.0
-margin_right = 812.0
+margin_left = 815.0
+margin_right = 815.0
 margin_bottom = 250.0
 
-[node name="Buy" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Special"]
-margin_left = -40.0
+[node name="TextureRect" type="TextureRect" parent="Shop/PanelContainer/VBoxContainer/Row1/Special"]
+margin_left = -45.0
+margin_top = 110.0
+margin_right = -29.0
+margin_bottom = 126.0
+rect_scale = Vector2( 5, 5 )
+texture = ExtResource( 9 )
+
+[node name="UpgradeSpecial" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Special"]
+margin_left = -75.0
 margin_top = 200.0
-margin_right = 24.0
+margin_right = 65.0
 margin_bottom = 251.0
 custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_fonts/font = SubResource( 16 )
@@ -395,26 +440,47 @@ custom_styles/pressed = SubResource( 18 )
 custom_styles/focus = SubResource( 19 )
 custom_styles/disabled = SubResource( 20 )
 custom_styles/normal = SubResource( 21 )
-text = "Buy"
+text = "Upgrade"
 icon_align = 1
+
+[node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row1/Special"]
+margin_left = 3.0
+margin_top = 165.0
+margin_right = 54.0
+margin_bottom = 216.0
+custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+custom_fonts/font = SubResource( 25 )
+text = "10G"
 
 [node name="Row2" type="HBoxContainer" parent="Shop/PanelContainer/VBoxContainer"]
 margin_top = 254.0
-margin_right = 1024.0
+margin_right = 1031.0
 margin_bottom = 454.0
 rect_min_size = Vector2( 0, 200 )
 custom_constants/separation = 300
 alignment = 1
 
 [node name="Shotspeed" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row2"]
-margin_left = 212.0
-margin_right = 212.0
+margin_left = 215.0
+margin_right = 215.0
 margin_bottom = 200.0
 
-[node name="Buy" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/Shotspeed"]
-margin_left = -40.0
+[node name="Label" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/Shotspeed"]
+margin_left = -85.0
+margin_top = 45.0
+margin_right = 74.0
+margin_bottom = 150.0
+custom_colors/font_color = Color( 0.607843, 0.0235294, 0.0235294, 1 )
+custom_fonts/font = SubResource( 23 )
+custom_styles/normal = SubResource( 24 )
+text = "Shot Speed"
+align = 1
+autowrap = true
+
+[node name="UpgradeShotSpeed" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/Shotspeed"]
+margin_left = -75.0
 margin_top = 150.0
-margin_right = 24.0
+margin_right = 65.0
 margin_bottom = 201.0
 custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_fonts/font = SubResource( 16 )
@@ -423,18 +489,40 @@ custom_styles/pressed = SubResource( 18 )
 custom_styles/focus = SubResource( 19 )
 custom_styles/disabled = SubResource( 20 )
 custom_styles/normal = SubResource( 21 )
-text = "Buy"
+text = "Upgrade"
 icon_align = 1
+
+[node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/Shotspeed"]
+margin_left = -104.0
+margin_top = 117.0
+margin_right = -53.0
+margin_bottom = 168.0
+custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+custom_fonts/font = SubResource( 25 )
+text = "7G"
 
 [node name="Range" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row2"]
-margin_left = 512.0
-margin_right = 512.0
+margin_left = 515.0
+margin_right = 515.0
 margin_bottom = 200.0
 
-[node name="Buy" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/Range"]
-margin_left = -40.0
+[node name="Label" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/Range"]
+margin_left = -85.0
+margin_top = 45.0
+margin_right = 74.0
+margin_bottom = 150.0
+custom_colors/font_color = Color( 0.607843, 0.0235294, 0.0235294, 1 )
+custom_fonts/font = SubResource( 23 )
+custom_styles/normal = SubResource( 24 )
+text = "Shot Range"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="UpgradeRange" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/Range"]
+margin_left = -75.0
 margin_top = 150.0
-margin_right = 24.0
+margin_right = 65.0
 margin_bottom = 201.0
 custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_fonts/font = SubResource( 16 )
@@ -443,18 +531,40 @@ custom_styles/pressed = SubResource( 18 )
 custom_styles/focus = SubResource( 19 )
 custom_styles/disabled = SubResource( 20 )
 custom_styles/normal = SubResource( 21 )
-text = "Buy"
+text = "Upgrade"
 icon_align = 1
+
+[node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/Range"]
+margin_left = -104.0
+margin_top = 117.0
+margin_right = -53.0
+margin_bottom = 168.0
+custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+custom_fonts/font = SubResource( 25 )
+text = "5G"
 
 [node name="ScoreMultiplier" type="Control" parent="Shop/PanelContainer/VBoxContainer/Row2"]
-margin_left = 812.0
-margin_right = 812.0
+margin_left = 815.0
+margin_right = 815.0
 margin_bottom = 200.0
 
-[node name="Buy" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/ScoreMultiplier"]
-margin_left = -40.0
+[node name="Label" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/ScoreMultiplier"]
+margin_left = -85.0
+margin_top = 45.0
+margin_right = 74.0
+margin_bottom = 150.0
+custom_colors/font_color = Color( 0.607843, 0.0235294, 0.0235294, 1 )
+custom_fonts/font = SubResource( 23 )
+custom_styles/normal = SubResource( 24 )
+text = "Score Boost"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="UpgradeMultiplier" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row2/ScoreMultiplier"]
+margin_left = -75.0
 margin_top = 150.0
-margin_right = 24.0
+margin_right = 65.0
 margin_bottom = 201.0
 custom_colors/font_color_hover = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_fonts/font = SubResource( 16 )
@@ -463,8 +573,17 @@ custom_styles/pressed = SubResource( 18 )
 custom_styles/focus = SubResource( 19 )
 custom_styles/disabled = SubResource( 20 )
 custom_styles/normal = SubResource( 21 )
-text = "Buy"
+text = "Upgrade"
 icon_align = 1
+
+[node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/ScoreMultiplier"]
+margin_left = -104.0
+margin_top = 117.0
+margin_right = -53.0
+margin_bottom = 168.0
+custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+custom_fonts/font = SubResource( 25 )
+text = "5G"
 
 [node name="Title" type="Label" parent="Shop"]
 margin_left = -53.0
@@ -494,7 +613,15 @@ custom_styles/normal = SubResource( 21 )
 text = "Done"
 icon_align = 1
 
+[node name="HitAudio" parent="Shop" instance=ExtResource( 27 )]
+position = Vector2( -477, -60 )
+
 [connection signal="toggled" from="PauseButton" to="PauseButton" method="_on_PauseButton_toggled"]
 [connection signal="pressed" from="TitleScreenButton" to="TitleScreenButton" method="_on_TitleScreenButton_pressed"]
+[connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row1/Catnip/BuyCatnip" to="." method="_on_BuyCatnip_pressed"]
 [connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row1/Health/BuyHealth" to="." method="_on_BuyHealth_pressed"]
+[connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row1/Special/UpgradeSpecial" to="." method="_on_UpgradeSpecial_pressed"]
+[connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row2/Shotspeed/UpgradeShotSpeed" to="." method="_on_UpgradeShotSpeed_pressed"]
+[connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row2/Range/UpgradeRange" to="." method="_on_UpgradeRange_pressed"]
+[connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row2/ScoreMultiplier/UpgradeMultiplier" to="." method="_on_UpgradeMultiplier_pressed"]
 [connection signal="pressed" from="Shop/Done" to="." method="_on_Done_pressed"]

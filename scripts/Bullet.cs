@@ -5,13 +5,17 @@ public class Bullet : Area2D
 {
 	[Export]
 	public int Speed { get; set; } = 800;
-	[Export]
-	public float bulletTime = 0.35f;
-
+	
+	private float bulletTime;
 	public Vector2 direction;
 
 	public bool Destroyed { get; private set; } = false;
 	private float deathTime = 0.5f;
+	
+	public override void _Ready() {
+		Player player = GetParent().GetNode<Player>("Player");
+		bulletTime = player.bulletTime;
+	}
 
 	public override void _Process(float delta)
 	{

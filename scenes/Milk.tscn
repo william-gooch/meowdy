@@ -19,7 +19,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 6.0
+radius = 8.0
 height = 6.0
 
 [node name="Milk" type="Area2D"]
@@ -31,7 +31,7 @@ position = Vector2( 2, 0 )
 frames = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1, 0 )
+position = Vector2( -0.5, 0 )
 shape = SubResource( 2 )
 
 [node name="Timer" type="Timer" parent="."]

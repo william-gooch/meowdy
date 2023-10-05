@@ -4,7 +4,7 @@ using System;
 public class Catnip : Area2D
 {
 	[Export]
-	public float CatnipTimer = 9.5f;
+	public float CatnipTimer = 20f;
 	
 	private HUD HUD;
 	private float currentTime;
