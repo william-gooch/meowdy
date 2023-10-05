@@ -352,7 +352,7 @@ margin_bottom = 250.0
 position = Vector2( 0, 150 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 14 )
-frame = 5
+frame = 7
 playing = true
 
 [node name="BuyCatnip" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Catnip"]
@@ -388,7 +388,7 @@ margin_bottom = 250.0
 position = Vector2( 0, 150 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 15 )
-frame = 2
+frame = 4
 playing = true
 
 [node name="BuyHealth" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Health"]
@@ -450,7 +450,7 @@ margin_right = 54.0
 margin_bottom = 216.0
 custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
 custom_fonts/font = SubResource( 25 )
-text = "10G"
+text = "5G"
 
 [node name="Row2" type="HBoxContainer" parent="Shop/PanelContainer/VBoxContainer"]
 margin_top = 254.0

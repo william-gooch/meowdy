@@ -14,7 +14,7 @@ public class HUD : Node
 	[Export]
 	public int MILK_PRICE { get; set; } = 3;
 	[Export]
-	public int SPECIAL_UPGRADE_PRICE { get; set; } = 10;
+	public int SPECIAL_UPGRADE_PRICE { get; set; } = 5;
 	[Export]
 	public int SHOT_SPEED_UPGRADE_PRICE { get; set; } = 7;
 	[Export]
@@ -132,8 +132,8 @@ public class HUD : Node
 	private void _on_UpgradeSpecial_pressed()
 	{
 		if (Gold >= SPECIAL_UPGRADE_PRICE & 
-			player.SpecialLevel < 2) { // Only 1 upgrade available.
-			player.SpecialLevel = 2;
+			player.SpecialLevel < 3) { // Only 1 upgrade available.
+			player.SpecialLevel++;
 			DeductGold(SPECIAL_UPGRADE_PRICE);
 		} else {
 			HitAudio.Hit();

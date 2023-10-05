@@ -25,7 +25,7 @@ public class Player : Area2D
 	[Export]
 	public float SpawnInvulnerabilityTime { get; set; } = 1f; // Amount of time you are invulnerable when you spawn in (sec)
 	[Export]
-	public int SpecialLevel { get; set;} = 1; //if 1, normal special move, >=2 upgraded
+	public int SpecialLevel { get; set;} = 1; //if 1, normal special move, up to 3
 	[Export]
 	public float bulletTime = 0.35f;
 	
@@ -110,8 +110,10 @@ public class Player : Area2D
 		{
 			ShootPerpendiculars();
 			CurrentChargeShotCooldown = CHARGE_SHOT_COOLDOWN;
-			if (SpecialLevel >= 2) {
+			if (SpecialLevel == 2) {
 				ShootDiagonals();
+			} else if (SpecialLevel >= 3) {
+				Shoot12Point();
 			}
 		}
 		// HUD update
@@ -132,6 +134,20 @@ public class Player : Area2D
 		Shoot(Vector2.Down+ Vector2.Left);
 		Shoot(Vector2.Up + Vector2.Right);
 		Shoot(Vector2.Up + Vector2.Left);
+	}
+	private void Shoot12Point() {
+		Vector2 Elevation1 = Vector2.Up/2;
+		Vector2 Elevation2 = Vector2.Up + Elevation1;
+		Vector2 Elevation3 = Vector2.Down/2;
+		Vector2 Elevation4 = Vector2.Down + Elevation3;
+		Shoot(Elevation1 + Vector2.Right);
+		Shoot(Elevation1 + Vector2.Left);
+		Shoot(Elevation2 + Vector2.Right);
+		Shoot(Elevation2 + Vector2.Left);
+		Shoot(Elevation3 + Vector2.Right);
+		Shoot(Elevation3 + Vector2.Left);
+		Shoot(Elevation4 + Vector2.Right);
+		Shoot(Elevation4 + Vector2.Left);
 	}
 	private void ShootPerpendiculars() {
 		Shoot(Vector2.Up);
