@@ -21,6 +21,8 @@ public class HUD : Node
 	public int SHOT_RANGE_UPGRADE_PRICE { get; set; } = 5;
 	[Export]
 	public int SCORE_MULTIPLIER_UPGRADE_PRICE { get; set; } = 5;
+	[Export]
+	public float SHOP_AVAILABILITY { get; set; } = 10f;
 	
 	public int Score = 0;
 	public int DashCooldownPercentage = 100;
@@ -32,16 +34,18 @@ public class HUD : Node
 	private Label GoldLabel;
 	private Label WaveLabel;
 	private Label MultiplierLabel;
+	private Label CooldownLabel;
 	private ProgressBar DashCooldownBar;
 	private ProgressBar ChargeShotCooldownBar;
 	private HBoxContainer HealthBar;
+	private Button ShopButton;
 	private Popup Shop;
 	private TextureButton PauseButton;
 	private Player player;
-	
 	private PackedScene CatnipScene = GD.Load<PackedScene>("res://scenes/Catnip.tscn");
-
 	private HitAudio HitAudio;
+	
+	private float ShopAvailability;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -51,18 +55,24 @@ public class HUD : Node
 		GoldLabel = GetNode<Label>("Gold");
 		MultiplierLabel = GetNode<Label>("Multiplier");
 		WaveLabel = GetNode<Label>("WaveNotifier");
+		CooldownLabel = GetNode<Label>("Cooldown");
 		DashCooldownBar = GetNode<ProgressBar>("DashCooldownBar");
 		ChargeShotCooldownBar = GetNode<ProgressBar>("ChargeShotCooldownBar");
 		HealthBar = GetNode<HBoxContainer>("HealthBar");
 		Shop = GetNode<Popup>("Shop");
 		PauseButton = GetNode<TextureButton>("PauseButton");
+		ShopButton = GetNode<Button>("ShopButton");
 		player = GetParent().GetNode<Player>("Player");
 		HitAudio = Shop.GetNode<HitAudio>("HitAudio");
 	}
 	
 	public override void _Process(float delta) {
+		if (ShopAvailability <= 0) {
+			ShopButton.Hide();
+		}
 		DashCooldownBar.Value = DashCooldownPercentage;
 		ChargeShotCooldownBar.Value = ChargeShotCooldownPercentage;
+		ShopAvailability = Mathf.Max(0, ShopAvailability - delta);
 	}
 	
 	public void AddScore(int Addition) {
@@ -98,9 +108,8 @@ public class HUD : Node
 	}
 	public void UpdateWave(string text) {
 		WaveLabel.Text = text;
-		Shop.Show();
-		PauseButton.Hide();
-		GetTree().Paused = true;
+		ShopButton.Show();
+		ShopAvailability = SHOP_AVAILABILITY;
 	}
 	private void _on_Done_pressed()
 	{
@@ -168,6 +177,21 @@ public class HUD : Node
 		}
 		else {
 			HitAudio.Hit();
+		}
+	}
+	private void _on_ShopButton_pressed()
+	{
+		Shop.Show();
+		PauseButton.Hide();
+		GetTree().Paused = true;
+		ShopButton.Hide();
+	}
+	public void SetCooldownVisibility(bool visible)
+	{
+		GD.Print(visible);
+		CooldownLabel.Visible = visible;
+		if (!visible) {
+			ShopButton.Hide();
 		}
 	}
 }

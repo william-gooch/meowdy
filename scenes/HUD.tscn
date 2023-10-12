@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://scripts/HUD.cs" type="Script" id=1]
 [ext_resource path="res://assets/kg-life-is-messy-font/KgLifeIsMessy-Z518.ttf" type="DynamicFontData" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://assets/powerups/catnip/catnip6.png" type="Texture" id=26]
 [ext_resource path="res://scenes/CatHitAudio.tscn" type="PackedScene" id=27]
 [ext_resource path="res://assets/fonts/vt323/VT323-Regular.ttf" type="DynamicFontData" id=28]
+[ext_resource path="res://scripts/ShopButton.cs" type="Script" id=29]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
@@ -143,6 +144,7 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="Score" type="Label" parent="."]
+pause_mode = 2
 margin_left = 626.0
 margin_top = -13.0
 margin_right = 937.0
@@ -151,6 +153,9 @@ custom_colors/font_color = Color( 0.607843, 0.0235294, 0.0235294, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "0"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Multiplier" type="Label" parent="."]
 margin_left = 944.0
@@ -161,6 +166,9 @@ custom_colors/font_color = Color( 0.607843, 0.0235294, 0.0235294, 1 )
 custom_fonts/font = SubResource( 12 )
 text = "x 1"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Gold" type="Label" parent="."]
 margin_left = 782.0
@@ -171,6 +179,9 @@ custom_colors/font_color = Color( 0.607843, 0.0235294, 0.0235294, 1 )
 custom_fonts/font = SubResource( 11 )
 text = "0 Gold"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="DashCooldownBar" type="ProgressBar" parent="."]
 margin_left = 7.0
@@ -182,6 +193,9 @@ custom_colors/font_color_shadow = Color( 0.396078, 0, 0, 1 )
 custom_styles/fg = SubResource( 2 )
 custom_styles/bg = SubResource( 3 )
 percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="HealthBar" type="HBoxContainer" parent="."]
 margin_left = 11.0
@@ -190,6 +204,9 @@ margin_right = 187.0
 margin_bottom = 26.0
 rect_scale = Vector2( 2.5, 2.5 )
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Heart0" type="TextureRect" parent="HealthBar"]
 margin_right = 16.0
@@ -256,8 +273,12 @@ texture_pressed = ExtResource( 6 )
 texture_hover = ExtResource( 6 )
 expand = true
 script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="ChargeShotCooldownBar" type="ProgressBar" parent="."]
+pause_mode = 2
 margin_left = 7.0
 margin_top = 525.0
 margin_right = 273.0
@@ -267,8 +288,12 @@ custom_colors/font_color_shadow = Color( 0.396078, 0, 0, 1 )
 custom_styles/fg = SubResource( 2 )
 custom_styles/bg = SubResource( 3 )
 percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="WaveNotifier" type="Label" parent="."]
+pause_mode = 2
 margin_left = 10.0
 margin_top = 475.0
 margin_right = 171.0
@@ -278,8 +303,29 @@ size_flags_stretch_ratio = 0.0
 custom_colors/font_color = Color( 0.635294, 0.0313726, 0.0313726, 1 )
 custom_fonts/font = SubResource( 4 )
 text = "Wave 1"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Cooldown" type="Label" parent="."]
+pause_mode = 2
+visible = false
+margin_left = 150.0
+margin_top = 475.0
+margin_right = 311.0
+margin_bottom = 526.0
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 0.0
+custom_colors/font_color = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "Cooldown"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="TitleScreenButton" type="Button" parent="."]
+pause_mode = 2
 margin_left = 912.0
 margin_top = 546.0
 margin_right = 1022.0
@@ -297,6 +343,32 @@ custom_styles/disabled = SubResource( 9 )
 custom_styles/normal = SubResource( 10 )
 text = "BACK"
 script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ShopButton" type="Button" parent="."]
+pause_mode = 2
+margin_left = 690.0
+margin_top = 546.0
+margin_right = 885.0
+margin_bottom = 597.0
+custom_colors/font_color_disabled = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_colors/font_color_focus = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_colors/font_color = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.635294, 0.0313726, 0.0313726, 1 )
+custom_fonts/font = SubResource( 5 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 8 )
+custom_styles/disabled = SubResource( 9 )
+custom_styles/normal = SubResource( 10 )
+text = "OPEN SHOP!"
+script = ExtResource( 29 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="ChargeShotIcon" type="TextureRect" parent="."]
 margin_left = 235.0
@@ -305,23 +377,31 @@ margin_right = 266.0
 margin_bottom = 557.0
 texture = ExtResource( 9 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="DashIcon" type="TextureRect" parent="."]
+pause_mode = 2
 margin_left = 235.0
 margin_top = 563.0
 margin_right = 268.0
 margin_bottom = 596.0
 texture = ExtResource( 8 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Shop" type="Popup" parent="."]
-visible = true
+pause_mode = 2
 margin_left = 477.0
 margin_top = 60.0
 margin_right = 517.0
 margin_bottom = 100.0
 
 [node name="PanelContainer" type="PanelContainer" parent="Shop"]
+pause_mode = 2
 margin_left = -480.0
 margin_top = -60.0
 margin_right = 551.0
@@ -352,7 +432,7 @@ margin_bottom = 250.0
 position = Vector2( 0, 150 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 14 )
-frame = 7
+frame = 4
 playing = true
 
 [node name="BuyCatnip" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Catnip"]
@@ -371,11 +451,10 @@ text = "Buy"
 icon_align = 1
 
 [node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row1/Catnip"]
-margin_left = 3.0
+margin_left = 10.0
 margin_top = 165.0
-margin_right = 54.0
+margin_right = 61.0
 margin_bottom = 216.0
-custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
 custom_fonts/font = SubResource( 25 )
 text = "2G"
 
@@ -388,7 +467,7 @@ margin_bottom = 250.0
 position = Vector2( 0, 150 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 15 )
-frame = 4
+frame = 1
 playing = true
 
 [node name="BuyHealth" type="Button" parent="Shop/PanelContainer/VBoxContainer/Row1/Health"]
@@ -407,11 +486,10 @@ text = "Buy"
 icon_align = 1
 
 [node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row1/Health"]
-margin_left = 3.0
+margin_left = 10.0
 margin_top = 165.0
-margin_right = 54.0
+margin_right = 61.0
 margin_bottom = 216.0
-custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
 custom_fonts/font = SubResource( 25 )
 text = "3G"
 
@@ -444,11 +522,10 @@ text = "Upgrade"
 icon_align = 1
 
 [node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row1/Special"]
-margin_left = 3.0
+margin_left = 10.0
 margin_top = 165.0
-margin_right = 54.0
+margin_right = 61.0
 margin_bottom = 216.0
-custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
 custom_fonts/font = SubResource( 25 )
 text = "5G"
 
@@ -493,11 +570,10 @@ text = "Upgrade"
 icon_align = 1
 
 [node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/Shotspeed"]
-margin_left = -104.0
-margin_top = 117.0
-margin_right = -53.0
-margin_bottom = 168.0
-custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+margin_left = 50.0
+margin_top = 120.0
+margin_right = 101.0
+margin_bottom = 171.0
 custom_fonts/font = SubResource( 25 )
 text = "7G"
 
@@ -535,11 +611,10 @@ text = "Upgrade"
 icon_align = 1
 
 [node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/Range"]
-margin_left = -104.0
-margin_top = 117.0
-margin_right = -53.0
-margin_bottom = 168.0
-custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+margin_left = 50.0
+margin_top = 120.0
+margin_right = 101.0
+margin_bottom = 171.0
 custom_fonts/font = SubResource( 25 )
 text = "5G"
 
@@ -577,15 +652,15 @@ text = "Upgrade"
 icon_align = 1
 
 [node name="Cost" type="Label" parent="Shop/PanelContainer/VBoxContainer/Row2/ScoreMultiplier"]
-margin_left = -104.0
-margin_top = 117.0
-margin_right = -53.0
-margin_bottom = 168.0
-custom_colors/font_color = Color( 1, 0.588235, 0, 1 )
+margin_left = 50.0
+margin_top = 120.0
+margin_right = 101.0
+margin_bottom = 171.0
 custom_fonts/font = SubResource( 25 )
 text = "5G"
 
 [node name="Title" type="Label" parent="Shop"]
+pause_mode = 2
 margin_left = -53.0
 margin_top = -58.0
 margin_right = 103.0
@@ -614,10 +689,12 @@ text = "Done"
 icon_align = 1
 
 [node name="HitAudio" parent="Shop" instance=ExtResource( 27 )]
+pause_mode = 2
 position = Vector2( -477, -60 )
 
 [connection signal="toggled" from="PauseButton" to="PauseButton" method="_on_PauseButton_toggled"]
 [connection signal="pressed" from="TitleScreenButton" to="TitleScreenButton" method="_on_TitleScreenButton_pressed"]
+[connection signal="pressed" from="ShopButton" to="." method="_on_ShopButton_pressed"]
 [connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row1/Catnip/BuyCatnip" to="." method="_on_BuyCatnip_pressed"]
 [connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row1/Health/BuyHealth" to="." method="_on_BuyHealth_pressed"]
 [connection signal="pressed" from="Shop/PanelContainer/VBoxContainer/Row1/Special/UpgradeSpecial" to="." method="_on_UpgradeSpecial_pressed"]

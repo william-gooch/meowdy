@@ -296,7 +296,7 @@ public class Player : Area2D
 		}
 	}
 
-	private void GameOver()
+	public void GameOver()
 	{
 		int Score = HUD.Score;
 		var leaderboard = GetNode<LeaderboardManager>("/root/LeaderboardManager");
