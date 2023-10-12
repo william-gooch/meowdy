@@ -4,7 +4,7 @@ using System;
 public class Level_1 : Level
 {
 	public override float GetMobTime() {
-		return 3f;
+		return 2f;
 	}
 	
 	public override float GetBigRatSpawnChance()
@@ -23,5 +23,12 @@ public class Level_1 : Level
 	public override int GetFinalWave()
 	{
 		return 2;
+	}
+	//Wave Changes
+	public override float GetBigRatSpawnChanceAddition() {
+		return 0.01f;
+	}
+	public override float GetMobTimeDeduction() {
+		return 0.5f;
 	}
 }

@@ -9,7 +9,7 @@ public class Level_2 : Level
 	
 	public override float GetBigRatSpawnChance()
 	{
-		return 0.3f;
+		return 0.1f;
 	}
 	public override float GetPowerUpCooldown()
 	{
@@ -23,5 +23,12 @@ public class Level_2 : Level
 	public override int GetFinalWave()
 	{
 		return 6;
+	}
+	//Wave Changes
+	public override float GetBigRatSpawnChanceAddition() {
+		return 0.05f;
+	}
+	public override float GetMobTimeDeduction() {
+		return 0.2f;
 	}
 }

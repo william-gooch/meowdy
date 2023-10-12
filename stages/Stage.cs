@@ -1,18 +1,15 @@
 using Godot;
 using System;
 
-// TODO: Additions and bug fixes
-// Wave 2 Quite a lot of small rats: Per wave data to levels. 
-	// Per wave data to level files
-// Update score multiplier label from shop upgrade
-// Cooldowns: 
-	// dependent on killing last enemy
-// Shop and Cooldown labels at the top of the screen and make them flash
-	// Clear enemies and center player on new level and make new level dependent on cooldown
-
-// Nice additions for game feel
+// Suggestions:
+// Nice additions for game feel:
 	// Drifting currency pick-up radius
 
+// From play test:
+	// Next level on timer
+	// reduce spawn rate
+	// more coins
+	// shop pop up stays for length of cooldown
 
 public class Stage : Node
 {
@@ -44,11 +41,14 @@ public class Stage : Node
 	private int Level = 1;
 	private Level CurrentLevel;
 	private int FinalWave;
-	private float WAVE_TIME = 60f;
-	private float WaveTimer = 60f;
-	private float WAVE_COOLDOWN = 10f;
+	private float WAVE_TIME = 45f;
+	private float WaveTimer = 45f;
+	private float WAVE_COOLDOWN = 7f;
 	private float WaveCooldown= 0;
 	private bool Cooldown = false;
+	public int NumEnemies = 0;
+	private bool NextLevel = false;
+	private bool LastWave = false;
 	public override void _Ready()
 	{
 		HUD = GetNode<HUD>("/root/Stage/HUD");
@@ -86,16 +86,12 @@ public class Stage : Node
 
 		if (WaveTimer <= 0) {
 			if (!Cooldown) {
-				Cooldown = true;
-				HUD.SetCooldownVisibility(true);
-				WaveCooldown = WAVE_COOLDOWN;
+				StartCooldown();
 				StartNextWave();
 			}
 			else {
 				if (WaveCooldown <= 0) {
-					Cooldown = false;
-					HUD.SetCooldownVisibility(false);
-					WaveTimer = WAVE_TIME;
+					EndCooldown();
 				}
 			}
 		}
@@ -104,7 +100,9 @@ public class Stage : Node
 		CurrentPowerUpCooldown = Mathf.Max(0, CurrentPowerUpCooldown - delta);
 		MobTimer = Mathf.Max(0, MobTimer - delta);
 		WaveTimer = Mathf.Max(0, WaveTimer - delta);
-		WaveCooldown = Mathf.Max(0, WaveCooldown - delta);
+		if (NumEnemies <= 0) {
+			WaveCooldown = Mathf.Max(0, WaveCooldown - delta);
+		}
 	}
 	// Spawns Power Up, checks spawnchance.
 	private void SpawnPowerUp()
@@ -164,6 +162,7 @@ public class Stage : Node
 				break;
 		}
 		this.AddChildBelowNode(player, rat);
+		NumEnemies++;
 		MobTimer = MobTime; //TODO: Reduce time as time goes on
 	}
 	private void PitchUpMusic() {
@@ -187,11 +186,15 @@ public class Stage : Node
 		HUD.UpdateWave("Wave " + CurrentWave);
 		if (CurrentWave <= 10) { // 10 total waves
 			if (CurrentWave > FinalWave) {
-				PopUp.Show();
-				GetTree().Paused = true;
+				StartCooldown();
+				NextLevel = true;
+			} else {
+				BigRatSpawnChance += CurrentLevel.GetBigRatSpawnChanceAddition();
+				MobTime -= CurrentLevel.GetMobTimeDeduction();
 			}
 		} else {
-			player.GameOver();
+			LastWave = true;
+			StartCooldown();
 		}
 		GetNode<AudioStreamPlayer>("Soundtrack").PitchScale = (float)Math.Pow(SEMITONE_MULTIPLIER, CurrentWave);
 	}
@@ -199,7 +202,33 @@ public class Stage : Node
 	{
 		Level++;
 		LoadLevel("Level_" + Level);
+		var startPosition = GetNode<Position2D>("StartPosition");
+		player.Position = startPosition.Position;
 		GetTree().Paused = false;
 		PopUp.Hide();
+	}
+	private void StartCooldown() {
+		Cooldown = true;
+		HUD.SetCooldownVisibility(true);
+		WaveCooldown = WAVE_COOLDOWN;
+	}
+	private void EndCooldown() {
+		Cooldown = false;
+		HUD.SetCooldownVisibility(false);
+		WaveTimer = WAVE_TIME;
+		if (NextLevel) {
+			NextLevel = false;
+			NextLevelPrompt();
+		}
+		if (LastWave) {
+			WinGame();
+		}
+	}
+	private void NextLevelPrompt() {
+		PopUp.Show();
+		GetTree().Paused = true;
+	}
+	private void WinGame() {
+		player.GameOver();
 	}
 }

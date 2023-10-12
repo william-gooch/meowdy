@@ -21,8 +21,8 @@ public class HUD : Node
 	public int SHOT_RANGE_UPGRADE_PRICE { get; set; } = 5;
 	[Export]
 	public int SCORE_MULTIPLIER_UPGRADE_PRICE { get; set; } = 5;
-	[Export]
-	public float SHOP_AVAILABILITY { get; set; } = 10f;
+	//[Export]
+	//public float SHOP_AVAILABILITY { get; set; } = 10f;
 	
 	public int Score = 0;
 	public int DashCooldownPercentage = 100;
@@ -45,7 +45,7 @@ public class HUD : Node
 	private PackedScene CatnipScene = GD.Load<PackedScene>("res://scenes/Catnip.tscn");
 	private HitAudio HitAudio;
 	
-	private float ShopAvailability;
+	//private float ShopAvailability;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -67,12 +67,12 @@ public class HUD : Node
 	}
 	
 	public override void _Process(float delta) {
-		if (ShopAvailability <= 0) {
-			ShopButton.Hide();
-		}
+		// if (ShopAvailability <= 0) {
+		// 	ShopButton.Hide();
+		// }
 		DashCooldownBar.Value = DashCooldownPercentage;
 		ChargeShotCooldownBar.Value = ChargeShotCooldownPercentage;
-		ShopAvailability = Mathf.Max(0, ShopAvailability - delta);
+		// ShopAvailability = Mathf.Max(0, ShopAvailability - delta);
 	}
 	
 	public void AddScore(int Addition) {
@@ -109,7 +109,7 @@ public class HUD : Node
 	public void UpdateWave(string text) {
 		WaveLabel.Text = text;
 		ShopButton.Show();
-		ShopAvailability = SHOP_AVAILABILITY;
+		// ShopAvailability = SHOP_AVAILABILITY;
 	}
 	private void _on_Done_pressed()
 	{
@@ -172,7 +172,7 @@ public class HUD : Node
 	{
 		if (Gold >= SCORE_MULTIPLIER_UPGRADE_PRICE &
 			Multiplier < 5) {
-			Multiplier++;
+			SetMultiplier(Multiplier+1);
 			DeductGold(SCORE_MULTIPLIER_UPGRADE_PRICE);
 		}
 		else {
@@ -188,7 +188,7 @@ public class HUD : Node
 	}
 	public void SetCooldownVisibility(bool visible)
 	{
-		GD.Print(visible);
+		//GD.Print(visible);
 		CooldownLabel.Visible = visible;
 		if (!visible) {
 			ShopButton.Hide();

@@ -23,6 +23,7 @@ public class Enemy : Area2D
 	private float _flashCooldown = 0;
 	private Vector2 _velocity = Vector2.Zero;
 	private PackedScene CurrencyScene = GD.Load<PackedScene>("res://scenes/Currency.tscn");
+	private Stage Stage;
 
 	[Signal]
 	public delegate void HitEventHandler(Vector2 direction);
@@ -35,6 +36,7 @@ public class Enemy : Area2D
 		Sprite.Play("walk");
 
 		HUD = GetNode<HUD>("/root/Stage/HUD");
+		Stage = GetNode<Stage>("/root/Stage");
 		CurrentHealth = MaxHealth;
 
 		_player = GetNodeOrNull<Node2D>("/root/Stage/Player");
@@ -70,7 +72,7 @@ public class Enemy : Area2D
 	protected virtual void OnDeath()
 	{
 		Random random = new Random();
-		if (random.Next(1,6) == 1) {
+		if (random.Next(1,4) == 1) {
 			Currency currency = CurrencyScene.Instance<Currency>();
 			currency.Position = GlobalPosition;
 			GetParent().AddChild(currency);
@@ -84,6 +86,7 @@ public class Enemy : Area2D
 
 	protected virtual void OnDeathTimeout()
 	{
+		Stage.NumEnemies--;
 		QueueFree();
 	}
 
